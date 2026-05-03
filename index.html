@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DividendStrike — Best Dividend Paying Stocks India 2026</title>
+    <meta name="description" content="Find highest dividend yield NSE stocks with AI screener. Track dividend history, DRIP calculator, sustainability scores.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --card: rgba(15,15,25,0.85); --border: rgba(255,255,255,0.07); }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        *::-webkit-scrollbar { width:4px; height:4px; }
+        *::-webkit-scrollbar-track { background:transparent; }
+        *::-webkit-scrollbar-thumb { background:#1f2937; border-radius:2px; }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:#e5e7eb; }
+        .data-card { backdrop-filter:blur(20px); background:var(--card); border:1px solid var(--border); transition:all 0.3s ease; }
+        .data-card.clickable:hover { border-color:rgba(34,197,94,0.35); box-shadow:0 20px 50px -15px rgba(34,197,94,0.2); transform:translateY(-2px); cursor:pointer; }
+        .glow-border { position:relative; }
+        .glow-border::before { content:''; position:absolute; inset:-2px; border-radius:inherit; background:linear-gradient(135deg,rgba(34,197,94,0.25),rgba(59,130,246,0.25)); z-index:-1; filter:blur(18px); opacity:0.5; }
+        th.sortable { cursor:pointer; user-select:none; }
+        th.sortable:hover { color:#22c55e !important; }
+        .sort-indicator { display:inline-block; margin-left:4px; font-size:10px; color:#22c55e; }
+        .sort-indicator.asc { transform:rotate(0deg); } .sort-indicator.desc { transform:rotate(180deg); }
+        .stock-row:hover { background:rgba(34,197,94,0.05); cursor:pointer; }
+        .filter-active { background:rgba(34,197,94,0.2) !important; border-color:rgba(34,197,94,0.5) !important; color:#22c55e !important; }
+        .nav-active { background:rgba(34,197,94,0.15); color:#22c55e !important; border-bottom:2px solid #22c55e; }
+        .search-dropdown { position:absolute; top:100%; left:0; right:0; z-index:150; background:#1a1a2e; border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-top:4px; max-height:300px; overflow-y:auto; box-shadow:0 25px 60px rgba(0,0,0,0.7); }
+        #liveClock { display:inline-block; min-width:70px; text-align:center; font-variant-numeric:tabular-nums; }
+    </style>
+</head>
+<body class="min-h-screen bg-[var(--bg)]">
+
+    <div id="toastContainer" class="fixed top-4 right-4 z-[300] space-y-2"></div>
+
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0a0f]/95 border-b border-white/5">
+        <div class="max-w-[1440px] mx-auto px-3 lg:px-5 py-2.5 flex items-center justify-between">
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('dashboard')">
+                <div class="w-9 h-9 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-green-500/20">
+                    <span class="text-white font-black text-sm">₹</span>
+                </div>
+                <div class="hidden sm:block">
+                    <span class="text-lg font-black">Dividend<span class="text-green-400">Strike</span></span>
+                    <p class="text-[9px] text-gray-500 -mt-1 tracking-widest uppercase">NSE Dividend Intelligence</p>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-0.5 text-xs font-medium" id="navButtons">
+                <button onclick="switchTab('dashboard')" data-nav="dashboard" class="nav-btn px-3 py-1.5 rounded-lg text-green-400 hover:bg-white/5 nav-active">📊 Dashboard</button>
+                <button onclick="switchTab('toppayers')" data-nav="toppayers" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">🏆 Top Payers</button>
+                <button onclick="switchTab('screener')" data-nav="screener" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">🔍 Screener</button>
+                <button onclick="switchTab('compare')" data-nav="compare" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">⚖️ Compare</button>
+                <button onclick="switchTab('portfolio')" data-nav="portfolio" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">💼 Portfolio</button>
+                <button onclick="switchTab('guide')" data-nav="guide" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">📚 Guide</button>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="hidden md:flex items-center gap-1.5 text-[10px]"><span class="w-1.5 h-1.5 bg-green-500 rounded-full" style="animation:pulse 2s infinite;"></span><span class="text-gray-400">NSE</span><span id="liveClock" class="text-gray-500 font-mono">--:--:--</span></span>
+                <button class="lg:hidden text-white" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i data-lucide="menu" class="w-5 h-5"></i></button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="lg:hidden hidden border-t border-white/5 px-3 py-2 grid grid-cols-2 gap-1">
+            <button onclick="switchTab('dashboard');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-green-400 text-xs">📊 Dashboard</button>
+            <button onclick="switchTab('toppayers');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-gray-300 text-xs">🏆 Top Payers</button>
+            <button onclick="switchTab('guide');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-gray-300 text-xs">📚 Guide</button>
+            <button onclick="switchTab('portfolio');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-gray-300 text-xs">💼 Portfolio</button>
+        </div>
+    </nav>
+
+    <main id="appContent" class="max-w-[1440px] mx-auto px-3 lg:px-5 py-4"></main>
+
+    <footer class="border-t border-white/5 py-4 px-3 text-center">
+        <p class="text-[10px] text-gray-600"><span id="stockCountFooter"></span> • Not Financial Advice</p>
+    </footer>
+
+    <script>
+    // ============================================
+    // STOCK DATABASE (40 real NSE stocks)
+    // ============================================
+    const DB = [
+        {s:'RELIANCE',n:'Reliance Industries Ltd.',sec:'Oil & Gas',p:2850,pe:28.5,dps:9.0,dy:0.32,dg:8.5,dc:20,bh:2,pr:12,ph:50.33,fi:'Very Strong',mc:'₹19.3L Cr',dd:9.2,hl:72,fc:85000,de:0.45,roe:9.5,eps:100.5},
+        {s:'TCS',n:'Tata Consultancy Services Ltd.',sec:'IT',p:4250,pe:32.5,dps:73,dy:1.72,dg:16.5,dc:24,bh:6,pr:85,ph:72.3,fi:'Very Strong',mc:'₹15.5L Cr',dd:9.7,hl:88,fc:42000,de:0,roe:48.5,eps:130.8},
+        {s:'HDFCBANK',n:'HDFC Bank Ltd.',sec:'Banking',p:1720,pe:22.8,dps:20.5,dy:1.19,dg:14.8,dc:26,bh:0,pr:25,ph:25.52,fi:'Very Strong',mc:'₹13.1L Cr',dd:8.8,hl:76,fc:55000,de:0,roe:16.5,eps:75.5},
+        {s:'INFY',n:'Infosys Ltd.',sec:'IT',p:1850,pe:26.5,dps:40.5,dy:2.19,dg:17.2,dc:22,bh:4,pr:78,ph:15.1,fi:'Strong',mc:'₹7.7L Cr',dd:9.3,hl:83,fc:28000,de:0,roe:38.2,eps:69.8},
+        {s:'ITC',n:'ITC Ltd.',sec:'FMCG',p:485,pe:28.5,dps:15.5,dy:3.19,dg:12.8,dc:28,bh:3,pr:82,ph:29.4,fi:'Strong',mc:'₹6.1L Cr',dd:9.2,hl:87,fc:16000,de:0.01,roe:30.5,eps:17.0},
+        {s:'SBIN',n:'State Bank of India',sec:'Banking',p:780,pe:10.5,dps:11.3,dy:1.45,dg:18.2,dc:18,bh:0,pr:15,ph:57.54,fi:'Strong',mc:'₹7.0L Cr',dd:8.0,hl:74,fc:35000,de:0,roe:18.5,eps:74.3},
+        {s:'ICICIBANK',n:'ICICI Bank Ltd.',sec:'Banking',p:1150,pe:18.5,dps:10,dy:0.87,dg:15.5,dc:22,bh:0,pr:18,ph:0,fi:'Very Strong',mc:'₹8.1L Cr',dd:8.5,hl:75,fc:48000,de:0,roe:19.2,eps:62.2},
+        {s:'HINDUNILVR',n:'Hindustan Unilever Ltd.',sec:'FMCG',p:2850,pe:58.2,dps:42,dy:1.47,dg:14.5,dc:30,bh:1,pr:90,ph:61.9,fi:'Very Strong',mc:'₹6.7L Cr',dd:9.8,hl:86,fc:8500,de:0,roe:25.8,eps:48.9},
+        {s:'NTPC',n:'NTPC Ltd.',sec:'Power',p:285,pe:14.5,dps:7.25,dy:2.54,dg:10.5,dc:25,bh:1,pr:38,ph:51.1,fi:'Strong',mc:'₹2.8L Cr',dd:9.0,hl:82,fc:15000,de:1.2,roe:19.5,eps:19.7},
+        {s:'ONGC',n:'Oil & Natural Gas Corp Ltd.',sec:'Oil & Gas',p:220,pe:7.5,dps:11.5,dy:5.23,dg:9.0,dc:22,bh:2,pr:40,ph:58.89,fi:'Strong',mc:'₹2.8L Cr',dd:8.8,hl:79,fc:28000,de:0.55,roe:16.8,eps:29.3},
+        {s:'COALINDIA',n:'Coal India Ltd.',sec:'Mining',p:325,pe:8.2,dps:25.5,dy:7.85,dg:8.2,dc:15,bh:2,pr:65,ph:63.13,fi:'Neutral',mc:'₹2.0L Cr',dd:7.8,hl:92,fc:18000,de:0.05,roe:42.5,eps:39.6},
+        {s:'POWERGRID',n:'Power Grid Corp',sec:'Power',p:285,pe:15.8,dps:12.5,dy:4.39,dg:15.9,dc:20,bh:1,pr:60,ph:51.34,fi:'Strong',mc:'₹2.7L Cr',dd:8.5,hl:82,fc:12000,de:1.5,roe:22.0,eps:18.0},
+        {s:'HCLTECH',n:'HCL Technologies Ltd.',sec:'IT',p:1680,pe:28.9,dps:40,dy:2.38,dg:18.5,dc:22,bh:5,pr:75,ph:60.3,fi:'Strong',mc:'₹4.6L Cr',dd:8.9,hl:78,fc:15000,de:0.05,roe:28.5,eps:58.1},
+        {s:'BAJAJ-AUTO',n:'Bajaj Auto Ltd.',sec:'Auto',p:4980,pe:22.1,dps:140,dy:2.81,dg:22.4,dc:25,bh:4,pr:68,ph:53.7,fi:'Strong',mc:'₹1.4L Cr',dd:9.5,hl:91,fc:6500,de:0,roe:24.5,eps:225.3},
+        {s:'NESTLEIND',n:'Nestlé India Ltd.',sec:'FMCG',p:12350,pe:72.5,dps:225,dy:1.82,dg:18.7,dc:30,bh:2,pr:88,ph:62.76,fi:'Strong',mc:'₹1.2L Cr',dd:9.8,hl:85,fc:2800,de:0,roe:42.5,eps:170.3},
+        {s:'IOC',n:'Indian Oil Corporation',sec:'Oil & Gas',p:135,pe:8.5,dps:6.5,dy:4.81,dg:7.5,dc:20,bh:3,pr:42,ph:51.5,fi:'Moderate',mc:'₹1.9L Cr',dd:8.5,hl:76,fc:18000,de:0.9,roe:15.5,eps:15.9},
+        {s:'BPCL',n:'Bharat Petroleum',sec:'Oil & Gas',p:410,pe:12,dps:21,dy:5.12,dg:8,dc:20,bh:2,pr:45,ph:52.98,fi:'Moderate',mc:'₹1.8L Cr',dd:8.3,hl:74,fc:9500,de:0.7,roe:22.5,eps:34.2},
+        {s:'VEDL',n:'Vedanta Ltd.',sec:'Metals',p:285,pe:7.5,dps:35.7,dy:12.53,dg:-5.2,dc:8,bh:1,pr:95,ph:56.1,fi:'Weak',mc:'₹1.1L Cr',dd:4.2,hl:40,fc:15000,de:2.5,roe:8.5,eps:38.0},
+        {s:'NMDC',n:'NMDC Ltd.',sec:'Mining',p:158,pe:9.8,dps:7.8,dy:4.94,dg:10.5,dc:18,bh:1,pr:55,ph:68.3,fi:'Moderate',mc:'₹46.5K Cr',dd:7.5,hl:79,fc:5500,de:0.02,roe:28.5,eps:16.1},
+        {s:'TITAN',n:'Titan Company Ltd.',sec:'Consumer Durables',p:3850,pe:92,dps:10,dy:0.26,dg:18,dc:18,bh:1,pr:22,ph:52.9,fi:'Strong',mc:'₹3.4L Cr',dd:8.5,hl:68,fc:4200,de:0.55,roe:32.5,eps:41.8},
+        {s:'BEL',n:'Bharat Electronics Ltd.',sec:'Defense',p:250,pe:35,dps:3.0,dy:1.20,dg:20,dc:18,bh:2,pr:40,ph:66.1,fi:'Very Strong',mc:'₹1.8L Cr',dd:8.5,hl:76,fc:4800,de:0,roe:25.5,eps:7.14},
+        {s:'HEROMOTOCO',n:'Hero MotoCorp Ltd.',sec:'Auto',p:4500,pe:22,dps:110,dy:2.44,dg:10,dc:22,bh:2,pr:55,ph:34.75,fi:'Strong',mc:'₹90K Cr',dd:9.0,hl:78,fc:4200,de:0,roe:22,eps:204.5},
+        {s:'BRITANNIA',n:'Britannia Industries',sec:'FMCG',p:5200,pe:48,dps:80,dy:1.54,dg:16,dc:25,bh:2,pr:65,ph:50.55,fi:'Strong',mc:'₹1.3L Cr',dd:9.0,hl:80,fc:2500,de:0.1,roe:38.5,eps:108.3},
+        {s:'COLPAL',n:'Colgate-Palmolive',sec:'FMCG',p:2500,pe:52,dps:42,dy:1.68,dg:10.5,dc:28,bh:1,pr:85,ph:51,fi:'Strong',mc:'₹68K Cr',dd:9.5,hl:84,fc:1500,de:0,roe:48,eps:48.1},
+        {s:'TATASTEEL',n:'Tata Steel Ltd.',sec:'Metals',p:155,pe:10,dps:3.6,dy:2.32,dg:20,dc:18,bh:2,pr:25,ph:33.9,fi:'Strong',mc:'₹1.9L Cr',dd:8.2,hl:70,fc:12000,de:0.9,roe:14,eps:15.5},
+        {s:'HINDZINC',n:'Hindustan Zinc Ltd.',sec:'Metals',p:420,pe:12,dps:75,dy:17.86,dg:-10,dc:12,bh:3,pr:95,ph:64.92,fi:'Weak',mc:'₹1.8L Cr',dd:5.5,hl:45,fc:12000,de:0.1,roe:35,eps:35.0},
+        {s:'GAIL',n:'GAIL (India) Ltd.',sec:'Oil & Gas',p:175,pe:12,dps:6.0,dy:3.43,dg:8,dc:22,bh:2,pr:35,ph:51.5,fi:'Moderate',mc:'₹1.2L Cr',dd:8.5,hl:75,fc:8000,de:0.4,roe:18,eps:14.6},
+        {s:'CASTROLIND',n:'Castrol India Ltd.',sec:'Oil & Gas',p:220,pe:22,dps:8.5,dy:3.86,dg:6,dc:22,bh:2,pr:75,ph:51,fi:'Moderate',mc:'₹22K Cr',dd:8.5,hl:78,fc:1200,de:0,roe:42,eps:10.0},
+        {s:'SUNPHARMA',n:'Sun Pharmaceutical',sec:'Pharma',p:1550,pe:38,dps:13,dy:0.84,dg:25.5,dc:20,bh:2,pr:30,ph:54.5,fi:'Strong',mc:'₹3.7L Cr',dd:8.5,hl:80,fc:7500,de:0.15,roe:16.5,eps:40.8},
+        {s:'HAL',n:'Hindustan Aeronautics',sec:'Defense',p:4200,pe:38,dps:22,dy:0.52,dg:25,dc:15,bh:1,pr:30,ph:75.15,fi:'Very Strong',mc:'₹2.8L Cr',dd:8.0,hl:70,fc:8500,de:0,roe:28.5,eps:110.5},
+        {s:'DABUR',n:'Dabur India Ltd.',sec:'FMCG',p:580,pe:52,dps:5.5,dy:0.95,dg:11,dc:25,bh:1,pr:55,ph:66.25,fi:'Strong',mc:'₹1.0L Cr',dd:9.0,hl:78,fc:2200,de:0.05,roe:28.5,eps:11.2},
+        {s:'HAVELLS',n:'Havells India Ltd.',sec:'Consumer Durables',p:1750,pe:65,dps:8.0,dy:0.46,dg:14,dc:20,bh:1,pr:38,ph:59.5,fi:'Strong',mc:'₹1.1L Cr',dd:8.5,hl:70,fc:2200,de:0,roe:22.5,eps:26.9},
+        {s:'SIEMENS',n:'Siemens Ltd.',sec:'Engineering',p:5800,pe:85,dps:12,dy:0.21,dg:10,dc:20,bh:0,pr:25,ph:75,fi:'Strong',mc:'₹2.1L Cr',dd:8.8,hl:65,fc:3500,de:0,roe:22,eps:68.2},
+        {s:'AMBUJACEM',n:'Ambuja Cements',sec:'Cement',p:580,pe:35,dps:2.5,dy:0.43,dg:8,dc:15,bh:1,pr:18,ph:70.3,fi:'Strong',mc:'₹1.4L Cr',dd:7.8,hl:62,fc:4200,de:0,roe:15.5,eps:16.6},
+        {s:'SAIL',n:'Steel Authority of India',sec:'Metals',p:135,pe:8,dps:4.0,dy:2.96,dg:15,dc:15,bh:1,pr:30,ph:65,fi:'Neutral',mc:'₹56K Cr',dd:7.2,hl:65,fc:5500,de:0.8,roe:12,eps:16.9},
+        {s:'TATAPOWER',n:'Tata Power Company',sec:'Power',p:380,pe:28,dps:1.75,dy:0.46,dg:12,dc:15,bh:0,pr:20,ph:46.86,fi:'Strong',mc:'₹1.2L Cr',dd:7.5,hl:62,fc:5500,de:1.8,roe:8.5,eps:13.6},
+        {s:'HINDALCO',n:'Hindalco Industries',sec:'Metals',p:620,pe:12,dps:4.5,dy:0.73,dg:18,dc:18,bh:1,pr:22,ph:34.64,fi:'Strong',mc:'₹1.4L Cr',dd:8.0,hl:68,fc:8500,de:0.6,roe:15.5,eps:51.7},
+        {s:'JSWSTEEL',n:'JSW Steel Ltd.',sec:'Metals',p:850,pe:18,dps:3.5,dy:0.41,dg:25,dc:15,bh:1,pr:15,ph:45.5,fi:'Moderate',mc:'₹2.1L Cr',dd:7.0,hl:60,fc:6500,de:1.2,roe:18,eps:47.2},
+        {s:'ADANIENT',n:'Adani Enterprises',sec:'Metals',p:2450,pe:95,dps:1.2,dy:0.05,dg:35,dc:8,bh:0,pr:5,ph:72.61,fi:'Moderate',mc:'₹2.8L Cr',dd:5.5,hl:50,fc:5000,de:2.0,roe:12,eps:25.8},
+        {s:'ZOMATO',n:'Zomato Ltd.',sec:'Services',p:250,pe:250,dps:0,dy:0,dg:0,dc:0,bh:0,pr:0,ph:0,fi:'Strong',mc:'₹2.2L Cr',dd:0,hl:5,fc:-500,de:0.1,roe:-2.5,eps:1.0}
+    ];
+
+    // Process into full stock objects
+    const stocks = DB.map(st => ({
+        symbol:st.s, name:st.n, sector:st.sec, price:st.p, pe:st.pe,
+        divPerShare:st.dps, divYield:st.dy, divGrowth3Y:st.dg, divConsistency:st.dc,
+        buybackHistory:st.bh, payoutRatio:st.pr, promoter:st.ph, fiidii:st.fi,
+        mcap:st.mc, ddt:st.dd, health:st.hl, fcf:st.fc, de:st.de, roe:st.roe, eps:st.eps,
+        paysDividend:st.dps>0.01&&st.dy>0.01&&st.pr>0, dividendHistory:[]
+    }));
+
+    // Generate dividend history
+    stocks.forEach(s=>{
+        if(s.paysDividend){
+            const h=[]; const now=new Date(); let dps=s.divPerShare/Math.pow(1+Math.max(0,s.divGrowth3Y)/100,6);
+            for(let i=6;i>=0;i--){
+                const d=new Date(now.getFullYear()-i,Math.floor(Math.random()*12),Math.min(28,Math.floor(Math.random()*28)+1));
+                h.push({date:d.toISOString().split('T')[0],dividendPerShare:Math.round(Math.max(0,dps)*100)/100,yield:Math.round((Math.max(0,dps)/(Math.random()*800+200))*10000)/100,type:i===0?'Final':Math.random()>0.4?'Interim':'Final'});
+                dps*=(1+Math.max(0,s.divGrowth3Y)/100);
+            }
+            s.dividendHistory=h;
+        }
+    });
+
+    const payers=stocks.filter(s=>s.paysDividend);
+    const nonPayers=stocks.filter(s=>!s.paysDividend);
+
+    // AI Engine
+    const AI={
+        health(s){if(!s.paysDividend)return Math.min(25,s.health||5);let sc=0;sc+=Math.min(1,(s.divConsistency||0)/28)*22;sc+=Math.min(1,s.payoutRatio>0?Math.min(s.payoutRatio,80)/80:0.5)*14;sc+=((s.promoter||0)/75)*13;sc+=((s.ddt||0)/10)*10;sc+=((s.buybackHistory||0)/6)*8;const cm={'Very Strong':1,'Strong':0.82,'Moderate':0.55,'Neutral':0.38,'Weak':0.18};sc+=(cm[s.fiidii]||0.4)*11;sc+=((s.pe||30)<25?0.8:(s.pe||30)<50?0.5:0.3)*7;sc+=Math.min(1,Math.max(0,(s.fcf||0))/50000)*8;sc+=Math.max(0,1-(s.de||1)/3)*7;return Math.min(98,Math.round(sc));},
+        growth(s){if(!s.paysDividend)return{cagr:0,conf:0,proj:0,sig:'⚪'};const pf=(s.promoter||30)>55?1.12:(s.promoter||30)>30?1.05:0.95;const pof=(s.payoutRatio||50)<65?1.08:(s.payoutRatio||50)>88?0.88:1;const cm={'Very Strong':1.15,'Strong':1.07,'Moderate':0.97,'Neutral':0.9,'Weak':0.8};const cf=cm[s.fiidii]||0.95;const pg=(s.divGrowth3Y||0)*pf*pof*cf;const conf=Math.min(95,Math.round(55+((s.divConsistency||0)/28)*25+((s.buybackHistory||0)/6)*10+((s.ddt||0)/10)*5));return{cagr:Math.round(pg*10)/10,conf:conf,proj:Math.round((s.divPerShare||0)*Math.pow(1+Math.max(0,pg/100),3)*100)/100,sig:pg>20?'🚀 High':pg>10?'✅ Steady':pg>3?'📊 Moderate':'⚠️ Low'};},
+        rec(s){if(!s.paysDividend)return{t:'No Dividend',c:'gray',e:'⚪'};const h=this.health(s),p=this.growth(s);if(h>=85&&p.cagr>15)return{t:'Strong Buy',c:'green',e:'🟢'};if(h>=72&&p.cagr>8)return{t:'Buy',c:'blue',e:'🔵'};if(h>=60&&p.cagr>3)return{t:'Hold',c:'yellow',e:'🟡'};return{t:'Review',c:'red',e:'🔴'};},
+        sustain(s){if(!s.paysDividend)return{sc:0,r:'N/A',c:'gray'};const fc=(s.fcf||0)>0?Math.min(2,((s.fcf||0)/1000)/((s.divPerShare||1)*100)):0;const pc=(s.payoutRatio||50)<40?1:(s.payoutRatio||50)<65?0.8:(s.payoutRatio||50)<85?0.5:0.2;const ds=Math.max(0,1-(s.de||1)/2);const cf=(s.divConsistency||0)/30;const score=Math.round((fc*0.35+pc*0.25+ds*0.2+cf*0.2)*100);return{sc:Math.min(98,score),r:score>=75?'Highly Sustainable':score>=55?'Sustainable':score>=35?'Moderate':'At Risk',c:score>=75?'green':score>=55?'blue':score>=35?'yellow':'red'};}
+    };
+
+    // State
+    const ST={tab:'dashboard',wl:JSON.parse(localStorage.getItem('dswl')||'[]'),pf:JSON.parse(localStorage.getItem('dspf')||'[]'),cmp:JSON.parse(localStorage.getItem('dscmp')||'[]'),filter:'all',page:1,sortCol:'score',sortDir:'desc',query:'',simStock:null,sim:{capital:500000,years:10,reinvest:true,tax:'20'}};
+
+    function toast(m,t='info'){const c=document.getElementById('toastContainer');const cl={success:'bg-green-600',info:'bg-blue-600',warning:'bg-yellow-600',error:'bg-red-600'};const d=document.createElement('div');d.className=`${cl[t]} text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs`;d.style.animation='slideDown 0.3s ease-out';d.textContent=m;c.appendChild(d);setTimeout(()=>d.remove(),2500);}
+    function fmt(n){if(Math.abs(n)>=1e7)return`₹${(n/1e7).toFixed(2)} Cr`;if(Math.abs(n)>=1e5)return`₹${(n/1e5).toFixed(2)} L`;return`₹${n.toFixed(2)}`;}
+
+    function sortList(list,col,dir){return[...list].sort((a,b)=>{let va,vb;switch(col){case'symbol':va=a.symbol||'';vb=b.symbol||'';break;case'price':va=a.price||0;vb=b.price||0;break;case'yield':va=a.divYield||0;vb=b.divYield||0;break;case'growth':va=a.divGrowth3Y||0;vb=b.divGrowth3Y||0;break;case'score':va=AI.health(a);vb=AI.health(b);break;case'sustainability':va=AI.sustain(a).sc;vb=AI.sustain(b).sc;break;default:return 0;}if(typeof va==='string')return dir==='asc'?va.localeCompare(vb):vb.localeCompare(va);return dir==='asc'?va-vb:vb-va;});}
+    function getFiltered(filter){let list=[...stocks];if(filter==='high-yield')list=list.filter(s=>s.paysDividend&&s.divYield>4);if(filter==='high-growth')list=list.filter(s=>s.paysDividend&&s.divGrowth3Y>20);if(filter==='watchlist')list=list.filter(s=>ST.wl.includes(s.symbol));if(filter==='portfolio')list=list.filter(s=>ST.pf.some(p=>p.symbol===s.symbol));if(filter==='non-payers')list=list.filter(s=>!s.paysDividend);if(filter==='payers')list=list.filter(s=>s.paysDividend);if(ST.query&&(filter==='search'||filter==='all')){const q=ST.query.toUpperCase().trim();list=list.filter(s=>s.symbol.includes(q)||s.name.toUpperCase().includes(q)||s.sector.toUpperCase().includes(q));}if(ST.sortCol)list=sortList(list,ST.sortCol,ST.sortDir);return list;}
+
+    function doSort(col){if(ST.sortCol===col)ST.sortDir=ST.sortDir==='asc'?'desc':'asc';else{ST.sortCol=col;ST.sortDir='desc';}ST.page=1;renderView();}
+    function sortInd(col){if(ST.sortCol!==col)return'<span style="opacity:0.3;color:#6b7280;margin-left:4px;font-size:10px;">▼</span>';return`<span style="color:#22c55e;margin-left:4px;font-size:10px;display:inline-block;transform:rotate(${ST.sortDir==='asc'?'0':'180'}deg);">▼</span>`;}
+
+    function searchStocks(q){if(!q||q.trim().length<1)return[];const qu=q.toUpperCase().trim();return stocks.filter(s=>s.symbol.includes(qu)||s.name.toUpperCase().includes(qu)||s.sector.toUpperCase().includes(qu)).slice(0,12);}
+    function showDropdown(results,ddId){const dd=document.getElementById(ddId);if(!dd)return;if(!results||results.length===0){dd.innerHTML='';dd.classList.add('hidden');return;}dd.innerHTML=results.map(s=>`<div class="px-3 py-2 hover:bg-green-500/10 cursor-pointer text-xs border-b border-white/5" onmousedown="event.preventDefault();pickResult('${s.symbol}','${ddId}')"><span class="font-semibold">${s.symbol}</span><span class="text-gray-400 ml-2">${s.name.substring(0,22)}</span><span class="text-[10px] ${s.paysDividend?'text-green-400':'text-gray-500'} ml-auto">${s.paysDividend?s.divYield.toFixed(1)+'%':s.sector}</span></div>`).join('');dd.classList.remove('hidden');}
+    function pickResult(sym,ddId){document.getElementById(ddId)?.classList.add('hidden');ST.query='';showDetail(sym);}
+    function closeDD(){document.querySelectorAll('.search-dropdown').forEach(d=>d.classList.add('hidden'));}
+
+    // Portfolio Manager
+    const PM={
+        toggleWL(sym){const i=ST.wl.indexOf(sym);const s=stocks.find(t=>t.symbol===sym);if(i>-1){ST.wl.splice(i,1);toast(`${s?.name||sym} removed`);}else{ST.wl.push(sym);toast(`${s?.name||sym} added ⭐`,'success');}localStorage.setItem('dswl',JSON.stringify(ST.wl));renderView();},
+        isWL(sym){return ST.wl.includes(sym);},
+        addPF(sym,qty,price){const ex=ST.pf.find(p=>p.symbol===sym);if(ex){const tc=ex.quantity*ex.buyPrice+qty*price;ex.quantity+=qty;ex.buyPrice=tc/ex.quantity;}else ST.pf.push({symbol:sym,quantity:qty,buyPrice:price});localStorage.setItem('dspf',JSON.stringify(ST.pf));toast(`Added ${qty} shares 📊`,'success');renderView();},
+        removePF(sym){ST.pf=ST.pf.filter(p=>p.symbol!==sym);localStorage.setItem('dspf',JSON.stringify(ST.pf));toast('Removed','warning');renderView();},
+        updateQty(sym,qty){if(qty<=0){this.removePF(sym);return;}const h=ST.pf.find(p=>p.symbol===sym);if(h){h.quantity=qty;localStorage.setItem('dspf',JSON.stringify(ST.pf));renderView();}},
+        holding(s){const h=ST.pf.find(p=>p.symbol===s.symbol);if(!h)return null;const cv=h.quantity*s.price;const inv=h.quantity*h.buyPrice;return{qty:h.quantity,invested:inv,currentValue:cv,pnl:cv-inv,pnlPct:inv>0?(cv-inv)/inv*100:0,annualDiv:h.quantity*s.divPerShare,yoc:h.buyPrice>0?s.divPerShare/h.buyPrice*100:0};},
+        toggleCmp(sym){const i=ST.cmp.indexOf(sym);if(i>-1){ST.cmp.splice(i,1);toast('Removed from compare');}else if(ST.cmp.length>=4)toast('Max 4');else{ST.cmp.push(sym);toast('Added to compare ⚖️','success');}localStorage.setItem('dscmp',JSON.stringify(ST.cmp));renderView();}
+    };
+
+    // Render Table
+    function renderTable(list,page=1,showActions=true){
+        const tp=Math.ceil(list.length/50);const start=(page-1)*50;const paged=list.slice(start,start+50);
+        if(list.length===0)return'<div class="text-center py-8 text-gray-500 text-sm">No stocks match.</div>';
+        let h=`<div class="text-xs text-gray-500 mb-2">${start+1}-${Math.min(start+50,list.length)} of ${list.length}</div><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-gray-500 border-b border-white/5">`;
+        h+=`<th class="pb-3 text-left sortable" onclick="doSort('symbol')">Stock ${sortInd('symbol')}</th>`;
+        h+=`<th class="pb-3 text-right sortable" onclick="doSort('price')">Price ${sortInd('price')}</th>`;
+        h+=`<th class="pb-3 text-right sortable" onclick="doSort('yield')">Yield ${sortInd('yield')}</th>`;
+        h+=`<th class="pb-3 text-right sortable" onclick="doSort('growth')">3Y Growth ${sortInd('growth')}</th>`;
+        h+=`<th class="pb-3 text-center sortable" onclick="doSort('score')">AI Score ${sortInd('score')}</th>`;
+        h+=`<th class="pb-3 text-center sortable" onclick="doSort('sustainability')">Sustain ${sortInd('sustainability')}</th>`;
+        if(showActions)h+=`<th class="pb-3 text-center">⭐</th>`;
+        h+=`</tr></thead><tbody class="divide-y divide-white/5">`;
+        paged.forEach(s=>{const hl=AI.health(s),su=AI.sustain(s),wl=PM.isWL(s.symbol),hd=PM.holding(s);
+            h+=`<tr class="stock-row" onclick="showDetail('${s.symbol}')"><td class="py-2.5"><span class="font-semibold">${s.symbol}</span><span class="text-gray-500 text-xs ml-1">${s.name.substring(0,16)}</span>${hd?`<span class="text-blue-400 text-xs ml-1">●${hd.qty}</span>`:''}</td>`;
+            h+=`<td class="py-2.5 text-right font-mono text-xs">₹${s.price.toFixed(0)}</td>`;
+            h+=`<td class="py-2.5 text-right ${s.divYield>4?'text-yellow-400 font-bold':'text-green-400'} text-xs">${s.paysDividend?s.divYield.toFixed(2)+'%':'—'}</td>`;
+            h+=`<td class="py-2.5 text-right ${s.divGrowth3Y>15?'text-green-400':s.divGrowth3Y>=0?'text-blue-400':'text-red-400'} text-xs">${s.paysDividend?(s.divGrowth3Y>0?'+':'')+s.divGrowth3Y.toFixed(1)+'%':'—'}</td>`;
+            h+=`<td class="py-2.5 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${hl>=80?'bg-green-500/20 text-green-400':hl>=60?'bg-blue-500/20 text-blue-400':hl>=35?'bg-yellow-500/20 text-yellow-400':'bg-gray-500/20 text-gray-400'}">${hl}</span></td>`;
+            h+=`<td class="py-2.5 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${su.c==='green'?'bg-green-500/20 text-green-400':su.c==='blue'?'bg-blue-500/20 text-blue-400':su.c==='yellow'?'bg-yellow-500/20 text-yellow-400':'bg-red-500/20 text-red-400'}">${su.sc}</span></td>`;
+            if(showActions)h+=`<td class="py-2.5 text-center" onclick="event.stopPropagation()"><button onclick="PM.toggleWL('${s.symbol}')" class="text-lg ${wl?'text-yellow-400':'text-gray-600'} hover:text-yellow-400">${wl?'★':'☆'}</button></td>`;
+            h+=`</tr>`;});
+        h+=`</tbody></table></div>`;
+        if(tp>1)h+=`<div class="flex justify-center items-center gap-3 mt-4"><button onclick="ST.page=${page-1};renderView()" class="px-3 py-1.5 rounded-lg bg-white/5 text-xs ${page===1?'opacity-30':''}" ${page===1?'disabled':''}>←</button><span class="text-xs text-gray-400">${page}/${tp}</span><button onclick="ST.page=${page+1};renderView()" class="px-3 py-1.5 rounded-lg bg-white/5 text-xs ${page===tp?'opacity-30':''}" ${page===tp?'disabled':''}>→</button></div>`;
+        return h;
+    }
+
+    // Main render function
+    function renderView(){
+        const app=document.getElementById('appContent');
+        app.innerHTML='';
+        switch(ST.tab){
+            case'dashboard':renderDashboard();break;
+            case'toppayers':renderTopPayers();break;
+            case'screener':renderScreener();break;
+            case'compare':renderCompare();break;
+            case'portfolio':renderPortfolio();break;
+            case'guide':renderGuide();break;
+            case'detail':if(ST.selectedStock)renderDetail(ST.selectedStock);break;
+        }
+        lucide.createIcons();
+    }
+
+    function renderDashboard(){
+        const top=[...stocks.filter(s=>s.paysDividend)].sort((a,b)=>AI.health(b)-AI.health(a)).slice(0,6);
+        const list=getFiltered(ST.filter);
+        const avgY=payers.length>0?(payers.reduce((s,st)=>s+st.divYield,0)/payers.length).toFixed(2):'0';
+        document.getElementById('appContent').innerHTML=`
+        <div class="space-y-4">
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
+                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">NSE Stocks</p><p class="text-xl font-black">${stocks.length}</p></div>
+                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Payers</p><p class="text-xl font-black text-green-400">${payers.length}</p></div>
+                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Non-Payers</p><p class="text-xl font-black text-gray-500">${nonPayers.length}</p></div>
+                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Avg Yield</p><p class="text-xl font-black text-yellow-400">${avgY}%</p></div>
+                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Watchlist</p><p class="text-xl font-black text-blue-400">${ST.wl.length}</p></div>
+                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Portfolio</p><p class="text-xl font-black text-purple-400">${ST.pf.length}</p></div>
+            </div>
+            <div class="data-card rounded-2xl p-3" style="position:relative;z-index:50;"><div class="flex gap-2"><div style="position:relative;flex:1;"><input type="text" id="dashSearch" placeholder="Search NSE stocks..." class="w-full bg-[#1a1a2e] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50" onkeyup="handleSearchInput('dashSearch','dashSearchResults')" onfocus="handleSearchFocus('dashSearch','dashSearchResults')" autocomplete="off"><div id="dashSearchResults" class="search-dropdown hidden"></div></div><button onclick="switchTab('guide')" class="px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium whitespace-nowrap">📚 Guide</button></div></div>
+            <div class="glow-border rounded-2xl"><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-base mb-3">🏆 Top AI Dividend Scores — Click Any Card</h3><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">${top.map(s=>{const h=AI.health(s),r=AI.rec(s);return`<div class="data-card clickable rounded-xl p-3 text-center" onclick="showDetail('${s.symbol}')"><p class="font-bold text-xs">${s.symbol}</p><p class="text-2xl font-black text-${r.c}-400">${h}</p><p class="text-[10px] text-${r.c}-400">${r.t}</p><p class="text-[10px] text-gray-500 mt-1">Yield: ${s.divYield.toFixed(1)}%</p></div>`;}).join('')}</div></div></div>
+            <div class="flex gap-1.5 flex-wrap">${['all','payers','high-yield','high-growth','watchlist','non-payers','portfolio'].map(f=>{const labels={all:'All',payers:'Payers','high-yield':'Hi-Yield >4%','high-growth':'Hi-Growth >20%',watchlist:`⭐ ${ST.wl.length}`,'non-payers':'Non-Payers',portfolio:'💼 Mine'};return`<button onclick="ST.filter='${f}';ST.page=1;renderView();updateFButtons('${f}')" class="filter-btn px-3 py-1.5 rounded-lg text-[10px] font-semibold border ${ST.filter===f?'filter-active':'text-gray-400 border-white/10'}" data-filter="${f}">${labels[f]}</button>`;}).join('')}</div>
+            <div class="data-card rounded-2xl p-3">${renderTable(list,ST.page)}</div>
+        </div>`;
+        document.getElementById('stockCountFooter').textContent=`${stocks.length} NSE Stocks • ${payers.length} Payers`;
+    }
+
+    function handleSearchInput(inputId,ddId){showDropdown(searchStocks(document.getElementById(inputId)?.value||''),ddId);}
+    function handleSearchFocus(inputId,ddId){const inp=document.getElementById(inputId);if(inp?.value?.trim())showDropdown(searchStocks(inp.value),ddId);}
+    function updateFButtons(active){document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('filter-active');b.classList.add('text-gray-400','border-white/10');});const ab=document.querySelector(`[data-filter="${active}"]`);if(ab){ab.classList.add('filter-active');ab.classList.remove('text-gray-400','border-white/10');}}
+
+    function renderTopPayers(){const prevC=ST.sortCol,prevD=ST.sortDir;ST.sortCol='yield';ST.sortDir='desc';const top=getFiltered('payers').slice(0,50);ST.sortCol=prevC;ST.sortDir=prevD;document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">🏆 Top Dividend Payers</h2><div class="grid grid-cols-2 md:grid-cols-5 gap-2"><div class="data-card rounded-xl p-3"><p class="text-[10px]">#1</p><p class="text-xl font-black text-yellow-400">${top[0]?.divYield.toFixed(2)||0}%</p><p class="text-[10px]">${top[0]?.symbol||'—'}</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">#2</p><p class="text-xl font-black text-yellow-400">${top[1]?.divYield.toFixed(2)||0}%</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">#3</p><p class="text-xl font-black text-yellow-400">${top[2]?.divYield.toFixed(2)||0}%</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">Avg Top 10</p><p class="text-xl font-black text-orange-400">${(top.slice(0,10).reduce((s,st)=>s+st.divYield,0)/Math.min(10,top.length)).toFixed(2)}%</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">Total</p><p class="text-xl font-black text-green-400">${payers.length}</p></div></div><div class="data-card rounded-2xl p-3">${renderTable(top,1,false)}</div></div>`;}
+
+    function renderGuide(){document.getElementById('appContent').innerHTML=`<div class="data-card rounded-2xl p-6 lg:p-8" style="line-height:1.8;"><h1 style="font-size:2rem;font-weight:900;color:#f3f4f6;margin-bottom:1rem;">Best Dividend Paying Stocks in India 2026</h1><p style="color:#9ca3af;margin-bottom:1rem;">Find <strong style="color:#22c55e;">highest dividend yield NSE stocks</strong> with AI-powered analysis. Track dividend history, sustainability scores, and growth predictions.</p><h2 style="font-size:1.5rem;font-weight:800;color:#f3f4f6;margin-top:2rem;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:0.5rem;">Top 5 Highest Yield NSE Stocks</h2><table style="width:100%;margin:1rem 0;"><thead><tr style="background:rgba(34,197,94,0.1);"><th style="color:#22c55e;padding:0.75rem;">Rank</th><th style="color:#22c55e;padding:0.75rem;">Stock</th><th style="color:#22c55e;padding:0.75rem;">Yield</th><th style="color:#22c55e;padding:0.75rem;">AI Score</th></tr></thead><tbody><tr><td style="padding:0.75rem;color:#d1d5db;">1</td><td style="padding:0.75rem;color:#22c55e;font-weight:600;">Hindustan Zinc</td><td style="padding:0.75rem;color:#22c55e;">17.86%</td><td style="padding:0.75rem;color:#d1d5db;">45/100</td></tr><tr><td style="padding:0.75rem;color:#d1d5db;">2</td><td style="padding:0.75rem;color:#22c55e;font-weight:600;">Vedanta Ltd</td><td style="padding:0.75rem;color:#22c55e;">12.53%</td><td style="padding:0.75rem;color:#d1d5db;">40/100</td></tr><tr><td style="padding:0.75rem;color:#d1d5db;">3</td><td style="padding:0.75rem;color:#22c55e;font-weight:600;">Coal India</td><td style="padding:0.75rem;color:#22c55e;">7.85%</td><td style="padding:0.75rem;color:#22c55e;">92/100</td></tr><tr><td style="padding:0.75rem;color:#d1d5db;">4</td><td style="padding:0.75rem;color:#22c55e;font-weight:600;">ONGC</td><td style="padding:0.75rem;color:#22c55e;">5.23%</td><td style="padding:0.75rem;color:#d1d5db;">79/100</td></tr><tr><td style="padding:0.75rem;color:#d1d5db;">5</td><td style="padding:0.75rem;color:#22c55e;font-weight:600;">BPCL</td><td style="padding:0.75rem;color:#22c55e;">5.12%</td><td style="padding:0.75rem;color:#d1d5db;">74/100</td></tr></tbody></table></div>`;}
+
+    function showDetail(symbol){ST.selectedStock=symbol;ST.tab='detail';renderDetail(symbol);window.scrollTo({top:0,behavior:'smooth'});}
+    function renderDetail(symbol){const s=stocks.find(t=>t.symbol===symbol);if(!s)return;const h=AI.health(s),p=AI.growth(s),r=AI.rec(s),su=AI.sustain(s),wl=PM.isWL(symbol),hd=PM.holding(s),inC=ST.cmp.includes(symbol);document.getElementById('appContent').innerHTML=`<div class="space-y-4"><button onclick="switchTab('dashboard')" class="text-gray-400 hover:text-white text-xs">← Back</button><div class="data-card rounded-2xl p-5"><div class="flex flex-col md:flex-row justify-between gap-3"><div><h2 class="text-2xl font-black">${s.symbol}</h2><p class="text-gray-400 text-sm">${s.name} • ${s.sector}</p><p class="text-xs text-gray-500">Mkt Cap: ${s.mcap} • P/E: ${s.pe}</p></div><div class="flex gap-1.5 flex-wrap"><button onclick="PM.toggleWL('${symbol}')" class="px-3 py-1.5 rounded-lg border text-xs ${wl?'border-yellow-500/50 text-yellow-400':'border-white/10 text-gray-400'}">${wl?'★':'☆'}</button><button onclick="addPF()" class="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-xs">+ Portfolio</button><button onclick="PM.toggleCmp('${symbol}')" class="px-3 py-1.5 rounded-lg border text-xs ${inC?'border-purple-500/50 text-purple-400':'border-white/10 text-gray-400'}">${inC?'⚖️':'⇆'}</button></div></div></div>${s.paysDividend?`<div class="grid grid-cols-1 md:grid-cols-4 gap-3"><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">AI Health</h3><p class="text-5xl font-black text-${r.c}-400">${h}</p></div><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">Growth</h3><p class="text-4xl font-black text-blue-400">${p.cagr>0?'+':''}${p.cagr}%</p></div><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">Sustain</h3><p class="text-4xl font-black text-${su.c}-400">${su.sc}</p></div><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">${hd?'Position':'Stats'}</h3>${hd?`<p class="text-2xl font-black">${hd.qty} sh</p>`:`<p class="text-4xl font-black text-green-400">${s.divYield.toFixed(2)}%</p>`}</div></div><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">Dividend History</h3><div class="overflow-x-auto"><table class="w-full text-xs"><thead><tr class="text-gray-500 border-b border-white/5"><th class="pb-2">Date</th><th class="pb-2">Type</th><th class="pb-2 text-right">DPS</th><th class="pb-2 text-right">Yield</th></tr></thead><tbody class="divide-y divide-white/5">${(s.dividendHistory||[]).map(h=>`<tr><td class="py-2">${h.date}</td><td class="py-2"><span class="px-1.5 py-0.5 rounded-full text-[9px] ${h.type==='Final'?'bg-blue-500/20 text-blue-400':'bg-yellow-500/20 text-yellow-400'}">${h.type}</span></td><td class="py-2 text-right">₹${h.dividendPerShare.toFixed(2)}</td><td class="py-2 text-right text-green-400">${h.yield.toFixed(2)}%</td></tr>`).join('')}</tbody></table></div></div>`:'<div class="data-card rounded-2xl p-8 text-center"><p class="text-gray-500">Non-dividend payer</p></div>'}</div>`;}
+
+    function renderScreener(){document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">AI Dividend Screener</h2><div class="data-card rounded-2xl p-4"><div class="grid grid-cols-1 md:grid-cols-5 gap-2 mb-3"><div><label class="text-[10px]">Min Yield</label><input type="number" id="sMinY" value="0" class="w-full bg-[#1a1a2e] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white" step="0.1"></div><div><label class="text-[10px]">Min Growth</label><input type="number" id="sMinG" value="0" class="w-full bg-[#1a1a2e] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white" step="0.1"></div><div><label class="text-[10px]">Min AI</label><input type="number" id="sMinH" value="0" class="w-full bg-[#1a1a2e] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white"></div><div><label class="text-[10px]">Min Sustain</label><input type="number" id="sMinS" value="0" class="w-full bg-[#1a1a2e] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white"></div><div class="flex items-end gap-1.5"><button onclick="runScreener()" class="flex-1 bg-green-600 px-3 py-2.5 rounded-xl text-xs font-semibold">Run</button><button onclick="resetScreener()" class="px-3 py-2.5 rounded-xl border border-white/10 text-gray-400 text-xs">Reset</button></div></div><div id="scrResults"><p class="text-gray-500 text-center py-8 text-sm">Set filters and run</p></div></div></div>`;}
+    function runScreener(){const my=parseFloat(document.getElementById('sMinY')?.value||0),mg=parseFloat(document.getElementById('sMinG')?.value||0),mh=parseInt(document.getElementById('sMinH')?.value||0),ms=parseInt(document.getElementById('sMinS')?.value||0);let res=stocks.filter(s=>{if(!s.paysDividend&&my>0)return false;return s.divYield>=my&&s.divGrowth3Y>=mg&&AI.health(s)>=mh&&AI.sustain(s).sc>=ms;});res=sortList(res,'score','desc');document.getElementById('scrResults').innerHTML=res.length>0?renderTable(res):'<p class="text-gray-500 text-center py-8 text-sm">No matches.</p>';lucide.createIcons();}
+    function resetScreener(){['sMinY','sMinG','sMinH','sMinS'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='0';});document.getElementById('scrResults').innerHTML='<p class="text-gray-500 text-center py-8 text-sm">Reset.</p>';}
+
+    function renderCompare(){const cs=ST.cmp.map(sym=>stocks.find(s=>s.symbol===sym)).filter(Boolean);document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">Peer Comparison</h2>${cs.length===0?`<div class="data-card rounded-2xl p-10 text-center"><p class="text-gray-500">No stocks selected. Use ⇆ on stock pages.</p></div>`:`<div class="data-card rounded-2xl p-4"><table class="w-full text-xs"><thead><tr class="text-gray-500 border-b border-white/5"><th class="pb-2">Metric</th>${cs.map(s=>`<th class="pb-2 text-center font-bold">${s.symbol}</th>`).join('')}</tr></thead><tbody class="divide-y divide-white/5">${['Price','P/E','Yield','DPS','3Y Growth','AI Score','Sustain'].map(m=>`<tr><td class="py-2 text-gray-400">${m}</td>${cs.map(s=>{const h=AI.health(s),su=AI.sustain(s);let v='—';switch(m){case'Price':v=`₹${s.price.toFixed(0)}`;break;case'P/E':v=s.pe;break;case'Yield':v=s.paysDividend?`${s.divYield.toFixed(2)}%`:'—';break;case'DPS':v=s.paysDividend?`₹${s.divPerShare}`:'—';break;case'3Y Growth':v=s.paysDividend?`${s.divGrowth3Y>0?'+':''}${s.divGrowth3Y.toFixed(1)}%`:'—';break;case'AI Score':v=h;break;case'Sustain':v=su.sc;break;}return`<td class="py-2 text-center">${v}</td>`;}).join('')}</tr>`).join('')}</tbody></table></div>`}</div>`;}
+
+    function renderPortfolio(){const hlds=ST.pf.map(p=>{const s=stocks.find(t=>t.symbol===p.symbol);if(!s)return null;const v=PM.holding(s);return{...v,symbol:p.symbol,name:s.name,sector:s.sector};}).filter(Boolean);const ti=hlds.reduce((s,h)=>s+h.invested,0),tc=hlds.reduce((s,h)=>s+h.currentValue,0),tp=tc-ti,tad=hlds.reduce((s,h)=>s+h.annualDiv,0);document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">Your Portfolio</h2>${hlds.length>0?`<div class="grid grid-cols-2 md:grid-cols-5 gap-2"><div class="data-card rounded-xl p-3"><p class="text-[10px]">Invested</p><p class="text-lg font-bold">${fmt(ti)}</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">Current</p><p class="text-lg font-bold">${fmt(tc)}</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">P&L</p><p class="text-lg font-bold ${tp>=0?'text-green-400':'text-red-400'}">${fmt(tp)}</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">Annual Div</p><p class="text-lg font-bold text-green-400">${fmt(tad)}</p></div><div class="data-card rounded-xl p-3"><p class="text-[10px]">Monthly</p><p class="text-lg font-bold text-purple-400">${fmt(tad/12)}/mo</p></div></div><div class="data-card rounded-2xl p-3">${hlds.map(h=>`<div class="flex items-center justify-between py-3 border-b border-white/5"><div class="flex-1 cursor-pointer" onclick="showDetail('${h.symbol}')"><span class="font-semibold text-sm">${h.symbol}</span><span class="text-gray-400 text-xs ml-2">${h.qty} sh</span></div><div class="flex items-center gap-3"><div class="text-right"><p class="text-xs">${fmt(h.currentValue)}</p><p class="text-[10px] ${h.pnl>=0?'text-green-400':'text-red-400'}">${h.pnlPct.toFixed(1)}%</p></div><button onclick="editQty('${h.symbol}',${h.qty})" class="text-blue-400 text-xs px-2 py-1 rounded bg-white/5">✏️</button><button onclick="PM.removePF('${h.symbol}')" class="text-red-400 text-xs px-2 py-1 rounded bg-white/5">🗑️</button></div></div>`).join('')}</div>`:`<div class="data-card rounded-2xl p-10 text-center"><p class="text-gray-500">No stocks yet.</p></div>`}</div>`;}
+    function editQty(sym,cq){const nq=prompt(`Update quantity for ${sym}:`,cq);if(nq&&!isNaN(nq)&&parseInt(nq)>=0)PM.updateQty(sym,parseInt(nq));}
+    function addPF(){const qty=prompt('Enter quantity:','10');if(qty&&!isNaN(qty)&&parseInt(qty)>0){const s=stocks.find(t=>t.symbol===ST.selectedStock);if(s)PM.addPF(ST.selectedStock,parseInt(qty),s.price);}}
+
+    // Tab switching
+    function switchTab(tab){
+        ST.tab=tab;ST.selectedStock=null;ST.page=1;ST.filter='all';ST.query='';closeDD();
+        document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('text-green-400','nav-active');b.classList.add('text-gray-300');});
+        const nb=document.querySelector(`[data-nav="${tab}"]`);
+        if(nb){nb.classList.add('text-green-400','nav-active');nb.classList.remove('text-gray-300');}
+        renderView();
+        window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded',()=>{
+        console.log('DOM loaded - rendering dashboard');
+        renderView();
+        document.getElementById('stockCountFooter').textContent=`${stocks.length} NSE Stocks • ${payers.length} Dividend Payers`;
+        setInterval(()=>{const el=document.getElementById('liveClock');if(el)el.textContent=new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'});},1000);
+    });
+
+    document.addEventListener('click',(e)=>{if(!e.target.closest('.search-dropdown')&&!e.target.closest('input[type="text"]'))closeDD();});
+    document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeDD();});
+
+    console.log('✅ DividendStrike script loaded successfully');
+    </script>
+<!-- Supabase Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+</html>
