@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRIP Calculator India — Dividend Reinvestment & Tax Calculator | DividendStrike</title>
+    <meta name="description" content="Free DRIP calculator for Indian stocks. Calculate dividend reinvestment returns with Indian tax brackets (10%, 20%, 30%). Project monthly passive income over 1-30 years.">
+    <meta name="keywords" content="drip calculator india, dividend reinvestment calculator, dividend tax calculator india, monthly dividend income calculator, compounding calculator india, stock return calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dividendstrike.in/calculators.html">
+    
+    <meta property="og:title" content="DRIP Calculator India — Dividend Reinvestment & Tax Calculator | DividendStrike">
+    <meta property="og:description" content="Free DRIP calculator with Indian tax brackets. Project dividend reinvestment returns over 1-30 years.">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-F67MPYPHJ3');
+</script>
+    
+    <style>
+        :root{--bg:#0a0a0f;--card:rgba(15,15,25,0.85);--border:rgba(255,255,255,0.07);--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
+        *{margin:0;padding:0;box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#1f2937 transparent}
+        *::-webkit-scrollbar{width:4px;height:4px}*::-webkit-scrollbar-track{background:transparent}*::-webkit-scrollbar-thumb{background:#1f2937;border-radius:2px}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        
+        /* NAV - Same across all pages */
+        .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
+        .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:17px}
+        .logo-text{line-height:1}.logo-name{font-size:17px;font-weight:900;color:#e5e7eb}.logo-tagline{font-size:8px;color:#6b7280;display:block;text-transform:uppercase;letter-spacing:1px}
+        .nav-links{display:flex;gap:2px}.nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;color:#9ca3af;transition:all 0.2s}
+        .nav-link:hover{color:white;background:rgba(255,255,255,0.04)}.nav-link.active{background:rgba(34,197,94,0.12);color:#22c55e}
+        .nav-actions{display:flex;align-items:center;gap:14px}.live-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af}
+        .pulse-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+        .mobile-menu-btn{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;padding:8px 12px;border-radius:8px}.mobile-menu-btn:hover{background:rgba(255,255,255,0.05)}
+        .mobile-menu{display:none;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);background:rgba(10,10,15,0.98);grid-template-columns:1fr 1fr;gap:4px}
+        .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;text-decoration:none;color:#9ca3af;transition:all 0.2s}
+        .mobile-menu a:hover{background:rgba(255,255,255,0.04);color:white}.mobile-menu a.active{color:#22c55e;background:rgba(34,197,94,0.1);font-weight:600}
+        
+        .text-green{color:#22c55e}.text-blue{color:#3b82f6}.text-yellow{color:#eab308}.text-red{color:#ef4444}.text-purple{color:#a855f7}.text-muted{color:#6b7280}.text-secondary{color:#9ca3af}
+        .text-xs{font-size:12px}.text-sm{font-size:14px}.text-lg{font-size:18px}.text-xl{font-size:20px}.text-2xl{font-size:24px}.font-bold{font-weight:700}.font-black{font-weight:900}.text-center{text-align:center}
+        
+        .card{background:rgba(15,15,25,0.85);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;margin-bottom:20px}
+        .btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none}
+        .btn-primary{background:#22c55e;color:white}.btn-primary:hover{background:#16a34a;transform:translateY(-1px)}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#9ca3af}.btn-outline:hover{border-color:#22c55e;color:white}
+        
+        input,select{width:100%;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;color:white;font-size:14px;outline:none;font-family:inherit;transition:border-color 0.2s}
+        input:focus,select:focus{border-color:#22c55e}select{cursor:pointer}
+        label{display:block;font-size:12px;color:#9ca3af;margin-bottom:6px;font-weight:500}
+        input[type="range"]{-webkit-appearance:none;width:100%;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;outline:none;padding:0;border:none}
+        input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:#22c55e;border-radius:50%;cursor:pointer;box-shadow:0 0 15px rgba(34,197,94,0.4)}
+        input[type="checkbox"]{width:18px;height:18px;accent-color:#22c55e;cursor:pointer}
+        
+        .result-card{background:rgba(255,255,255,0.03);border-radius:14px;padding:20px;text-align:center}
+        .result-number{font-size:28px;font-weight:900}
+        .result-label{font-size:11px;color:#6b7280;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+        
+        .footer-main{border-top:1px solid rgba(255,255,255,0.06);padding:24px 0;margin-top:40px;text-align:center;font-size:12px;color:#4b5563}
+        .footer-main a{color:#6b7280;text-decoration:none;margin:0 8px}.footer-main a:hover{color:#22c55e}
+        
+        .scroll-top-btn{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:16px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(34,197,94,0.3);transition:all 0.4s ease;opacity:0;visibility:hidden;color:white;font-size:20px;font-weight:700}
+        .scroll-top-btn.show{opacity:1;visibility:visible}.scroll-top-btn:hover{transform:translateY(-4px)}
+        
+        @media(max-width:1024px){.nav-links{display:none!important}.mobile-menu-btn{display:block!important}}
+        @media(max-width:768px){.calc-grid{grid-template-columns:1fr!important}.results-grid{grid-template-columns:1fr 1fr!important}}
+        @media(max-width:500px){.results-grid{grid-template-columns:1fr!important}.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}}
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="home.html" class="logo"><div class="logo-icon">₹</div><div class="logo-text"><span class="logo-name">Dividend<span class="text-green">Strike</span></span><span class="logo-tagline">NSE Dividend Intelligence</span></div></a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">🏠 Home</a>
+                <a href="screener.html" class="nav-link">🔍 Screener</a>
+                <a href="calculators.html" class="nav-link active">🧮 Calculators</a>
+                <a href="blog.html" class="nav-link">📝 Blog</a>
+                <a href="knowledge-hub.html" class="nav-link">📚 Learn</a>
+            </div>
+            <div class="nav-actions"><span class="live-indicator"><span class="pulse-dot"></span><span>Live NSE Data</span></span><button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button></div>
+        </div>
+        <div id="mobileMenu" class="mobile-menu" style="display:none;"><a href="home.html">🏠 Home</a><a href="screener.html">🔍 Screener</a><a href="calculators.html" class="active">🧮 Calculators</a><a href="blog.html">📝 Blog</a><a href="knowledge-hub.html">📚 Learn</a></div>
+    </nav>
+
+    <main class="container" style="padding:24px 0;">
+        
+        <div style="margin-bottom:24px;">
+            <h1 style="font-size:28px;font-weight:900;margin-bottom:6px;">🧮 DRIP & Tax Calculator</h1>
+            <p style="color:#9ca3af;font-size:14px;">Calculate dividend reinvestment returns with Indian tax brackets. Project your passive income over 1-30 years.</p>
+        </div>
+
+        <div class="calc-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+            
+            <!-- INPUTS -->
+            <div class="card">
+                <h2 style="font-size:18px;font-weight:700;margin-bottom:20px;">📊 Investment Inputs</h2>
+                
+                <div style="margin-bottom:16px;">
+                    <label>Select Stock</label>
+                    <select id="calcStock" onchange="updateStockInfo()">
+                        <option value="">— Choose a dividend stock —</option>
+                    </select>
+                    <p id="stockInfo" style="font-size:11px;color:#6b7280;margin-top:6px;"></p>
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <label>Investment Capital (₹)</label>
+                    <input type="number" id="capital" value="500000" min="1000" step="1000" onchange="calculate()">
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <label>Investment Horizon: <span id="yearsVal" style="color:#22c55e;font-weight:700;">10</span> years</label>
+                    <input type="range" id="years" min="1" max="30" value="10" oninput="document.getElementById('yearsVal').textContent=this.value;calculate()">
+                </div>
+                
+                <div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+                    <input type="checkbox" id="drip" checked onchange="calculate()" style="width:auto;">
+                    <label style="margin:0;cursor:pointer;">Reinvest Dividends (DRIP)</label>
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <label>Your Income Tax Bracket</label>
+                    <select id="taxBracket" onchange="calculate()">
+                        <option value="0">0% — Income below ₹2.5 Lakh</option>
+                        <option value="10">10% — Income ₹2.5L - ₹5L</option>
+                        <option value="20" selected>20% — Income ₹5L - ₹10L</option>
+                        <option value="30">30% — Income above ₹10L</option>
+                    </select>
+                </div>
+                
+                <button onclick="calculate()" class="btn btn-primary" style="width:100%;">🧮 Calculate Returns</button>
+            </div>
+            
+            <!-- RESULTS -->
+            <div class="card">
+                <h2 style="font-size:18px;font-weight:700;margin-bottom:20px;">📈 Projected Returns</h2>
+                
+                <div id="resultsContainer">
+                    <p style="color:#6b7280;text-align:center;padding:40px;">👈 Select a stock and adjust inputs to see projections</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- DETAILED RESULTS -->
+        <div class="card" id="detailedResults" style="display:none;">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:20px;">📊 Detailed Breakdown</h2>
+            <div class="results-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;" id="resultsGrid"></div>
+            <div style="height:300px;"><canvas id="growthChart"></canvas></div>
+        </div>
+
+    </main>
+
+    <footer class="footer-main">
+        <div class="container"><p>DividendStrike — AI-Powered NSE Analysis</p><div style="margin-top:6px;"><a href="home.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a></div></div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/ai-engine.js"></script>
+    <script src="assets/js/common.js"></script>
+    
+    <script>
+        function toggleMobileMenu(){const m=document.getElementById('mobileMenu');m.style.display=(m.style.display==='none'||m.style.display==='')?'grid':'none';}
+        document.addEventListener('click',e=>{const m=document.getElementById('mobileMenu');const b=document.querySelector('.mobile-menu-btn');if(m&&b&&!m.contains(e.target)&&!b.contains(e.target))m.style.display='none';});
+        function handleScrollButton(){const b=document.getElementById('scrollToTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);}
+        window.addEventListener('scroll',handleScrollButton,{passive:true});
+        
+        let growthChart = null;
+        
+        // Populate stock dropdown
+        function populateStocks() {
+            const select = document.getElementById('calcStock');
+            const payers = stocks.filter(s => s.paysDividend).sort((a,b) => b.divYield - a.divYield);
+            payers.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.symbol;
+                opt.textContent = `${s.symbol} — ${s.name.substring(0,25)} (${s.divYield.toFixed(1)}%)`;
+                select.appendChild(opt);
+            });
+        }
+        
+        function updateStockInfo() {
+            const symbol = document.getElementById('calcStock').value;
+            const info = document.getElementById('stockInfo');
+            if (!symbol) { info.textContent = ''; return; }
+            const s = stocks.find(st => st.symbol === symbol);
+            if (s) {
+                info.innerHTML = `Yield: <span style="color:#22c55e;font-weight:600;">${s.divYield.toFixed(2)}%</span> | DPS: ₹${s.divPerShare} | Growth: ${s.divGrowth3Y>0?'+':''}${s.divGrowth3Y}% | P/E: ${s.pe}`;
+                calculate();
+            }
+        }
+        
+        function calculate() {
+            const symbol = document.getElementById('calcStock').value;
+            const capital = parseFloat(document.getElementById('capital').value) || 0;
+            const years = parseInt(document.getElementById('years').value) || 10;
+            const drip = document.getElementById('drip').checked;
+            const taxRate = parseInt(document.getElementById('taxBracket').value) / 100;
+            
+            const container = document.getElementById('resultsContainer');
+            const detailed = document.getElementById('detailedResults');
+            
+            if (!symbol || capital <= 0) {
+                container.innerHTML = '<p style="color:#6b7280;text-align:center;padding:40px;">👈 Select a stock and enter investment amount</p>';
+                detailed.style.display = 'none';
+                return;
+            }
+            
+            const s = stocks.find(st => st.symbol === symbol);
+            if (!s) return;
+            
+            const shares = Math.floor(capital / s.price);
+            const invested = shares * s.price;
+            const growthRate = Math.max(0, AI.growth(s).cagr) / 100;
+            
+            let totalDiv = 0, totalDivAfterTax = 0, currentShares = shares, currentDPS = s.divPerShare;
+            const yearlyData = [];
+            
+            for (let y = 1; y <= years; y++) {
+                const annualDiv = currentShares * currentDPS;
+                totalDiv += annualDiv;
+                const afterTax = annualDiv * (1 - taxRate);
+                totalDivAfterTax += afterTax;
+                
+                if (drip && afterTax > 0) {
+                    const newShares = Math.floor(afterTax / s.price);
+                    currentShares += newShares;
+                }
+                
+                yearlyData.push({
+                    year: y,
+                    shares: currentShares,
+                    dps: currentDPS,
+                    annualDiv: annualDiv,
+                    portfolioValue: currentShares * s.price * Math.pow(1 + growthRate, y)
+                });
+                
+                currentDPS *= (1 + growthRate);
+            }
+            
+            const finalValue = currentShares * s.price * Math.pow(1 + growthRate, years);
+            const monthlyIncome = (currentShares * currentDPS) / 12;
+            const finalDPS = currentDPS;
+            
+            container.innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="result-card"><p class="result-number" style="color:#f3f4f6;">${shares.toLocaleString()}</p><p class="result-label">Initial Shares</p></div>
+                    <div class="result-card"><p class="result-number text-green">${drip ? (currentShares - shares).toLocaleString() : '0'}</p><p class="result-label">Shares Added via DRIP</p></div>
+                    <div class="result-card"><p class="result-number text-green">₹${totalDiv.toLocaleString(undefined,{maximumFractionDigits:0})}</p><p class="result-label">Total Dividends (Gross)</p></div>
+                    <div class="result-card"><p class="result-number text-yellow">₹${totalDivAfterTax.toLocaleString(undefined,{maximumFractionDigits:0})}</p><p class="result-label">After Tax (${(taxRate*100).toFixed(0)}%)</p></div>
+                    <div class="result-card"><p class="result-number text-blue">₹${finalValue.toLocaleString(undefined,{maximumFractionDigits:0})}</p><p class="result-label">Final Portfolio Value</p></div>
+                    <div class="result-card"><p class="result-number text-purple">₹${monthlyIncome.toLocaleString(undefined,{maximumFractionDigits:0})}/mo</p><p class="result-label">Monthly Passive Income (Year ${years})</p></div>
+                </div>
+                <div style="margin-top:16px;padding:14px;background:rgba(34,197,94,0.08);border-radius:12px;border:1px solid rgba(34,197,94,0.15);">
+                    <p style="font-size:13px;color:#22c55e;"><strong>💡 Insight:</strong> ${drip ? 'With DRIP, your shares grew from '+shares.toLocaleString()+' to '+currentShares.toLocaleString()+'. Reinvesting dividends compounded your wealth.' : 'Without DRIP, you receive ₹'+monthlyIncome.toLocaleString(undefined,{maximumFractionDigits:0})+' monthly as cash. Reinvesting could significantly boost returns.'}</p>
+                    <p style="font-size:12px;color:#6b7280;margin-top:6px;">💰 Tax paid: ₹${(totalDiv-totalDivAfterTax).toLocaleString(undefined,{maximumFractionDigits:0})} | Final DPS: ₹${finalDPS.toFixed(2)}</p>
+                </div>
+            `;
+            
+            detailed.style.display = 'block';
+            
+            document.getElementById('resultsGrid').innerHTML = `
+                <div class="result-card"><p class="result-number" style="color:#f3f4f6;">₹${invested.toLocaleString(undefined,{maximumFractionDigits:0})}</p><p class="result-label">Capital Deployed</p></div>
+                <div class="result-card"><p class="result-number text-green">${(growthRate*100).toFixed(1)}%</p><p class="result-label">Annual Growth Rate</p></div>
+                <div class="result-card"><p class="result-number text-blue">${currentShares.toLocaleString()}</p><p class="result-label">Final Shares</p></div>
+                <div class="result-card"><p class="result-number text-purple">₹${finalDPS.toFixed(2)}</p><p class="result-label">Final DPS</p></div>
+            `;
+            
+            renderChart(yearlyData);
+        }
+        
+        function renderChart(data) {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            if (growthChart) growthChart.destroy();
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => 'Year ' + d.year),
+                    datasets: [{
+                        label: 'Portfolio Value (₹)',
+                        data: data.map(d => d.portfolioValue),
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34,197,94,0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#22c55e'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#9ca3af' } } },
+                    scales: {
+                        x: { ticks: { color: '#6b7280' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#6b7280', callback: v => '₹' + (v/100000).toFixed(1) + 'L' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            populateStocks();
+            handleScrollButton();
+            console.log('🧮 Calculators page loaded');
+        });
+    </script>
+</body>
+</html>
