@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DividendStrike — Best Dividend Paying Stocks India 2026 | AI-Powered NSE Analysis</title>
-    <meta name="description" content="Find the highest dividend paying stocks in India with AI-powered analysis. Track NSE dividend yields, sustainability scores, and growth predictions. Free DRIP calculator included.">
-    <meta name="keywords" content="dividend stocks india, best dividend paying stocks, nse dividend yield, high dividend stocks, monthly dividend income india, dividend screener, drip calculator india">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="Find the highest dividend paying stocks in India with AI-powered analysis. Track NSE dividend yields, sustainability scores, growth predictions. Free DRIP calculator, expert guides, and stock screener.">
+    <meta name="keywords" content="dividend stocks india, best dividend paying stocks, nse dividend yield, high dividend stocks, monthly dividend income india, dividend screener, drip calculator india, top dividend stocks 2026, psu dividend stocks, dividend investing guide">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://dividendstrike.in/">
     
-    <!-- Open Graph -->
     <meta property="og:title" content="DividendStrike — Best Dividend Paying Stocks India 2026">
-    <meta property="og:description" content="AI-powered NSE dividend analysis. Find highest yield stocks, sustainability scores, and DRIP calculator.">
+    <meta property="og:description" content="AI-powered NSE dividend analysis platform. Find highest yield stocks, sustainability scores, and free DRIP calculator.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://dividendstrike.in/assets/images/og-image.jpg">
     
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -23,64 +22,273 @@
 
     <div id="toastContainer"></div>
 
-    <!-- Navigation -->
-    <nav style="position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.07);">
-        <div class="container flex items-center justify-between py-2.5">
-            <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-                <div style="width:36px;height:36px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                    <span style="color:white;font-weight:900;font-size:16px;">₹</span>
-                </div>
-                <div>
-                    <span style="font-size:18px;font-weight:900;color:#e5e7eb;">Dividend<span style="color:#22c55e;">Strike</span></span>
-                    <p style="font-size:9px;color:#6b7280;margin-top:-3px;">NSE Dividend Intelligence</p>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">₹</div>
+                <div class="logo-text">
+                    <span class="logo-name">Dividend<span class="text-green">Strike</span></span>
+                    <span class="logo-tagline">NSE Dividend Intelligence</span>
                 </div>
             </a>
             
-            <div class="hidden lg:flex items-center gap-1" style="font-size:13px;font-weight:500;">
-                <a href="index.html" class="nav-link px-3 py-1.5 rounded-lg active">🏠 Home</a>
-                <a href="screener.html" class="nav-link px-3 py-1.5 rounded-lg">🔍 Screener</a>
-                <a href="calculators.html" class="nav-link px-3 py-1.5 rounded-lg">🧮 Calculators</a>
-                <a href="blog.html" class="nav-link px-3 py-1.5 rounded-lg">📝 Blog</a>
-                <a href="knowledge-hub.html" class="nav-link px-3 py-1.5 rounded-lg">📚 Knowledge Hub</a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link active">🏠 Home</a>
+                <a href="screener.html" class="nav-link">🔍 Screener</a>
+                <a href="calculators.html" class="nav-link">🧮 Calculators</a>
+                <a href="blog.html" class="nav-link">📝 Blog</a>
+                <a href="knowledge-hub.html" class="nav-link">📚 Learn</a>
             </div>
             
-            <div style="display:flex;align-items:center;gap:12px;">
-                <span style="display:none;" class="md:flex items-center gap-2 text-xs">
-                    <span class="pulse-dot" style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;"></span>
-                    <span id="liveStatus" style="color:#22c55e;">Live Data</span>
+            <div class="nav-actions">
+                <span class="live-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Live NSE Data</span>
                 </span>
-                <button class="lg:hidden" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">☰</button>
+                <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" aria-label="Menu">☰</button>
             </div>
         </div>
         
-        <div id="mobileMenu" class="lg:hidden hidden" style="border-top:1px solid rgba(255,255,255,0.07);padding:12px 16px;">
-            <div class="grid-2 gap-1">
-                <a href="index.html" class="block px-3 py-2 rounded-lg" style="color:#22c55e;font-size:13px;">🏠 Home</a>
-                <a href="screener.html" class="block px-3 py-2 rounded-lg text-secondary text-xs">🔍 Screener</a>
-                <a href="blog.html" class="block px-3 py-2 rounded-lg text-secondary text-xs">📝 Blog</a>
-                <a href="knowledge-hub.html" class="block px-3 py-2 rounded-lg text-secondary text-xs">📚 Knowledge Hub</a>
-            </div>
+        <div id="mobileMenu" class="mobile-menu hidden">
+            <a href="home.html" class="active">🏠 Home</a>
+            <a href="screener.html">🔍 Screener</a>
+            <a href="calculators.html">🧮 Calculators</a>
+            <a href="blog.html">📝 Blog</a>
+            <a href="knowledge-hub.html">📚 Learn</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="container py-4">
-        <div id="appContent">
-            <div style="text-align:center;padding:60px 0;">
-                <div style="width:40px;height:40px;border:2px solid rgba(34,197,94,0.3);border-top-color:#22c55e;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
-                <p style="color:#9ca3af;">Loading DividendStrike...</p>
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="container">
+        
+        <!-- SECTION 1: HERO -->
+        <section class="hero">
+            <div class="hero-bg-glow hero-bg-glow-1"></div>
+            <div class="hero-bg-glow hero-bg-glow-2"></div>
+            
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="pulse-dot"></span>
+                        AI-Powered NSE Dividend Analysis
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Discover India's<br>
+                        <span class="text-green">Best Dividend Stocks</span><br>
+                        for Passive Income
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Our AI engine analyzes <strong>17 financial signals</strong> across 25+ NSE companies to help you find sustainable high-yield dividend stocks. Built for serious investors who want data-driven decisions.
+                    </p>
+                    
+                    <div class="hero-buttons">
+                        <a href="screener.html" class="btn btn-primary btn-lg">
+                            🔍 Explore Stock Screener
+                        </a>
+                        <a href="blog.html" class="btn btn-outline btn-lg">
+                            📝 Read Investment Guides
+                        </a>
+                    </div>
+                    
+                    <div class="hero-trusted">
+                        <span class="text-muted text-xs">Trusted by Indian dividend investors</span>
+                        <div class="hero-avatars">
+                            <span class="avatar">DS</span>
+                            <span class="avatar">IN</span>
+                            <span class="avatar">FI</span>
+                            <span class="text-xs text-muted">+1,000 monthly readers</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-stats-card">
+                    <div class="hero-stats-header">
+                        <span class="pulse-dot"></span>
+                        <span class="text-xs" style="color:#22c55e;">Live Market Data</span>
+                    </div>
+                    
+                    <div class="hero-stats-grid">
+                        <div class="hero-stat">
+                            <p class="hero-stat-number text-green" id="statStocks">25</p>
+                            <p class="hero-stat-label">NSE Stocks Tracked</p>
+                        </div>
+                        <div class="hero-stat">
+                            <p class="hero-stat-number" style="color:#eab308;" id="statYield">4.8%</p>
+                            <p class="hero-stat-label">Average Yield</p>
+                        </div>
+                        <div class="hero-stat">
+                            <p class="hero-stat-number" style="color:#3b82f6;" id="statPayers">22</p>
+                            <p class="hero-stat-label">Dividend Payers</p>
+                        </div>
+                        <div class="hero-stat">
+                            <p class="hero-stat-number" style="color:#a855f7;">17</p>
+                            <p class="hero-stat-label">AI Analysis Factors</p>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-top-yielder" id="topYielderCard">
+                        <span class="badge badge-yellow">🏆 Today's Highest Yielder</span>
+                        <p class="hero-top-yielder-name" id="topYielderName">Loading...</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- SECTION 2: FEATURES -->
+        <section class="features">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Tools for Dividend Investors</h2>
+                <p class="section-subtitle">Everything you need to research, analyze, and track dividend stocks in one place</p>
+            </div>
+            
+            <div class="features-grid">
+                <a href="screener.html" class="feature-card">
+                    <div class="feature-icon-wrapper" style="background:rgba(34,197,94,0.15);">
+                        <span class="feature-icon">🔍</span>
+                    </div>
+                    <h3 class="feature-title">AI Stock Screener</h3>
+                    <p class="feature-desc">Filter 25+ NSE stocks by dividend yield, growth rate, AI health score, and sustainability. Find hidden gems in seconds.</p>
+                    <span class="feature-link">Try Screener →</span>
+                </a>
+                
+                <a href="calculators.html" class="feature-card">
+                    <div class="feature-icon-wrapper" style="background:rgba(59,130,246,0.15);">
+                        <span class="feature-icon">🧮</span>
+                    </div>
+                    <h3 class="feature-title">DRIP Calculator</h3>
+                    <p class="feature-desc">Project your dividend reinvestment returns over 1-30 years. Includes Indian tax brackets (10%, 20%, 30%) for accurate planning.</p>
+                    <span class="feature-link">Calculate Returns →</span>
+                </a>
+                
+                <a href="blog.html" class="feature-card">
+                    <div class="feature-icon-wrapper" style="background:rgba(168,85,247,0.15);">
+                        <span class="feature-icon">📝</span>
+                    </div>
+                    <h3 class="feature-title">Expert Guides</h3>
+                    <p class="feature-desc">In-depth articles on dividend investing strategies, tax planning, stock analysis, and building monthly passive income in India.</p>
+                    <span class="feature-link">Read Guides →</span>
+                </a>
+                
+                <a href="knowledge-hub.html" class="feature-card">
+                    <div class="feature-icon-wrapper" style="background:rgba(245,158,11,0.15);">
+                        <span class="feature-icon">📚</span>
+                    </div>
+                    <h3 class="feature-title">Knowledge Hub</h3>
+                    <p class="feature-desc">Learn dividend investing from scratch. Understand yields, payout ratios, ex-dividend dates, and how to build a passive income portfolio.</p>
+                    <span class="feature-link">Start Learning →</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TOP STOCKS -->
+        <section class="top-stocks">
+            <div class="section-header">
+                <h2 class="section-title">🏆 Top Rated Dividend Stocks</h2>
+                <p class="section-subtitle">Highest AI health scores combining yield, sustainability, and growth potential</p>
+                <a href="screener.html" class="view-all-link">View All Stocks →</a>
+            </div>
+            
+            <div class="stocks-grid" id="topStocksGrid">
+                <div class="text-center py-4" style="grid-column:1/-1;">
+                    <p class="text-muted">Loading top stocks...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: BLOG + QUICK LINKS -->
+        <section class="blog-section">
+            <div class="blog-grid">
+                <div class="blog-main">
+                    <div class="section-header">
+                        <h2 class="section-title">📝 Latest Investment Guides</h2>
+                        <a href="blog.html" class="view-all-link">All Articles →</a>
+                    </div>
+                    
+                    <div class="blog-cards" id="blogCards">
+                        <div class="text-center py-4">
+                            <p class="text-muted">Loading articles...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <aside class="blog-sidebar">
+                    <div class="sidebar-card quick-links">
+                        <h3 class="sidebar-title">⚡ Quick Actions</h3>
+                        <a href="screener.html" class="quick-link">🔍 Find High Yield Stocks</a>
+                        <a href="calculators.html" class="quick-link">🧮 Calculate DRIP Returns</a>
+                        <a href="knowledge-hub.html" class="quick-link">📚 Learn Dividend Basics</a>
+                        <a href="blog.html" class="quick-link">📝 Read Latest Analysis</a>
+                    </div>
+                    
+                    <div class="sidebar-card market-snapshot">
+                        <h3 class="sidebar-title">📊 Market Snapshot</h3>
+                        <div class="snapshot-item">
+                            <span>NSE Stocks</span>
+                            <span class="text-green font-bold" id="snapStocks">25</span>
+                        </div>
+                        <div class="snapshot-item">
+                            <span>Dividend Payers</span>
+                            <span class="text-blue font-bold" id="snapPayers">22</span>
+                        </div>
+                        <div class="snapshot-item">
+                            <span>Average Yield</span>
+                            <span class="text-yellow font-bold" id="snapYield">4.8%</span>
+                        </div>
+                        <div class="snapshot-item">
+                            <span>Highest Yield</span>
+                            <span class="text-green font-bold" id="snapHighest">17.86%</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- SECTION 5: NEWSLETTER CTA -->
+        <section class="newsletter-cta">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h2 class="newsletter-title">📬 Get Weekly Dividend Stock Alerts</h2>
+                    <p class="newsletter-desc">Join 1,000+ smart investors who receive our top dividend picks, ex-dividend dates, and AI analysis every Saturday morning.</p>
+                </div>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); subscribeNewsletter();">
+                    <input type="email" placeholder="your@email.com" class="newsletter-input" required>
+                    <button type="submit" class="btn btn-primary">Subscribe Free</button>
+                </form>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>45+ NSE Stocks • AI-Powered Analysis • Not Financial Advice</p>
-        <div style="display:flex;gap:16px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
-            <a href="screener.html" class="text-muted" style="font-size:11px;text-decoration:none;">Dividend Screener</a>
-            <a href="calculators.html" class="text-muted" style="font-size:11px;text-decoration:none;">DRIP Calculator</a>
-            <a href="blog.html" class="text-muted" style="font-size:11px;text-decoration:none;">Investment Guides</a>
-            <a href="knowledge-hub.html" class="text-muted" style="font-size:11px;text-decoration:none;">Knowledge Hub</a>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer-main">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>DividendStrike</h4>
+                    <p>AI-powered NSE dividend analysis platform. Helping Indian investors build passive income through data-driven stock selection.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <a href="screener.html">AI Stock Screener</a>
+                    <a href="calculators.html">DRIP Calculator</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Learn</h4>
+                    <a href="blog.html">Investment Guides</a>
+                    <a href="knowledge-hub.html">Knowledge Hub</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Disclaimer</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 DividendStrike. All rights reserved. Not financial advice. For educational purposes only.</p>
+            </div>
         </div>
     </footer>
 
@@ -93,185 +301,333 @@
     <script src="assets/js/common.js"></script>
     <script>
         // ============================================
-        // HOMEPAGE RENDER
+        // HOMEPAGE DYNAMIC CONTENT
         // ============================================
         
-        function renderHome() {
-            const app = document.getElementById('appContent');
+        function loadHomePage() {
+            // Top stocks
             const topStocks = [...stocks.filter(s => s.paysDividend)]
                 .sort((a, b) => AI.health(b) - AI.health(a)).slice(0, 6);
-            const blogPosts = getBlogPosts().filter(p => p.published).slice(0, 3);
-            const avgYield = payers.length > 0 ? (payers.reduce((s, st) => s + st.divYield, 0) / payers.length).toFixed(1) : '0';
-            const topYielder = [...payers].sort((a, b) => b.divYield - a.divYield)[0];
             
-            app.innerHTML = `
-            <div class="space-y-8">
-                
-                <!-- HERO SECTION -->
-                <div class="relative overflow-hidden rounded-3xl hero-gradient border p-8 lg:p-12" style="border-color:rgba(255,255,255,0.07);">
-                    <div style="position:absolute;top:0;right:0;width:400px;height:400px;background:rgba(34,197,94,0.05);border-radius:50%;filter:blur(80px);"></div>
-                    <div style="position:absolute;bottom:0;left:0;width:300px;height:300px;background:rgba(59,130,246,0.05);border-radius:50%;filter:blur(80px);"></div>
-                    
-                    <div style="position:relative;z-index:10;" class="grid-2 items-center">
+            const stocksGrid = document.getElementById('topStocksGrid');
+            stocksGrid.innerHTML = topStocks.map(s => {
+                const h = AI.health(s);
+                const su = AI.sustain(s);
+                return `
+                <a href="stock-detail.html?symbol=${s.symbol}" class="stock-card">
+                    <div class="stock-card-header">
                         <div>
-                            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:40px;padding:6px 16px;font-size:12px;color:#22c55e;margin-bottom:16px;">
-                                <span class="pulse-dot" style="width:6px;height:6px;background:#22c55e;border-radius:50%;"></span>
-                                AI-Powered NSE Dividend Analysis
-                            </div>
-                            <h1 style="font-size:36px;font-weight:900;line-height:1.2;margin-bottom:16px;">
-                                Find India's Best<br>
-                                <span style="color:#22c55e;">Dividend Paying Stocks</span>
-                            </h1>
-                            <p style="color:#9ca3af;font-size:15px;line-height:1.7;margin-bottom:24px;max-width:500px;">
-                                AI-powered analysis of ${stocks.length}+ NSE stocks. Discover sustainable high-yield opportunities with our proprietary 17-factor health scoring system.
-                            </p>
-                            <div class="flex flex-wrap gap-3">
-                                <a href="screener.html" class="btn btn-primary">🔍 Explore Stocks</a>
-                                <a href="calculators.html" class="btn btn-outline">🧮 DRIP Calculator</a>
-                                <a href="blog.html" class="btn btn-outline">📝 Read Guides</a>
-                            </div>
+                            <span class="stock-symbol">${s.symbol}</span>
+                            <span class="stock-name">${s.name.substring(0,22)}</span>
                         </div>
-                        
-                        <div class="card text-center">
-                            <p class="text-xs text-muted mb-3" style="text-transform:uppercase;letter-spacing:1px;">Live Market Snapshot</p>
-                            <div class="grid-2 gap-3">
-                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
-                                    <p style="font-size:28px;font-weight:900;" class="text-green">${stocks.length}</p>
-                                    <p class="text-xs text-muted">NSE Stocks</p>
-                                </div>
-                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
-                                    <p style="font-size:28px;font-weight:900;" class="text-green">${payers.length}</p>
-                                    <p class="text-xs text-muted">Dividend Payers</p>
-                                </div>
-                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
-                                    <p style="font-size:28px;font-weight:900;color:#eab308;">${avgYield}%</p>
-                                    <p class="text-xs text-muted">Average Yield</p>
-                                </div>
-                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
-                                    <p style="font-size:28px;font-weight:900;color:#a855f7;">17</p>
-                                    <p class="text-xs text-muted">AI Factors</p>
-                                </div>
-                            </div>
-                            ${topYielder ? `
-                            <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);">
-                                <p class="text-xs text-muted">Today's Highest Yielder</p>
-                                <p style="font-size:14px;font-weight:700;color:#eab308;margin-top:4px;">${topYielder.symbol} — ${topYielder.divYield.toFixed(2)}%</p>
-                            </div>` : ''}
+                        <span class="stock-score ${su.c === 'green' ? 'score-green' : su.c === 'blue' ? 'score-blue' : 'score-yellow'}">${h}</span>
+                    </div>
+                    <div class="stock-card-body">
+                        <div class="stock-metric">
+                            <span class="stock-metric-label">Dividend Yield</span>
+                            <span class="stock-metric-value text-green">${s.divYield.toFixed(2)}%</span>
+                        </div>
+                        <div class="stock-metric">
+                            <span class="stock-metric-label">DPS</span>
+                            <span class="stock-metric-value">₹${s.divPerShare}</span>
+                        </div>
+                        <div class="stock-metric">
+                            <span class="stock-metric-label">3Y Growth</span>
+                            <span class="stock-metric-value ${s.divGrowth3Y>0?'text-green':'text-red'}">${s.divGrowth3Y>0?'+':''}${s.divGrowth3Y}%</span>
+                        </div>
+                        <div class="stock-metric">
+                            <span class="stock-metric-label">P/E Ratio</span>
+                            <span class="stock-metric-value text-muted">${s.pe}</span>
                         </div>
                     </div>
-                </div>
-                
-                <!-- FEATURES -->
-                <div>
-                    <h2 style="font-size:20px;font-weight:700;margin-bottom:16px;">⚡ Powerful Tools</h2>
-                    <div class="grid-4 gap-3">
-                        <a href="screener.html" style="text-decoration:none;" class="feature-card card card-clickable">
-                            <div class="feature-icon">🔍</div>
-                            <h3 class="font-bold mb-1">AI Screener</h3>
-                            <p class="text-secondary text-xs">Filter stocks by yield, growth & sustainability</p>
-                        </a>
-                        <a href="calculators.html" style="text-decoration:none;" class="feature-card card card-clickable">
-                            <div class="feature-icon">🧮</div>
-                            <h3 class="font-bold mb-1">DRIP Calculator</h3>
-                            <p class="text-secondary text-xs">Project dividend reinvestment returns with tax</p>
-                        </a>
-                        <a href="blog.html" style="text-decoration:none;" class="feature-card card card-clickable">
-                            <div class="feature-icon">📝</div>
-                            <h3 class="font-bold mb-1">Expert Guides</h3>
-                            <p class="text-secondary text-xs">Dividend strategies & stock analysis</p>
-                        </a>
-                        <a href="knowledge-hub.html" style="text-decoration:none;" class="feature-card card card-clickable">
-                            <div class="feature-icon">📚</div>
-                            <h3 class="font-bold mb-1">Knowledge Hub</h3>
-                            <p class="text-secondary text-xs">Learn dividend investing from scratch</p>
-                        </a>
+                    <div class="stock-card-footer">
+                        <span class="badge ${su.c==='green'?'badge-green':su.c==='blue'?'badge-blue':'badge-yellow'}">${su.r||'N/A'}</span>
+                        <span class="text-xs text-muted">${s.sector}</span>
                     </div>
-                </div>
-                
-                <!-- TOP STOCKS + BLOG -->
-                <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;" class="grid-2">
-                    
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 style="font-size:20px;font-weight:700;">🏆 Top Rated Dividend Stocks</h2>
-                            <a href="screener.html" style="font-size:13px;color:#22c55e;text-decoration:none;">View All →</a>
-                        </div>
-                        <div class="grid-2 gap-3">
-                            ${topStocks.map((s, i) => {
-                                const h = AI.health(s);
-                                const su = AI.sustain(s);
-                                return `
-                                <a href="stock-detail.html?symbol=${s.symbol}" style="text-decoration:none;" class="feature-card card card-clickable animate-fade-up" onclick="event.preventDefault(); showDetail('${s.symbol}')">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="font-bold">${s.symbol}</span>
-                                        <span class="text-xs font-bold text-${su.c === 'green' ? 'green' : su.c === 'blue' ? 'blue' : 'yellow'}">⭐ ${h}</span>
-                                    </div>
-                                    <p class="text-secondary text-xs mb-2">${s.name.substring(0,25)}</p>
-                                    <div class="flex items-center gap-2 text-xs">
-                                        <span class="text-green font-bold">Yield: ${s.divYield.toFixed(1)}%</span>
-                                        <span class="text-muted">|</span>
-                                        <span class="text-blue">Growth: ${s.divGrowth3Y>0?'+':''}${s.divGrowth3Y}%</span>
-                                        <span class="text-muted">|</span>
-                                        <span style="color:${su.c === 'green' ? '#22c55e' : su.c === 'blue' ? '#3b82f6' : '#eab308'}">${su.r || 'N/A'}</span>
-                                    </div>
-                                </a>`;
-                            }).join('')}
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 style="font-size:20px;font-weight:700;">📝 Latest Guides</h2>
-                            <a href="blog.html" style="font-size:13px;color:#22c55e;text-decoration:none;">All Posts →</a>
-                        </div>
-                        <div class="space-y-3">
-                            ${blogPosts.length > 0 ? blogPosts.map(post => `
-                                <a href="blog.html?post=${post.id}" style="text-decoration:none;" class="feature-card card card-clickable block">
-                                    <span class="badge badge-green">${post.category || 'Guide'}</span>
-                                    <h3 class="font-bold mt-2 mb-1">${post.title}</h3>
-                                    <p class="text-xs text-muted">${new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</p>
-                                </a>
-                            `).join('') : `
-                                <div class="card text-center p-6">
-                                    <p class="text-secondary">📝 Guides coming soon!</p>
-                                </div>
-                            `}
-                        </div>
-                        
-                        <div class="card mt-4">
-                            <h3 class="font-bold mb-3">⚡ Quick Links</h3>
-                            <a href="screener.html" class="block px-3 py-2 rounded-lg bg-white/5 text-secondary text-xs mb-2" style="display:block;text-decoration:none;">🔍 AI Dividend Screener</a>
-                            <a href="calculators.html" class="block px-3 py-2 rounded-lg bg-white/5 text-secondary text-xs mb-2" style="display:block;text-decoration:none;">🧮 DRIP Calculator</a>
-                            <a href="knowledge-hub.html" class="block px-3 py-2 rounded-lg bg-white/5 text-secondary text-xs" style="display:block;text-decoration:none;">📚 Dividend Investing Guide</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- CTA -->
-                <div class="relative overflow-hidden rounded-2xl text-center p-8" style="background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(16,185,129,0.08));border:1px solid rgba(34,197,94,0.15);">
-                    <h2 style="font-size:24px;font-weight:900;margin-bottom:8px;">Start Building Your Dividend Portfolio Today</h2>
-                    <p class="text-secondary mb-5" style="max-width:500px;margin-left:auto;margin-right:auto;">Use our free AI-powered tools to find sustainable high-yield NSE stocks.</p>
-                    <div class="flex flex-wrap gap-3 justify-center">
-                        <a href="screener.html" class="btn btn-primary">🔍 Try the Screener</a>
-                        <a href="blog.html" class="btn btn-outline">📝 Read Our Guides</a>
-                    </div>
-                </div>
-                
-            </div>`;
+                </a>`;
+            }).join('');
             
-            initIcons();
+            // Blog posts
+            const blogPosts = getBlogPosts().filter(p => p.published).slice(0, 2);
+            const blogCards = document.getElementById('blogCards');
+            
+            if (blogPosts.length > 0) {
+                blogCards.innerHTML = blogPosts.map(post => `
+                <a href="blog.html?post=${post.id}" class="blog-card">
+                    <span class="badge badge-green">${post.category||'Guide'}</span>
+                    <h3 class="blog-card-title">${post.title}</h3>
+                    <p class="blog-card-excerpt">${post.excerpt || post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...'}</p>
+                    <div class="blog-card-meta">
+                        <span>📅 ${new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
+                        <span>⏱️ ${post.read_time||'5 min read'}</span>
+                    </div>
+                </a>`).join('');
+            } else {
+                blogCards.innerHTML = `<p class="text-muted text-center py-4">Investment guides coming soon!</p>`;
+            }
+            
+            // Stats
+            const avgYield = payers.length > 0 ? (payers.reduce((s,st)=>s+st.divYield,0)/payers.length).toFixed(1) : '0';
+            const topYielder = [...payers].sort((a,b)=>b.divYield-a.divYield)[0];
+            
+            document.getElementById('statStocks').textContent = stocks.length;
+            document.getElementById('statYield').textContent = avgYield + '%';
+            document.getElementById('statPayers').textContent = payers.length;
+            if (topYielder) {
+                document.getElementById('topYielderName').textContent = `${topYielder.symbol} — ${topYielder.divYield.toFixed(2)}%`;
+            }
+            
+            document.getElementById('snapStocks').textContent = stocks.length;
+            document.getElementById('snapPayers').textContent = payers.length;
+            document.getElementById('snapYield').textContent = avgYield + '%';
+            document.getElementById('snapHighest').textContent = topYielder ? topYielder.divYield.toFixed(2)+'%' : '--';
         }
         
-        // Initialize
+        function subscribeNewsletter() {
+            const email = document.querySelector('.newsletter-input').value;
+            if (email) {
+                // Save to localStorage for now
+                const subs = JSON.parse(localStorage.getItem('ds_subscribers')||'[]');
+                subs.push({email, date: new Date().toISOString()});
+                localStorage.setItem('ds_subscribers', JSON.stringify(subs));
+                showToast('✅ Subscribed successfully! Welcome aboard.', 'success');
+                document.querySelector('.newsletter-input').value = '';
+            }
+        }
+        
         document.addEventListener('DOMContentLoaded', () => {
-            renderHome();
-            console.log('🏠 Home page loaded');
-            console.log(`📊 ${stocks.length} stocks | ${payers.length} payers | AI Engine ready`);
+            loadHomePage();
+            initIcons();
+            console.log('🏠 Premium Homepage Loaded');
         });
     </script>
-    
+
+    <!-- Inline styles specific to homepage -->
     <style>
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* ========== NAVBAR ========== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,15,0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 17px;
+        }
+        .logo-text { line-height: 1; }
+        .logo-name { font-size: 17px; font-weight: 900; color: #e5e7eb; }
+        .logo-tagline { font-size: 8px; color: #6b7280; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 2px; }
+        .nav-link { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; color: #9ca3af; transition: all 0.2s; }
+        .nav-link:hover { color: white; background: rgba(255,255,255,0.04); }
+        .nav-link.active { background: rgba(34,197,94,0.12); color: #22c55e; }
+        .nav-actions { display: flex; align-items: center; gap: 14px; }
+        .live-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #9ca3af; }
+        @media (max-width: 1024px) { .nav-links { display: none; } }
+        @media (min-width: 1024px) { .mobile-menu-btn { display: none; } }
+        .mobile-menu-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
+        .mobile-menu { padding: 10px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+        .mobile-menu a { padding: 10px 14px; border-radius: 8px; font-size: 13px; text-decoration: none; color: #9ca3af; }
+        .mobile-menu a.active { color: #22c55e; background: rgba(34,197,94,0.1); }
+
+        /* ========== HERO ========== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(16,185,129,0.04) 25%, rgba(59,130,246,0.04) 50%, rgba(168,85,247,0.03) 75%, rgba(245,158,11,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 48px 40px;
+            margin: 20px 0 40px;
+        }
+        .hero-bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .hero-bg-glow-1 { top: -100px; right: -50px; width: 400px; height: 400px; background: rgba(34,197,94,0.06); }
+        .hero-bg-glow-2 { bottom: -80px; left: -30px; width: 300px; height: 300px; background: rgba(59,130,246,0.05); }
+        .hero-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; position: relative; z-index: 1; }
+        @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } .hero { padding: 32px 24px; } }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 40px;
+            padding: 7px 18px;
+            font-size: 12px;
+            color: #22c55e;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .hero-title { font-size: 42px; font-weight: 900; line-height: 1.15; margin-bottom: 18px; color: #f3f4f6; }
+        @media (max-width: 768px) { .hero-title { font-size: 30px; } }
+        .hero-description { font-size: 15px; line-height: 1.7; color: #9ca3af; margin-bottom: 28px; max-width: 520px; }
+        .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+        .btn-lg { padding: 14px 24px; font-size: 15px; border-radius: 12px; }
+        .hero-trusted { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .hero-avatars { display: flex; align-items: center; gap: 6px; }
+        .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; }
+        .avatar:nth-child(1) { background: #22c55e; }
+        .avatar:nth-child(2) { background: #3b82f6; }
+        .avatar:nth-child(3) { background: #a855f7; }
+        
+        .hero-stats-card {
+            background: rgba(15,15,25,0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+        }
+        .hero-stats-header { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+        .hero-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+        .hero-stat { background: rgba(255,255,255,0.03); border-radius: 14px; padding: 16px; text-align: center; }
+        .hero-stat-number { font-size: 30px; font-weight: 900; }
+        .hero-stat-label { font-size: 11px; color: #6b7280; margin-top: 4px; }
+        .hero-top-yielder { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .hero-top-yielder-name { font-size: 16px; font-weight: 700; margin-top: 8px; color: #eab308; }
+
+        /* ========== SECTIONS ========== */
+        section { margin-bottom: 48px; }
+        .section-header { margin-bottom: 24px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .section-title { font-size: 22px; font-weight: 800; color: #f3f4f6; }
+        .section-subtitle { font-size: 14px; color: #6b7280; }
+        .view-all-link { font-size: 13px; color: #22c55e; text-decoration: none; font-weight: 500; white-space: nowrap; }
+        .view-all-link:hover { text-decoration: underline; }
+
+        /* ========== FEATURES ========== */
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 500px) { .features-grid { grid-template-columns: 1fr; } }
+        .feature-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 24px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-3px); border-color: rgba(34,197,94,0.3); box-shadow: 0 20px 40px -15px rgba(34,197,94,0.15); }
+        .feature-icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+        .feature-icon { font-size: 24px; }
+        .feature-title { font-size: 16px; font-weight: 700; color: #f3f4f6; margin-bottom: 8px; }
+        .feature-desc { font-size: 13px; color: #9ca3af; line-height: 1.6; margin-bottom: 12px; }
+        .feature-link { font-size: 13px; color: #22c55e; font-weight: 600; }
+
+        /* ========== STOCK CARDS ========== */
+        .stocks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 1000px) { .stocks-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { .stocks-grid { grid-template-columns: 1fr; } }
+        .stock-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .stock-card:hover { border-color: rgba(34,197,94,0.3); transform: translateY(-2px); }
+        .stock-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+        .stock-symbol { font-size: 15px; font-weight: 700; color: #f3f4f6; display: block; }
+        .stock-name { font-size: 11px; color: #6b7280; display: block; margin-top: 2px; }
+        .stock-score { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .score-green { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .score-blue { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .score-yellow { background: rgba(234,179,8,0.15); color: #eab308; }
+        .stock-card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .stock-metric-label { font-size: 10px; color: #6b7280; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stock-metric-value { font-size: 14px; font-weight: 700; color: #d1d5db; }
+        .stock-card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.04); }
+
+        /* ========== BLOG SECTION ========== */
+        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+        @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr; } }
+        .blog-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 600px) { .blog-cards { grid-template-columns: 1fr; } }
+        .blog-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .blog-card:hover { border-color: rgba(34,197,94,0.3); }
+        .blog-card-title { font-size: 16px; font-weight: 700; color: #f3f4f6; margin: 10px 0; line-height: 1.4; }
+        .blog-card-excerpt { font-size: 13px; color: #9ca3af; line-height: 1.5; margin-bottom: 12px; }
+        .blog-card-meta { font-size: 11px; color: #6b7280; display: flex; gap: 12px; }
+        
+        .sidebar-card { background: rgba(15,15,25,0.85); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+        .sidebar-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+        .quick-link { display: block; padding: 10px 14px; border-radius: 10px; text-decoration: none; color: #9ca3af; font-size: 13px; margin-bottom: 6px; background: rgba(255,255,255,0.02); transition: all 0.2s; }
+        .quick-link:hover { background: rgba(34,197,94,0.08); color: #22c55e; }
+        .snapshot-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
+        .snapshot-item:last-child { border-bottom: none; }
+
+        /* ========== NEWSLETTER ========== */
+        .newsletter-cta {
+            background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.06));
+            border: 1px solid rgba(34,197,94,0.15);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+        .newsletter-content { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+        .newsletter-text { flex: 1; min-width: 250px; }
+        .newsletter-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .newsletter-desc { font-size: 14px; color: #9ca3af; line-height: 1.6; }
+        .newsletter-form { display: flex; gap: 10px; flex: 1; min-width: 280px; }
+        .newsletter-input {
+            flex: 1;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+        .newsletter-input:focus { border-color: #22c55e; }
+
+        /* ========== FOOTER ========== */
+        .footer-main { border-top: 1px solid rgba(255,255,255,0.06); padding: 48px 0 24px; margin-top: 20px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 32px; }
+        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+        .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #f3f4f6; }
+        .footer-col p { font-size: 13px; color: #6b7280; line-height: 1.6; }
+        .footer-col a { display: block; font-size: 13px; color: #6b7280; text-decoration: none; padding: 4px 0; transition: color 0.2s; }
+        .footer-col a:hover { color: #22c55e; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: #4b5563; }
     </style>
 </body>
 </html>
