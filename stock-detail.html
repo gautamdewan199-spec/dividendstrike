@@ -133,60 +133,88 @@
         // ============================================
         // TECHNICAL ANALYSIS AI ENGINE
         // ============================================
-        const TechnicalAI = {
-            calcEMA(data, period) {
-                const k = 2 / (period + 1);
-                let ema = [data[0]];
-                for (let i = 1; i < data.length; i++) ema.push(data[i] * k + ema[i - 1] * (1 - k));
-                return ema;
-            },
-            calcRSI(prices, period = 14) {
-                if (prices.length < period + 1) return Array(prices.length).fill(50);
-                let gains = [], losses = [], rsi = Array(period).fill(null);
-                for (let i = 1; i < prices.length; i++) {
-                    const diff = prices[i] - prices[i - 1];
-                    gains.push(diff > 0 ? diff : 0); losses.push(diff < 0 ? -diff : 0);
-                }
-                let avgGain = gains.slice(0, period).reduce((a, b) => a + b, 0) / period;
-                let avgLoss = losses.slice(0, period).reduce((a, b) => a + b, 0) / period;
-                rsi.push(100 - (100 / (1 + avgGain / (avgLoss || 1))));
-                for (let i = period; i < gains.length; i++) {
-                    avgGain = (avgGain * (period - 1) + gains[i]) / period;
-                    avgLoss = (avgLoss * (period - 1) + losses[i]) / period;
-                    rsi.push(100 - (100 / (1 + avgGain / (avgLoss || 1))));
-                }
-                return rsi;
-            },
-            calcMACD(prices, fast = 12, slow = 26, signal = 9) {
-                const emaFast = this.calcEMA(prices, fast);
-                const emaSlow = this.calcEMA(prices, slow);
-                const macdLine = emaFast.map((v, i) => v - emaSlow[i]);
-                const signalLine = this.calcEMA(macdLine, signal);
-                const histogram = macdLine.map((v, i) => v - signalLine[i]);
-                return { macdLine, signalLine, histogram };
-            },
-            checkEMACrossover(prices) {
-                const ema9 = this.calcEMA(prices, 9);
-                const ema21 = this.calcEMA(prices, 21);
-                const ema50 = this.calcEMA(prices, 50);
-                const ema200 = this.calcEMA(prices, 200);
-                const last9 = ema9[ema9.length - 1];
-                const last21 = ema21[ema21.length - 1];
-                const last50 = ema50[ema50.length - 1];
-                const last200 = ema200[ema200.length - 1];
-                const prev9 = ema9[ema9.length - 2];
-                const prev21 = ema21[ema21.length - 2];
-                return {
-                    ema9: last9, ema21: last21, ema50: last50, ema200: last200,
-                    currentPrice: prices[prices.length - 1],
-                    shortTermTrend: last9 > last21 ? 'Bullish' : 'Bearish',
-                    mediumTermTrend: last21 > last50 ? 'Bullish' : 'Bearish',
-                    longTermTrend: last50 > last200 ? 'Bullish' : 'Bearish',
-                    justCrossedUp: prev9 <= prev21 && last9 > last21,
-                    justCrossedDown: prev9 >= prev21 && last9 < last21,
-                    ema9_21: ema9, ema21_21: ema21, ema50_21: ema50, ema200_21: ema200
-                };
-            },
+       TechnicalAI object:
+
+javascript
+const TechnicalAI = {
+    // Extract just the price values for calculations
+    extractPrices(data) {
+        return data.map(d => d.price);
+    },
+    
+    // Calculate EMA with date-aware data
+    calcEMA(data, period) {
+        const prices = this.extractPrices(data);
+        const k = 2 / (period + 1);
+        let ema = [prices[0]];
+        for (let i = 1; i < prices.length; i++) {
+            ema.push(prices[i] * k + ema[i - 1] * (1 - k));
+        }
+        return ema;
+    },
+    
+    // Calculate RSI
+    calcRSI(data, period = 14) {
+        const prices = this.extractPrices(data);
+        if (prices.length < period + 1) return Array(prices.length).fill(50);
+        let gains = [], losses = [], rsi = Array(period).fill(null);
+        for (let i = 1; i < prices.length; i++) {
+            const diff = prices[i] - prices[i - 1];
+            gains.push(diff > 0 ? diff : 0);
+            losses.push(diff < 0 ? -diff : 0);
+        }
+        let avgGain = gains.slice(0, period).reduce((a, b) => a + b, 0) / period;
+        let avgLoss = losses.slice(0, period).reduce((a, b) => a + b, 0) / period;
+        rsi.push(100 - (100 / (1 + avgGain / (avgLoss || 1))));
+        for (let i = period; i < gains.length; i++) {
+            avgGain = (avgGain * (period - 1) + gains[i]) / period;
+            avgLoss = (avgLoss * (period - 1) + losses[i]) / period;
+            rsi.push(100 - (100 / (1 + avgGain / (avgLoss || 1))));
+        }
+        return rsi;
+    },
+    
+    // Calculate MACD
+    calcMACD(data, fast = 12, slow = 26, signal = 9) {
+        const prices = this.extractPrices(data);
+        const emaFast = this.calcEMA(data, fast);
+        const emaSlow = this.calcEMA(data, slow);
+        const macdLine = emaFast.map((v, i) => v - emaSlow[i]);
+        const signalLine = this.calcEMA(macdLine.map(v => ({price: v})), signal);
+        const histogram = macdLine.map((v, i) => v - signalLine[i]);
+        return { macdLine, signalLine, histogram };
+    },
+    
+    // Check EMA Crossover
+    checkEMACrossover(data) {
+        const prices = this.extractPrices(data);
+        const ema9 = this.calcEMA(data, 9);
+        const ema21 = this.calcEMA(data, 21);
+        const ema50 = this.calcEMA(data, 50);
+        const ema200 = this.calcEMA(data, 200);
+        
+        const lastIdx = prices.length - 1;
+        const last9 = ema9[lastIdx];
+        const last21 = ema21[lastIdx];
+        const last50 = ema50[lastIdx];
+        const last200 = ema200[lastIdx];
+        const lastPrice = prices[lastIdx];
+        
+        const prev9 = ema9[lastIdx - 1];
+        const prev21 = ema21[lastIdx - 1];
+        
+        return {
+            ema9: last9, ema21: last21, ema50: last50, ema200: last200,
+            currentPrice: lastPrice,
+            shortTermTrend: last9 > last21 ? 'Bullish' : 'Bearish',
+            mediumTermTrend: last21 > last50 ? 'Bullish' : 'Bearish',
+            longTermTrend: last50 > last200 ? 'Bullish' : 'Bearish',
+            justCrossedUp: prev9 <= prev21 && last9 > last21,
+            justCrossedDown: prev9 >= prev21 && last9 < last21,
+            ema9_21: ema9, ema21_21: ema21, ema50_21: ema50, ema200_21: ema200
+        };
+    },
+
             interpretRSI(rsiValue) {
                 if (rsiValue < 20) return { signal: 'STRONG BUY', color: '#22c55e', text: 'Extremely Oversold', strength: 95 };
                 if (rsiValue < 30) return { signal: 'BUY', color: '#4ade80', text: 'Oversold — Buying opportunity', strength: 75 };
@@ -217,17 +245,27 @@
                 return { score: clamped, sentiment: s, color: c, emoji: e, description: d };
             },
             generatePriceData(basePrice, days = 250) {
-                const prices = [];
-                let price = basePrice * 0.75 + (Math.random() * basePrice * 0.1);
-                const volatility = basePrice * 0.018;
-                for (let i = 0; i < days; i++) {
-                    price += (Math.random() - 0.47) * volatility;
-                    price = Math.max(price, basePrice * 0.55);
-                    price = Math.min(price, basePrice * 1.5);
-                    prices.push(parseFloat(price.toFixed(2)));
-                }
-                return prices;
-            }
+    const prices = [];
+    let price = basePrice * 0.75 + (Math.random() * basePrice * 0.1);
+    const volatility = basePrice * 0.018;
+    const today = new Date();
+    
+    for (let i = days; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        // Skip weekends
+        if (date.getDay() === 0 || date.getDay() === 6) continue;
+        
+        price += (Math.random() - 0.47) * volatility;
+        price = Math.max(price, basePrice * 0.55);
+        price = Math.min(price, basePrice * 1.5);
+        prices.push({
+            date: date.toISOString().split('T')[0],
+            price: parseFloat(price.toFixed(2))
+        });
+    }
+    return prices;
+}
         };
 
         function generateNews(symbol, name) {
@@ -407,6 +445,15 @@
         function loadStockDetail() {
             const symbol = getParam('symbol');
             const container = document.getElementById('stockDetailContainer');
+            // 🔥 ADD THIS: Check for daily update
+            const lastUpdateKey = `ds_price_update_${s.symbol}`;
+            const lastUpdate = localStorage.getItem(lastUpdateKey);
+            const today = new Date().toISOString().split('T')[0];
+    
+    if (lastUpdate !== today) {
+        console.log(`🔄 Generating fresh price data for ${s.symbol} (last updated: ${lastUpdate || 'never'})`);
+        localStorage.setItem(lastUpdateKey, today);
+    }
             if(!symbol){container.innerHTML=`<div class="text-center" style="padding:60px;"><h2 style="font-size:24px;font-weight:900;">🔍 No Stock Selected</h2><p class="text-secondary mt-2">Use our screener to find stocks.</p><a href="screener.html" class="btn btn-primary" style="margin-top:16px;">Go to Screener</a></div>`;return;}
             const s=stocks.find(st=>st.symbol===symbol.toUpperCase());
             if(!s){container.innerHTML=`<div class="text-center" style="padding:60px;"><h2 style="font-size:24px;font-weight:900;">Stock Not Found</h2><p class="text-secondary">"${symbol}" not in database.</p><a href="screener.html" class="btn btn-primary" style="margin-top:16px;">Browse Stocks</a></div>`;return;}
@@ -481,7 +528,7 @@
                     <p style="font-size:32px;font-weight:900;color:${techSentiment.color};margin-bottom:8px;">${techSentiment.sentiment}</p>
                     <div style="width:300px;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;margin:0 auto 12px;"><div style="width:${techSentiment.score}%;height:100%;background:${techSentiment.color};border-radius:4px;"></div></div>
                     <p style="font-size:14px;color:#9ca3af;max-width:500px;margin:0 auto;">${techSentiment.description}</p>
-                    <p style="font-size:11px;color:#6b7280;margin-top:8px;">Score: <strong style="color:${techSentiment.color};">${techSentiment.score}/100</strong></p>
+                    <p style="font-size:11px;color:#6b7280;margin-top:8px;">Score: <strong style="color:${techSentiment.color};">${techSentiment.score}/100</strong> | 📅 Updated: ${new Date().toLocaleDateString('en-IN', {weekday:'short', day:'numeric', month:'short', year:'numeric'})}</p>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;">
                     <div class="card text-center signal-card signal-${emaData.shortTermTrend==='Bullish'?'buy':'sell'}" style="padding:20px;"><p style="font-size:11px;color:#6b7280;margin-bottom:4px;">EMA 9/21 Crossover</p><p style="font-size:22px;font-weight:900;color:${emaData.shortTermTrend==='Bullish'?'#22c55e':'#ef4444'};">${emaData.shortTermTrend.toUpperCase()}</p></div>
@@ -533,14 +580,122 @@
             btn.classList.add('active');
         }
 
-        function renderTechnicalCharts(prices,emaData,rsiData,macdData){
-            const ctx1=document.getElementById('techChart');
-            if(ctx1){new Chart(ctx1,{type:'line',data:{labels:Array.from({length:prices.length},(_,i)=>i),datasets:[{label:'Price',data:prices,borderColor:'#e5e7eb',borderWidth:1.5,pointRadius:0,tension:0.3},{label:'EMA9',data:emaData.ema9_21,borderColor:'#22c55e',borderWidth:1.5,pointRadius:0,tension:0.3},{label:'EMA21',data:emaData.ema21_21,borderColor:'#f59e0b',borderWidth:1.5,pointRadius:0,tension:0.3},{label:'EMA50',data:emaData.ema50_21,borderColor:'#3b82f6',borderWidth:1,pointRadius:0,tension:0.3,borderDash:[3,3]},{label:'EMA200',data:emaData.ema200_21,borderColor:'#a855f7',borderWidth:1,pointRadius:0,tension:0.3,borderDash:[5,5]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9ca3af',usePointStyle:true,padding:15}}},scales:{x:{display:false},y:{ticks:{color:'#6b7280',callback:v=>'₹'+v.toFixed(0)},grid:{color:'rgba(255,255,255,0.05)'}}},interaction:{intersect:false,mode:'index'}}});}
-            const ctx2=document.getElementById('rsiChart');
-            if(ctx2){new Chart(ctx2,{type:'line',data:{labels:Array.from({length:rsiData.length},(_,i)=>i),datasets:[{label:'RSI',data:rsiData,borderColor:'#a855f7',borderWidth:2,pointRadius:0,fill:false},{label:'OB',data:Array(rsiData.length).fill(70),borderColor:'rgba(239,68,68,0.3)',borderWidth:1,borderDash:[5,5],pointRadius:0},{label:'OS',data:Array(rsiData.length).fill(30),borderColor:'rgba(34,197,94,0.3)',borderWidth:1,borderDash:[5,5],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{min:0,max:100,ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,0.05)'}}}}});}
-            const ctx3=document.getElementById('macdChart');
-            if(ctx3){new Chart(ctx3,{type:'bar',data:{labels:Array.from({length:macdData.histogram.length},(_,i)=>i),datasets:[{label:'Histogram',data:macdData.histogram,backgroundColor:macdData.histogram.map(v=>v>=0?'rgba(34,197,94,0.5)':'rgba(239,68,68,0.5)'),borderWidth:0},{label:'MACD',data:macdData.macdLine,type:'line',borderColor:'#3b82f6',borderWidth:1.5,pointRadius:0},{label:'Signal',data:macdData.signalLine,type:'line',borderColor:'#f59e0b',borderWidth:1.5,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,0.05)'}}}}});}
-        }
+        function renderTechnicalCharts(priceData, emaData, rsiData, macdData) {
+    // Extract dates for x-axis labels
+    const dates = priceData.map(d => {
+        const dt = new Date(d.date);
+        return dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+    });
+    
+    const prices = priceData.map(d => d.price);
+    
+    // 1. Price + EMA Chart with dates
+    const ctx1 = document.getElementById('techChart');
+    if (ctx1) {
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [
+                    { label: 'Price (₹)', data: prices, borderColor: '#e5e7eb', borderWidth: 1.5, pointRadius: 0, tension: 0.3 },
+                    { label: 'EMA 9', data: emaData.ema9_21, borderColor: '#22c55e', borderWidth: 1.5, pointRadius: 0, tension: 0.3 },
+                    { label: 'EMA 21', data: emaData.ema21_21, borderColor: '#f59e0b', borderWidth: 1.5, pointRadius: 0, tension: 0.3 },
+                    { label: 'EMA 50', data: emaData.ema50_21, borderColor: '#3b82f6', borderWidth: 1, pointRadius: 0, tension: 0.3, borderDash: [3, 3] },
+                    { label: 'EMA 200', data: emaData.ema200_21, borderColor: '#a855f7', borderWidth: 1, pointRadius: 0, tension: 0.3, borderDash: [5, 5] }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#9ca3af', usePointStyle: true, padding: 15 } },
+                    tooltip: {
+                        callbacks: {
+                            title: function(ctx) { return '📅 ' + ctx[0].label; },
+                            label: function(ctx) { return ctx.dataset.label + ': ₹' + ctx.parsed.y.toFixed(2); }
+                        }
+                    }
+                },
+                scales: {
+                    x: { 
+                        ticks: { color: '#6b7280', maxTicksLimit: 12, autoSkip: true },
+                        grid: { display: false }
+                    },
+                    y: { 
+                        ticks: { color: '#6b7280', callback: v => '₹' + v.toFixed(0) },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                },
+                interaction: { intersect: false, mode: 'index' }
+            }
+        });
+    }
+    
+    // 2. RSI Chart with dates
+    const ctx2 = document.getElementById('rsiChart');
+    if (ctx2) {
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [
+                    { label: 'RSI (14)', data: rsiData, borderColor: '#a855f7', borderWidth: 2, pointRadius: 0, fill: false },
+                    { label: 'Overbought (70)', data: Array(rsiData.length).fill(70), borderColor: 'rgba(239,68,68,0.3)', borderWidth: 1, borderDash: [5, 5], pointRadius: 0 },
+                    { label: 'Oversold (30)', data: Array(rsiData.length).fill(30), borderColor: 'rgba(34,197,94,0.3)', borderWidth: 1, borderDash: [5, 5], pointRadius: 0 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(ctx) { return '📅 ' + ctx[0].label; },
+                            label: function(ctx) { return 'RSI: ' + ctx.parsed.y.toFixed(1); }
+                        }
+                    }
+                },
+                scales: {
+                    x: { ticks: { color: '#6b7280', maxTicksLimit: 12, autoSkip: true }, grid: { display: false } },
+                    y: { min: 0, max: 100, ticks: { color: '#6b7280' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                }
+            }
+        });
+    }
+    
+    // 3. MACD Chart with dates
+    const ctx3 = document.getElementById('macdChart');
+    if (ctx3) {
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [
+                    { label: 'Histogram', data: macdData.histogram, backgroundColor: macdData.histogram.map(v => v >= 0 ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)'), borderWidth: 0 },
+                    { label: 'MACD', data: macdData.macdLine, type: 'line', borderColor: '#3b82f6', borderWidth: 1.5, pointRadius: 0 },
+                    { label: 'Signal', data: macdData.signalLine, type: 'line', borderColor: '#f59e0b', borderWidth: 1.5, pointRadius: 0 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(ctx) { return '📅 ' + ctx[0].label; }
+                        }
+                    }
+                },
+                scales: {
+                    x: { ticks: { color: '#6b7280', maxTicksLimit: 12, autoSkip: true }, grid: { display: false } },
+                    y: { ticks: { color: '#6b7280' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                }
+            }
+        });
+    }
+}
 
         document.addEventListener('DOMContentLoaded',()=>{handleScroll();loadStockDetail();console.log('📊 Stock Dashboard Ready');});
     </script>
