@@ -3,603 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DividendStrike — Best Dividend Paying Stocks India 2026</title>
-    <meta name="description" content="Find highest dividend yield NSE stocks with AI screener. Track dividend history, DRIP calculator, sustainability scores.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>DividendStrike — Best Dividend Paying Stocks India 2026 | AI-Powered NSE Analysis</title>
+    <meta name="description" content="Find the highest dividend paying stocks in India with AI-powered analysis. Track NSE dividend yields, sustainability scores, and growth predictions. Free DRIP calculator included.">
+    <meta name="keywords" content="dividend stocks india, best dividend paying stocks, nse dividend yield, high dividend stocks, monthly dividend income india, dividend screener, drip calculator india">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dividendstrike.in/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="DividendStrike — Best Dividend Paying Stocks India 2026">
+    <meta property="og:description" content="AI-powered NSE dividend analysis. Find highest yield stocks, sustainability scores, and DRIP calculator.">
+    <meta property="og:type" content="website">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #0a0a0f; --card: rgba(15,15,25,0.85); --border: rgba(255,255,255,0.07); }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        *::-webkit-scrollbar { width:4px; height:4px; }
-        *::-webkit-scrollbar-track { background:transparent; }
-        *::-webkit-scrollbar-thumb { background:#1f2937; border-radius:2px; }
-        body { font-family:'Inter',sans-serif; background:var(--bg); color:#e5e7eb; }
-        .data-card { backdrop-filter:blur(20px); background:var(--card); border:1px solid var(--border); transition:all 0.3s ease; }
-        .data-card.clickable:hover { border-color:rgba(34,197,94,0.35); box-shadow:0 20px 50px -15px rgba(34,197,94,0.2); transform:translateY(-2px); cursor:pointer; }
-        .glow-border { position:relative; }
-        .glow-border::before { content:''; position:absolute; inset:-2px; border-radius:inherit; background:linear-gradient(135deg,rgba(34,197,94,0.25),rgba(59,130,246,0.25)); z-index:-1; filter:blur(18px); opacity:0.5; }
-        th.sortable { cursor:pointer; user-select:none; }
-        th.sortable:hover { color:#22c55e !important; }
-        .sort-indicator { display:inline-block; margin-left:4px; font-size:10px; color:#22c55e; }
-        .sort-indicator.asc { transform:rotate(0deg); } .sort-indicator.desc { transform:rotate(180deg); }
-        .stock-row:hover { background:rgba(34,197,94,0.05); cursor:pointer; }
-        .filter-active { background:rgba(34,197,94,0.2) !important; border-color:rgba(34,197,94,0.5) !important; color:#22c55e !important; }
-        .nav-active { background:rgba(34,197,94,0.15); color:#22c55e !important; border-bottom:2px solid #22c55e; }
-        .search-dropdown { position:absolute; top:100%; left:0; right:0; z-index:150; background:#1a1a2e; border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-top:4px; max-height:300px; overflow-y:auto; box-shadow:0 25px 60px rgba(0,0,0,0.7); }
-        #liveClock { display:inline-block; min-width:70px; text-align:center; font-variant-numeric:tabular-nums; }
-        /* Scroll to Top Button */
-.scroll-top-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 32px rgba(34,197,94,0.3);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-}
-
-.scroll-top-btn.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.scroll-top-btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(34,197,94,0.5);
-    background: linear-gradient(135deg, #16a34a, #15803d);
-}
-
-.scroll-top-btn:active {
-    transform: scale(0.9);
-}
-
-.scroll-top-btn .arrow-icon {
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
-    transition: transform 0.3s ease;
-    line-height: 1;
-}
-
-.scroll-top-btn:hover .arrow-icon {
-    transform: translateY(-3px);
-}
-
-/* Pulse ring effect */
-.scroll-top-btn::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-    border: 2px solid rgba(34,197,94,0.3);
-    animation: pulse-ring 2s ease-out infinite;
-}
-
-@keyframes pulse-ring {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.4);
-        opacity: 0;
-    }
-}
-
-/* Progress ring around button */
-.scroll-top-btn .progress-ring {
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    width: 56px;
-    height: 56px;
-    transform: rotate(-90deg);
-}
-
-.scroll-top-btn .progress-ring circle {
-    fill: none;
-    stroke: rgba(34,197,94,0.3);
-    stroke-width: 3;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.3s ease;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-    .scroll-top-btn {
-        bottom: 20px;
-        right: 20px;
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
-    }
-}
-    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="min-h-screen bg-[var(--bg)]">
+<body>
 
-    <div id="toastContainer" class="fixed top-4 right-4 z-[300] space-y-2"></div>
+    <div id="toastContainer"></div>
 
-    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0a0f]/95 border-b border-white/5">
-        <div class="max-w-[1440px] mx-auto px-3 lg:px-5 py-2.5 flex items-center justify-between">
-            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('dashboard')">
-                <div class="w-9 h-9 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-green-500/20">
-                    <span class="text-white font-black text-sm">₹</span>
+    <!-- Navigation -->
+    <nav style="position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.07);">
+        <div class="container flex items-center justify-between py-2.5">
+            <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                    <span style="color:white;font-weight:900;font-size:16px;">₹</span>
                 </div>
-                <div class="hidden sm:block">
-                    <span class="text-lg font-black">Dividend<span class="text-green-400">Strike</span></span>
-                    <p class="text-[9px] text-gray-500 -mt-1 tracking-widest uppercase">NSE Dividend Intelligence</p>
+                <div>
+                    <span style="font-size:18px;font-weight:900;color:#e5e7eb;">Dividend<span style="color:#22c55e;">Strike</span></span>
+                    <p style="font-size:9px;color:#6b7280;margin-top:-3px;">NSE Dividend Intelligence</p>
                 </div>
+            </a>
+            
+            <div class="hidden lg:flex items-center gap-1" style="font-size:13px;font-weight:500;">
+                <a href="index.html" class="nav-link px-3 py-1.5 rounded-lg active">🏠 Home</a>
+                <a href="screener.html" class="nav-link px-3 py-1.5 rounded-lg">🔍 Screener</a>
+                <a href="calculators.html" class="nav-link px-3 py-1.5 rounded-lg">🧮 Calculators</a>
+                <a href="blog.html" class="nav-link px-3 py-1.5 rounded-lg">📝 Blog</a>
+                <a href="knowledge-hub.html" class="nav-link px-3 py-1.5 rounded-lg">📚 Knowledge Hub</a>
             </div>
-            <div class="hidden lg:flex items-center gap-0.5 text-xs font-medium">
-                <button onclick="switchTab('dashboard')" data-nav="dashboard" class="nav-btn px-3 py-1.5 rounded-lg text-green-400 hover:bg-white/5 nav-active">📊 Dashboard</button>
-                <button onclick="switchTab('toppayers')" data-nav="toppayers" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">🏆 Top Payers</button>
-                <button onclick="switchTab('screener')" data-nav="screener" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">🔍 Screener</button>
-                <button onclick="switchTab('simulator')" data-nav="simulator" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">🧮 Simulator</button>
-                <button onclick="switchTab('compare')" data-nav="compare" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">⚖️ Compare</button>
-                <button onclick="switchTab('portfolio')" data-nav="portfolio" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">💼 Portfolio</button>
-                <button onclick="switchTab('blog')" data-nav="blog" class="nav-btn px-3 py-1.5 rounded-lg text-gray-300 hover:bg-white/5">📝 Blog</button>
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="hidden md:flex items-center gap-1.5 text-[10px]"><span class="w-1.5 h-1.5 bg-green-500 rounded-full" style="animation:pulse 2s infinite;"></span><span class="text-gray-400">NSE</span><span id="liveClock" class="text-gray-500 font-mono">--:--:--</span></span>
-                <button class="lg:hidden text-white" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i data-lucide="menu" class="w-5 h-5"></i></button>
+            
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="display:none;" class="md:flex items-center gap-2 text-xs">
+                    <span class="pulse-dot" style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;"></span>
+                    <span id="liveStatus" style="color:#22c55e;">Live Data</span>
+                </span>
+                <button class="lg:hidden" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">☰</button>
             </div>
         </div>
-        <div id="mobileMenu" class="lg:hidden hidden border-t border-white/5 px-3 py-2 grid grid-cols-2 gap-1">
-            <button onclick="switchTab('dashboard');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-green-400 text-xs">📊 Dashboard</button>
-            <button onclick="switchTab('toppayers');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-gray-300 text-xs">🏆 Top Payers</button>
-            <button onclick="switchTab('blog');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-gray-300 text-xs">📝 Blog</button>
-            <button onclick="switchTab('portfolio');document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-left px-3 py-2 rounded-lg text-gray-300 text-xs">💼 Portfolio</button>
+        
+        <div id="mobileMenu" class="lg:hidden hidden" style="border-top:1px solid rgba(255,255,255,0.07);padding:12px 16px;">
+            <div class="grid-2 gap-1">
+                <a href="index.html" class="block px-3 py-2 rounded-lg" style="color:#22c55e;font-size:13px;">🏠 Home</a>
+                <a href="screener.html" class="block px-3 py-2 rounded-lg text-secondary text-xs">🔍 Screener</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-lg text-secondary text-xs">📝 Blog</a>
+                <a href="knowledge-hub.html" class="block px-3 py-2 rounded-lg text-secondary text-xs">📚 Knowledge Hub</a>
+            </div>
         </div>
     </nav>
 
-    <main id="appContent" class="max-w-[1440px] mx-auto px-3 lg:px-5 py-4">
-        <div class="text-center py-20"><p class="text-gray-400 text-sm">Loading...</p></div>
+    <!-- Main Content -->
+    <main class="container py-4">
+        <div id="appContent">
+            <div style="text-align:center;padding:60px 0;">
+                <div style="width:40px;height:40px;border:2px solid rgba(34,197,94,0.3);border-top-color:#22c55e;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
+                <p style="color:#9ca3af;">Loading DividendStrike...</p>
+            </div>
+        </div>
     </main>
 
-    <footer class="border-t border-white/5 py-4 px-3 text-center">
-        <p class="text-[10px] text-gray-600"><span id="stockCountFooter"></span> • Not Financial Advice</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>45+ NSE Stocks • AI-Powered Analysis • Not Financial Advice</p>
+        <div style="display:flex;gap:16px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+            <a href="screener.html" class="text-muted" style="font-size:11px;text-decoration:none;">Dividend Screener</a>
+            <a href="calculators.html" class="text-muted" style="font-size:11px;text-decoration:none;">DRIP Calculator</a>
+            <a href="blog.html" class="text-muted" style="font-size:11px;text-decoration:none;">Investment Guides</a>
+            <a href="knowledge-hub.html" class="text-muted" style="font-size:11px;text-decoration:none;">Knowledge Hub</a>
+        </div>
     </footer>
 
+    <!-- Scroll to Top -->
+    <button id="scrollToTopBtn" class="scroll-top-btn" onclick="scrollToTop()">↑</button>
+
+    <!-- Scripts -->
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/ai-engine.js"></script>
+    <script src="assets/js/common.js"></script>
     <script>
+        // ============================================
+        // HOMEPAGE RENDER
+        // ============================================
         
-    // ============================================
-    // BLOG FUNCTIONS (MUST BE DEFINED FIRST)
-    // ============================================
-function getBlogPosts() {
-    try {
-        const posts = localStorage.getItem('dividendstrike_blog_posts');
-        return posts ? JSON.parse(posts) : [];
-    } catch(e) { return []; }
-}
-
-function renderBlog() {
-    window.scrollTo({top: 0, behavior: 'instant'});
-    handleScrollButton();
-    const allPosts = getBlogPosts();
-    const posts = allPosts.filter(p => p.published).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    const app = document.getElementById('appContent');
-    
-    if (posts.length === 0) {
-        app.innerHTML = `
-        <div class="min-h-[60vh] flex items-center justify-center">
-            <div class="text-center">
-                <div class="w-20 h-20 bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                    <span style="font-size:40px;">📝</span>
-                </div>
-                <h2 class="text-2xl font-black mb-2">No Articles Yet</h2>
-                <p class="text-gray-400 text-sm max-w-md mx-auto">Our research team is preparing comprehensive dividend investing guides. Check back soon!</p>
-            </div>
-        </div>`;
-        lucide.createIcons();
-        return;
-    }
-    
-    const featured = posts[0];
-    const remaining = posts.slice(1);
-    
-    app.innerHTML = `
-    <div class="space-y-8">
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-900/40 via-emerald-900/30 to-blue-900/40 p-8 lg:p-12 border border-white/5">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-semibold">📚 Knowledge Base</span>
-                    <span class="text-xs text-gray-500">${posts.length} articles</span>
-                </div>
-                <h1 class="text-3xl lg:text-4xl font-black mb-3">Dividend Investing <span class="text-green-400">Guides & Analysis</span></h1>
-                <p class="text-gray-400 text-sm lg:text-base max-w-2xl">Expert research on the best dividend paying stocks in India. AI-powered analysis, proven strategies, and actionable insights for building passive income through NSE dividend stocks.</p>
-            </div>
-        </div>
-        
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111118] to-[#0d1117] border border-white/5 cursor-pointer group" onclick="renderBlogPost('${featured.id}')">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-5xl group-hover:bg-green-500/10 transition-all"></div>
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-0">
-                <div class="lg:col-span-3 p-8 lg:p-10 relative z-10">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="px-2.5 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-[10px] font-bold uppercase tracking-wider">⭐ Featured</span>
-                        <span class="px-2.5 py-1 bg-green-500/20 text-green-400 rounded-full text-[10px] font-semibold">${featured.category || 'General'}</span>
-                    </div>
-                    <h2 class="text-2xl lg:text-3xl font-black mb-3 group-hover:text-green-400 transition-colors leading-tight">${featured.title}</h2>
-                    <p class="text-gray-400 text-sm mb-4 line-clamp-3">${featured.excerpt || featured.content.replace(/<[^>]*>/g,'').substring(0,200)+'...'}</p>
-                    <div class="flex items-center gap-4 text-xs text-gray-500">
-                        <span class="flex items-center gap-1.5"><span class="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center text-[10px]">✍️</span> ${featured.author || 'DividendStrike'}</span>
-                        <span class="flex items-center gap-1.5">📅 ${new Date(featured.created_at).toLocaleDateString('en-IN',{day:'numeric', month:'short', year:'numeric'})}</span>
-                        <span class="flex items-center gap-1.5">⏱️ ${featured.read_time || '8 min read'}</span>
-                    </div>
-                </div>
-                <div class="lg:col-span-2 bg-gradient-to-br from-green-900/30 to-emerald-900/20 flex items-center justify-center p-8 relative z-10">
-                    <div class="text-center"><div class="text-6xl mb-3">📊</div><p class="text-green-400 text-sm font-semibold">AI-Powered Analysis</p><p class="text-gray-500 text-xs mt-1">17 Factors Evaluated</p></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="flex gap-2 flex-wrap">
-            ${['All','Stock Lists','Strategy','Tax Guide','PSU Analysis','Market News'].map(cat => `
-                <button class="px-4 py-2 rounded-xl text-xs font-semibold border transition-all ${cat === 'All' ? 'bg-green-500/20 border-green-500/30 text-green-400' : 'border-white/10 text-gray-400 hover:border-white/30 hover:text-white'}">${cat}</button>
-            `).join('')}
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            ${remaining.map((post, index) => `
-                <div class="group cursor-pointer" onclick="renderBlogPost('${post.id}')">
-                    <div class="data-card rounded-2xl p-6 h-full flex flex-col hover:border-green-500/30 transition-all duration-300">
-                        <div class="h-1.5 bg-gradient-to-r ${index % 3 === 0 ? 'from-green-500 to-emerald-600' : index % 3 === 1 ? 'from-blue-500 to-purple-600' : 'from-yellow-500 to-orange-600'} rounded-full mb-4 w-16 group-hover:w-24 transition-all duration-500"></div>
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="px-2 py-0.5 bg-green-500/10 text-green-400 rounded-full text-[9px] font-semibold">${post.category || 'General'}</span>
-                            <span class="text-[9px] text-gray-600">${new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>
+        function renderHome() {
+            const app = document.getElementById('appContent');
+            const topStocks = [...stocks.filter(s => s.paysDividend)]
+                .sort((a, b) => AI.health(b) - AI.health(a)).slice(0, 6);
+            const blogPosts = getBlogPosts().filter(p => p.published).slice(0, 3);
+            const avgYield = payers.length > 0 ? (payers.reduce((s, st) => s + st.divYield, 0) / payers.length).toFixed(1) : '0';
+            const topYielder = [...payers].sort((a, b) => b.divYield - a.divYield)[0];
+            
+            app.innerHTML = `
+            <div class="space-y-8">
+                
+                <!-- HERO SECTION -->
+                <div class="relative overflow-hidden rounded-3xl hero-gradient border p-8 lg:p-12" style="border-color:rgba(255,255,255,0.07);">
+                    <div style="position:absolute;top:0;right:0;width:400px;height:400px;background:rgba(34,197,94,0.05);border-radius:50%;filter:blur(80px);"></div>
+                    <div style="position:absolute;bottom:0;left:0;width:300px;height:300px;background:rgba(59,130,246,0.05);border-radius:50%;filter:blur(80px);"></div>
+                    
+                    <div style="position:relative;z-index:10;" class="grid-2 items-center">
+                        <div>
+                            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:40px;padding:6px 16px;font-size:12px;color:#22c55e;margin-bottom:16px;">
+                                <span class="pulse-dot" style="width:6px;height:6px;background:#22c55e;border-radius:50%;"></span>
+                                AI-Powered NSE Dividend Analysis
+                            </div>
+                            <h1 style="font-size:36px;font-weight:900;line-height:1.2;margin-bottom:16px;">
+                                Find India's Best<br>
+                                <span style="color:#22c55e;">Dividend Paying Stocks</span>
+                            </h1>
+                            <p style="color:#9ca3af;font-size:15px;line-height:1.7;margin-bottom:24px;max-width:500px;">
+                                AI-powered analysis of ${stocks.length}+ NSE stocks. Discover sustainable high-yield opportunities with our proprietary 17-factor health scoring system.
+                            </p>
+                            <div class="flex flex-wrap gap-3">
+                                <a href="screener.html" class="btn btn-primary">🔍 Explore Stocks</a>
+                                <a href="calculators.html" class="btn btn-outline">🧮 DRIP Calculator</a>
+                                <a href="blog.html" class="btn btn-outline">📝 Read Guides</a>
+                            </div>
                         </div>
-                        <h3 class="font-bold text-base mb-2 group-hover:text-green-400 transition-colors line-clamp-2 leading-snug">${post.title}</h3>
-                        <p class="text-gray-500 text-xs mb-4 line-clamp-2 flex-1">${post.excerpt || post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...'}</p>
-                        <div class="flex items-center justify-between pt-3 border-t border-white/5">
-                            <span class="text-[10px] text-gray-500">✍️ ${post.author || 'DividendStrike'}</span>
-                            <span class="text-[10px] text-green-400 font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">Read →</span>
+                        
+                        <div class="card text-center">
+                            <p class="text-xs text-muted mb-3" style="text-transform:uppercase;letter-spacing:1px;">Live Market Snapshot</p>
+                            <div class="grid-2 gap-3">
+                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
+                                    <p style="font-size:28px;font-weight:900;" class="text-green">${stocks.length}</p>
+                                    <p class="text-xs text-muted">NSE Stocks</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
+                                    <p style="font-size:28px;font-weight:900;" class="text-green">${payers.length}</p>
+                                    <p class="text-xs text-muted">Dividend Payers</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
+                                    <p style="font-size:28px;font-weight:900;color:#eab308;">${avgYield}%</p>
+                                    <p class="text-xs text-muted">Average Yield</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;">
+                                    <p style="font-size:28px;font-weight:900;color:#a855f7;">17</p>
+                                    <p class="text-xs text-muted">AI Factors</p>
+                                </div>
+                            </div>
+                            ${topYielder ? `
+                            <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);">
+                                <p class="text-xs text-muted">Today's Highest Yielder</p>
+                                <p style="font-size:14px;font-weight:700;color:#eab308;margin-top:4px;">${topYielder.symbol} — ${topYielder.divYield.toFixed(2)}%</p>
+                            </div>` : ''}
                         </div>
                     </div>
                 </div>
-            `).join('')}
-        </div>
-    </div>`;
-    lucide.createIcons();
-}
-
-function renderBlogPost(postId) {
-    window.scrollTo({top: 0, behavior: 'instant'});
-    handleScrollButton();
-    const posts = getBlogPosts();
-    const post = posts.find(p => p.id === postId);
-    const app = document.getElementById('appContent');
-    
-    if (!post) {
-        app.innerHTML = `<div class="text-center py-20"><p class="text-gray-500">Post not found</p><button onclick="renderBlog()" class="mt-4 px-4 py-2 bg-green-600 rounded-lg text-sm">← Back</button></div>`;
-        return;
-    }
-    
-    const related = posts.filter(p => p.id !== post.id && p.category === post.category && p.published).slice(0, 3);
-    const allRelated = related.length > 0 ? related : posts.filter(p => p.id !== post.id && p.published).slice(0, 3);
-    
-    app.innerHTML = `
-    <div class="max-w-4xl mx-auto space-y-8">
-        <button onclick="renderBlog()" class="text-gray-400 hover:text-white flex items-center gap-2 text-sm group transition-all"><span class="group-hover:-translate-x-1 transition-transform">←</span> Back to All Articles</button>
-        
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d1117] via-[#111118] to-[#0a0f14] border border-white/5 p-8 lg:p-10">
-            <div class="absolute top-0 right-0 w-80 h-80 bg-green-500/5 rounded-full blur-5xl"></div>
-            <div class="relative z-10">
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <span class="px-3 py-1.5 bg-green-500/20 text-green-400 rounded-full text-xs font-bold">${post.category || 'General'}</span>
-                    <span class="text-xs text-gray-500">📅 ${new Date(post.created_at).toLocaleDateString('en-IN',{weekday:'long', day:'numeric', month:'long', year:'numeric'})}</span>
-                    <span class="text-xs text-gray-500">⏱️ ${post.read_time || '8 min read'}</span>
+                
+                <!-- FEATURES -->
+                <div>
+                    <h2 style="font-size:20px;font-weight:700;margin-bottom:16px;">⚡ Powerful Tools</h2>
+                    <div class="grid-4 gap-3">
+                        <a href="screener.html" style="text-decoration:none;" class="feature-card card card-clickable">
+                            <div class="feature-icon">🔍</div>
+                            <h3 class="font-bold mb-1">AI Screener</h3>
+                            <p class="text-secondary text-xs">Filter stocks by yield, growth & sustainability</p>
+                        </a>
+                        <a href="calculators.html" style="text-decoration:none;" class="feature-card card card-clickable">
+                            <div class="feature-icon">🧮</div>
+                            <h3 class="font-bold mb-1">DRIP Calculator</h3>
+                            <p class="text-secondary text-xs">Project dividend reinvestment returns with tax</p>
+                        </a>
+                        <a href="blog.html" style="text-decoration:none;" class="feature-card card card-clickable">
+                            <div class="feature-icon">📝</div>
+                            <h3 class="font-bold mb-1">Expert Guides</h3>
+                            <p class="text-secondary text-xs">Dividend strategies & stock analysis</p>
+                        </a>
+                        <a href="knowledge-hub.html" style="text-decoration:none;" class="feature-card card card-clickable">
+                            <div class="feature-icon">📚</div>
+                            <h3 class="font-bold mb-1">Knowledge Hub</h3>
+                            <p class="text-secondary text-xs">Learn dividend investing from scratch</p>
+                        </a>
+                    </div>
                 </div>
-                <h1 class="text-2xl lg:text-4xl font-black leading-tight mb-4">${post.title}</h1>
-                ${post.excerpt ? `<p class="text-gray-400 text-base lg:text-lg leading-relaxed">${post.excerpt}</p>` : ''}
-                <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/5">
-                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-sm">DS</div>
-                    <div><p class="text-sm font-semibold">${post.author || 'DividendStrike Research'}</p><p class="text-xs text-gray-500">AI-Powered Dividend Analysis</p></div>
+                
+                <!-- TOP STOCKS + BLOG -->
+                <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;" class="grid-2">
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 style="font-size:20px;font-weight:700;">🏆 Top Rated Dividend Stocks</h2>
+                            <a href="screener.html" style="font-size:13px;color:#22c55e;text-decoration:none;">View All →</a>
+                        </div>
+                        <div class="grid-2 gap-3">
+                            ${topStocks.map((s, i) => {
+                                const h = AI.health(s);
+                                const su = AI.sustain(s);
+                                return `
+                                <a href="stock-detail.html?symbol=${s.symbol}" style="text-decoration:none;" class="feature-card card card-clickable animate-fade-up" onclick="event.preventDefault(); showDetail('${s.symbol}')">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-bold">${s.symbol}</span>
+                                        <span class="text-xs font-bold text-${su.c === 'green' ? 'green' : su.c === 'blue' ? 'blue' : 'yellow'}">⭐ ${h}</span>
+                                    </div>
+                                    <p class="text-secondary text-xs mb-2">${s.name.substring(0,25)}</p>
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="text-green font-bold">Yield: ${s.divYield.toFixed(1)}%</span>
+                                        <span class="text-muted">|</span>
+                                        <span class="text-blue">Growth: ${s.divGrowth3Y>0?'+':''}${s.divGrowth3Y}%</span>
+                                        <span class="text-muted">|</span>
+                                        <span style="color:${su.c === 'green' ? '#22c55e' : su.c === 'blue' ? '#3b82f6' : '#eab308'}">${su.r || 'N/A'}</span>
+                                    </div>
+                                </a>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 style="font-size:20px;font-weight:700;">📝 Latest Guides</h2>
+                            <a href="blog.html" style="font-size:13px;color:#22c55e;text-decoration:none;">All Posts →</a>
+                        </div>
+                        <div class="space-y-3">
+                            ${blogPosts.length > 0 ? blogPosts.map(post => `
+                                <a href="blog.html?post=${post.id}" style="text-decoration:none;" class="feature-card card card-clickable block">
+                                    <span class="badge badge-green">${post.category || 'Guide'}</span>
+                                    <h3 class="font-bold mt-2 mb-1">${post.title}</h3>
+                                    <p class="text-xs text-muted">${new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</p>
+                                </a>
+                            `).join('') : `
+                                <div class="card text-center p-6">
+                                    <p class="text-secondary">📝 Guides coming soon!</p>
+                                </div>
+                            `}
+                        </div>
+                        
+                        <div class="card mt-4">
+                            <h3 class="font-bold mb-3">⚡ Quick Links</h3>
+                            <a href="screener.html" class="block px-3 py-2 rounded-lg bg-white/5 text-secondary text-xs mb-2" style="display:block;text-decoration:none;">🔍 AI Dividend Screener</a>
+                            <a href="calculators.html" class="block px-3 py-2 rounded-lg bg-white/5 text-secondary text-xs mb-2" style="display:block;text-decoration:none;">🧮 DRIP Calculator</a>
+                            <a href="knowledge-hub.html" class="block px-3 py-2 rounded-lg bg-white/5 text-secondary text-xs" style="display:block;text-decoration:none;">📚 Dividend Investing Guide</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <article class="data-card rounded-2xl p-6 lg:p-10">
-            <div class="blog-post-content" style="line-height:1.9;color:#d1d5db;font-size:16px;">${post.content}</div>
+                
+                <!-- CTA -->
+                <div class="relative overflow-hidden rounded-2xl text-center p-8" style="background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(16,185,129,0.08));border:1px solid rgba(34,197,94,0.15);">
+                    <h2 style="font-size:24px;font-weight:900;margin-bottom:8px;">Start Building Your Dividend Portfolio Today</h2>
+                    <p class="text-secondary mb-5" style="max-width:500px;margin-left:auto;margin-right:auto;">Use our free AI-powered tools to find sustainable high-yield NSE stocks.</p>
+                    <div class="flex flex-wrap gap-3 justify-center">
+                        <a href="screener.html" class="btn btn-primary">🔍 Try the Screener</a>
+                        <a href="blog.html" class="btn btn-outline">📝 Read Our Guides</a>
+                    </div>
+                </div>
+                
+            </div>`;
             
-            ${post.keywords && post.keywords.length > 0 ? `
-            <div class="mt-10 pt-6 border-t border-white/5">
-                <p class="text-xs text-gray-500 mb-3 uppercase tracking-wider">Related Topics</p>
-                <div class="flex flex-wrap gap-2">${post.keywords.map(kw => `<span class="px-3 py-1.5 bg-white/5 hover:bg-green-500/10 text-gray-400 hover:text-green-400 rounded-lg text-xs cursor-pointer transition-all border border-white/5 hover:border-green-500/20">#${kw.trim()}</span>`).join('')}</div>
-            </div>` : ''}
-            
-            <div class="mt-8 pt-6 border-t border-white/5">
-                <p class="text-xs text-gray-500 mb-3 uppercase tracking-wider">Share This Article</p>
-                <div class="flex gap-3">
-                    <button onclick="shareArticle('twitter', '${post.title.replace(/'/g,"\\'")}')" class="px-4 py-2.5 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 rounded-xl text-sm font-medium transition-all">🐦 Tweet</button>
-                    <button onclick="copyArticleLink()" class="px-4 py-2.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 rounded-xl text-sm font-medium transition-all">📋 Copy Link</button>
-                </div>
-            </div>
-        </article>
-        
-        ${allRelated.length > 0 ? `
-        <div>
-            <div class="flex items-center gap-3 mb-5"><div class="h-0.5 flex-1 bg-white/5"></div><h3 class="text-lg font-bold text-gray-300 px-4">📚 Related Articles</h3><div class="h-0.5 flex-1 bg-white/5"></div></div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                ${allRelated.map(rp => `<div class="data-card rounded-2xl p-5 cursor-pointer group hover:border-green-500/30 transition-all" onclick="renderBlogPost('${rp.id}')"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 rounded-full text-[9px] font-semibold">${rp.category}</span><h4 class="font-bold text-sm mt-3 mb-2 group-hover:text-green-400 transition-colors line-clamp-2">${rp.title}</h4><p class="text-[10px] text-gray-500">📅 ${new Date(rp.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</p></div>`).join('')}
-            </div>
-        </div>` : ''}
-        
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-900/40 to-emerald-900/30 border border-green-500/10 p-8 text-center">
-            <div class="absolute top-0 right-0 w-48 h-48 bg-green-500/10 rounded-full blur-3xl"></div>
-            <div class="relative z-10">
-                <span class="text-4xl mb-3 block">📬</span>
-                <h3 class="text-xl font-black mb-2">Get Weekly Dividend Stock Alerts</h3>
-                <p class="text-gray-400 text-sm mb-4 max-w-md mx-auto">Join smart investors who receive our top dividend picks every Saturday.</p>
-                <div class="flex gap-2 max-w-md mx-auto">
-                    <input type="email" placeholder="your@email.com" class="flex-1 bg-[#1a1a2e] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-green-500/50">
-                    <button class="bg-green-600 hover:bg-green-500 text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all">Subscribe</button>
-                </div>
-            </div>
-        </div>
-    </div>`;
-    
-    lucide.createIcons();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    setTimeout(styleBlogContent, 200);
-}
-
-function styleBlogContent() {
-    document.querySelectorAll('.blog-post-content table').forEach(table => {
-        table.style.width = '100%';
-        table.style.borderCollapse = 'collapse';
-        table.style.margin = '24px 0';
-        table.style.fontSize = '14px';
-        table.style.borderRadius = '12px';
-        table.style.overflow = 'hidden';
-    });
-    document.querySelectorAll('.blog-post-content th').forEach(th => {
-        th.style.background = 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.1))';
-        th.style.color = '#22c55e';
-        th.style.padding = '14px 18px';
-        th.style.textAlign = 'left';
-        th.style.borderBottom = '2px solid rgba(34,197,94,0.3)';
-        th.style.fontWeight = '700';
-        th.style.fontSize = '13px';
-    });
-    document.querySelectorAll('.blog-post-content td').forEach(td => {
-        td.style.padding = '12px 18px';
-        td.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
-        td.style.color = '#d1d5db';
-    });
-    document.querySelectorAll('.blog-post-content h2').forEach(h2 => {
-        h2.style.fontSize = '1.5rem';
-        h2.style.fontWeight = '800';
-        h2.style.color = '#f3f4f6';
-        h2.style.marginTop = '2rem';
-        h2.style.marginBottom = '1rem';
-        h2.style.paddingBottom = '0.5rem';
-        h2.style.borderBottom = '1px solid rgba(255,255,255,0.08)';
-    });
-    document.querySelectorAll('.blog-post-content h3').forEach(h3 => {
-        h3.style.fontSize = '1.2rem';
-        h3.style.fontWeight = '700';
-        h3.style.color = '#e5e7eb';
-        h3.style.marginTop = '1.5rem';
-        h3.style.marginBottom = '0.75rem';
-    });
-}
-
-function shareArticle(platform, title) {
-    const url = window.location.href;
-    if (platform === 'twitter') {
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
-    }
-}
-
-function copyArticleLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-        const t = document.createElement('div');
-        t.className = 'fixed top-4 right-4 bg-green-600 text-white px-5 py-3 rounded-xl text-sm font-medium z-[999]';
-        t.textContent = '📋 Link copied!';
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 2500);
-    });
-}
-    // ============================================
-    // STOCK DATABASE (abbreviated for space)
-    // ============================================
-    const DB = [
-        {s:'RELIANCE',n:'Reliance Industries Ltd.',sec:'Oil & Gas',p:2850,pe:28.5,dps:9.0,dy:0.32,dg:8.5,dc:20,bh:2,pr:12,ph:50.33,fi:'Very Strong',mc:'₹19.3L Cr',dd:9.2,hl:72,fc:85000,de:0.45,roe:9.5,eps:100.5},
-        {s:'TCS',n:'Tata Consultancy Services',sec:'IT',p:4250,pe:32.5,dps:73,dy:1.72,dg:16.5,dc:24,bh:6,pr:85,ph:72.3,fi:'Very Strong',mc:'₹15.5L Cr',dd:9.7,hl:88,fc:42000,de:0,roe:48.5,eps:130.8},
-        {s:'ITC',n:'ITC Ltd.',sec:'FMCG',p:485,pe:28.5,dps:15.5,dy:3.19,dg:12.8,dc:28,bh:3,pr:82,ph:29.4,fi:'Strong',mc:'₹6.1L Cr',dd:9.2,hl:87,fc:16000,de:0.01,roe:30.5,eps:17.0},
-        {s:'COALINDIA',n:'Coal India Ltd.',sec:'Mining',p:325,pe:8.2,dps:25.5,dy:7.85,dg:8.2,dc:15,bh:2,pr:65,ph:63.13,fi:'Neutral',mc:'₹2.0L Cr',dd:7.8,hl:92,fc:18000,de:0.05,roe:42.5,eps:39.6},
-        {s:'ONGC',n:'Oil & Natural Gas Corp',sec:'Oil & Gas',p:220,pe:7.5,dps:11.5,dy:5.23,dg:9.0,dc:22,bh:2,pr:40,ph:58.89,fi:'Strong',mc:'₹2.8L Cr',dd:8.8,hl:79,fc:28000,de:0.55,roe:16.8,eps:29.3}
-    ];
-
-    // Process stocks
-    const stocks = DB.map(st => ({
-        symbol:st.s, name:st.n, sector:st.sec, price:st.p, pe:st.pe,
-        divPerShare:st.dps, divYield:st.dy, divGrowth3Y:st.dg, divConsistency:st.dc,
-        buybackHistory:st.bh, payoutRatio:st.pr, promoter:st.ph, fiidii:st.fi,
-        mcap:st.mc, ddt:st.dd, health:st.hl, fcf:st.fc, de:st.de, roe:st.roe, eps:st.eps,
-        paysDividend:st.dps>0.01&&st.dy>0.01&&st.pr>0, dividendHistory:[]
-    }));
-
-    stocks.forEach(s=>{if(s.paysDividend){const h=[];const now=new Date();let dps=s.divPerShare/Math.pow(1+Math.max(0,s.divGrowth3Y)/100,6);for(let i=6;i>=0;i--){const d=new Date(now.getFullYear()-i,Math.floor(Math.random()*12),Math.min(28,Math.floor(Math.random()*28)+1));h.push({date:d.toISOString().split('T')[0],dividendPerShare:Math.round(Math.max(0,dps)*100)/100,yield:Math.round((Math.max(0,dps)/(Math.random()*800+200))*10000)/100,type:i===0?'Final':Math.random()>0.4?'Interim':'Final'});dps*=(1+Math.max(0,s.divGrowth3Y)/100);}s.dividendHistory=h;}});
-
-    const payers = stocks.filter(s=>s.paysDividend);
-    const nonPayers = stocks.filter(s=>!s.paysDividend);
-
-    // AI Engine
-    const AI = {
-        health(s){if(!s.paysDividend)return Math.min(25,s.health||5);let sc=0;sc+=Math.min(1,(s.divConsistency||0)/28)*22;sc+=Math.min(1,s.payoutRatio>0?Math.min(s.payoutRatio,80)/80:0.5)*14;sc+=((s.promoter||0)/75)*13;sc+=((s.ddt||0)/10)*10;sc+=((s.buybackHistory||0)/6)*8;const cm={'Very Strong':1,'Strong':0.82,'Moderate':0.55,'Neutral':0.38,'Weak':0.18};sc+=(cm[s.fiidii]||0.4)*11;sc+=((s.pe||30)<25?0.8:(s.pe||30)<50?0.5:0.3)*7;sc+=Math.min(1,Math.max(0,(s.fcf||0))/50000)*8;sc+=Math.max(0,1-(s.de||1)/3)*7;return Math.min(98,Math.round(sc));},
-        growth(s){if(!s.paysDividend)return{cagr:0,conf:0,sig:'⚪'};const pf=(s.promoter||30)>55?1.12:(s.promoter||30)>30?1.05:0.95;const pof=(s.payoutRatio||50)<65?1.08:(s.payoutRatio||50)>88?0.88:1;const cm={'Very Strong':1.15,'Strong':1.07,'Moderate':0.97,'Neutral':0.9,'Weak':0.8};const cf=cm[s.fiidii]||0.95;const pg=(s.divGrowth3Y||0)*pf*pof*cf;return{cagr:Math.round(pg*10)/10,sig:pg>20?'🚀 High':pg>10?'✅ Steady':pg>3?'📊 Moderate':'⚠️ Low'};},
-        rec(s){if(!s.paysDividend)return{t:'No Dividend',c:'gray'};const h=this.health(s),p=this.growth(s);if(h>=85&&p.cagr>15)return{t:'Strong Buy',c:'green'};if(h>=72&&p.cagr>8)return{t:'Buy',c:'blue'};if(h>=60&&p.cagr>3)return{t:'Hold',c:'yellow'};return{t:'Review',c:'red'};},
-        sustain(s){if(!s.paysDividend)return{sc:0,c:'gray'};const fc=(s.fcf||0)>0?Math.min(2,((s.fcf||0)/1000)/((s.divPerShare||1)*100)):0;const pc=(s.payoutRatio||50)<40?1:(s.payoutRatio||50)<65?0.8:(s.payoutRatio||50)<85?0.5:0.2;const ds=Math.max(0,1-(s.de||1)/2);const cf=(s.divConsistency||0)/30;const score=Math.round((fc*0.35+pc*0.25+ds*0.2+cf*0.2)*100);return{sc:Math.min(98,score),c:score>=75?'green':score>=55?'blue':score>=35?'yellow':'red'};}
-    };
-
-    // State
-    const ST = {tab:'dashboard',wl:JSON.parse(localStorage.getItem('dswl')||'[]'),pf:JSON.parse(localStorage.getItem('dspf')||'[]'),cmp:JSON.parse(localStorage.getItem('dscmp')||'[]'),filter:'all',page:1,sortCol:'score',sortDir:'desc',query:''};
-
-    function toast(m,t='info'){const c=document.getElementById('toastContainer');const cl={success:'bg-green-600',info:'bg-blue-600',warning:'bg-yellow-600',error:'bg-red-600'};const d=document.createElement('div');d.className=`${cl[t]} text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs`;d.textContent=m;c.appendChild(d);setTimeout(()=>d.remove(),2500);}
-    function fmt(n){if(Math.abs(n)>=1e7)return`₹${(n/1e7).toFixed(2)} Cr`;if(Math.abs(n)>=1e5)return`₹${(n/1e5).toFixed(2)} L`;return`₹${n.toFixed(2)}`;}
-
-    function sortList(list,col,dir){return[...list].sort((a,b)=>{let va,vb;switch(col){case'symbol':va=a.symbol||'';vb=b.symbol||'';break;case'price':va=a.price||0;vb=b.price||0;break;case'yield':va=a.divYield||0;vb=b.divYield||0;break;case'growth':va=a.divGrowth3Y||0;vb=b.divGrowth3Y||0;break;case'score':va=AI.health(a);vb=AI.health(b);break;case'sustainability':va=AI.sustain(a).sc;vb=AI.sustain(b).sc;break;default:return 0;}if(typeof va==='string')return dir==='asc'?va.localeCompare(vb):vb.localeCompare(va);return dir==='asc'?va-vb:vb-va;});}
-    function getFiltered(filter){let list=[...stocks];if(filter==='high-yield')list=list.filter(s=>s.paysDividend&&s.divYield>4);if(filter==='high-growth')list=list.filter(s=>s.paysDividend&&s.divGrowth3Y>20);if(filter==='watchlist')list=list.filter(s=>ST.wl.includes(s.symbol));if(filter==='portfolio')list=list.filter(s=>ST.pf.some(p=>p.symbol===s.symbol));if(filter==='non-payers')list=list.filter(s=>!s.paysDividend);if(filter==='payers')list=list.filter(s=>s.paysDividend);if(ST.query&&(filter==='search'||filter==='all')){const q=ST.query.toUpperCase().trim();list=list.filter(s=>s.symbol.includes(q)||s.name.toUpperCase().includes(q)||s.sector.toUpperCase().includes(q));}if(ST.sortCol)list=sortList(list,ST.sortCol,ST.sortDir);return list;}
-    function doSort(col){if(ST.sortCol===col)ST.sortDir=ST.sortDir==='asc'?'desc':'asc';else{ST.sortCol=col;ST.sortDir='desc';}ST.page=1;renderView();}
-    function sortInd(col){if(ST.sortCol!==col)return'<span style="opacity:0.3;color:#6b7280;margin-left:4px;">▼</span>';return`<span style="color:#22c55e;margin-left:4px;display:inline-block;transform:rotate(${ST.sortDir==='asc'?'0':'180'}deg);">▼</span>`;}
-
-    function showDetail(symbol){ST.selectedStock=symbol;ST.tab='detail';renderDetail(symbol);window.scrollTo({top:0,behavior:'smooth'});}
-
-    // ============================================
-    // MAIN RENDER
-    // ============================================
-   
-        function renderView(){
-        // Reset scroll button when switching tabs
-    window.scrollTo({top: 0, behavior: 'instant'});
-    handleScrollButton();
-        const app=document.getElementById('appContent');
-        app.innerHTML='';
-        switch(ST.tab){
-            case'dashboard':renderDashboard();break;
-            case'toppayers':renderTopPayers();break;
-            case'screener':renderScreener();break;
-            case'blog':renderBlog();break;
-            case'portfolio':renderPortfolio();break;
-            case'compare':renderCompare();break;
-            case'detail':if(ST.selectedStock)renderDetail(ST.selectedStock);break;
+            initIcons();
         }
-        lucide.createIcons();
-    }
-
-    function renderDashboard(){
-        const top=[...stocks.filter(s=>s.paysDividend)].sort((a,b)=>AI.health(b)-AI.health(a)).slice(0,6);
-        const list=getFiltered(ST.filter);
-        const avgY=payers.length>0?(payers.reduce((s,st)=>s+st.divYield,0)/payers.length).toFixed(2):'0';
-        document.getElementById('appContent').innerHTML=`
-        <div class="space-y-4">
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
-                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">NSE Stocks</p><p class="text-xl font-black">${stocks.length}</p></div>
-                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Payers</p><p class="text-xl font-black text-green-400">${payers.length}</p></div>
-                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Avg Yield</p><p class="text-xl font-black text-yellow-400">${avgY}%</p></div>
-                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Watchlist</p><p class="text-xl font-black text-blue-400">${ST.wl.length}</p></div>
-                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Portfolio</p><p class="text-xl font-black text-purple-400">${ST.pf.length}</p></div>
-                <div class="data-card rounded-xl p-3"><p class="text-[10px] text-gray-500">Blog</p><p class="text-xl font-black text-orange-400">${getBlogPosts().filter(p=>p.published).length}</p></div>
-            </div>
-            <div class="glow-border rounded-2xl"><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-base mb-3">🏆 Top AI Dividend Scores</h3><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">${top.map(s=>{const h=AI.health(s),r=AI.rec(s);return`<div class="data-card clickable rounded-xl p-3 text-center" onclick="showDetail('${s.symbol}')"><p class="font-bold text-xs">${s.symbol}</p><p class="text-2xl font-black text-${r.c}-400">${h}</p><p class="text-[10px] text-${r.c}-400">${r.t}</p><p class="text-[10px] text-gray-500 mt-1">Yield: ${s.divYield.toFixed(1)}%</p></div>`;}).join('')}</div></div></div>
-            <div class="flex gap-1.5 flex-wrap">${['all','payers','high-yield','high-growth','watchlist','non-payers','portfolio'].map(f=>{const labels={all:'All',payers:'Payers','high-yield':'Hi-Yield >4%','high-growth':'Hi-Growth >20%',watchlist:`⭐ ${ST.wl.length}`,'non-payers':'Non-Payers',portfolio:'💼 Mine'};return`<button onclick="ST.filter='${f}';ST.page=1;renderView()" class="filter-btn px-3 py-1.5 rounded-lg text-[10px] font-semibold border ${ST.filter===f?'filter-active':'text-gray-400 border-white/10'}">${labels[f]}</button>`;}).join('')}</div>
-            <div class="data-card rounded-2xl p-3">${renderTable(list,ST.page)}</div>
-        </div>`;
-        document.getElementById('stockCountFooter').textContent=`${stocks.length} NSE Stocks • ${payers.length} Payers`;
-    }
-
-    function renderTable(list,page=1){
-        const tp=Math.ceil(list.length/50);const start=(page-1)*50;const paged=list.slice(start,start+50);
-        if(list.length===0)return'<div class="text-center py-8 text-gray-500 text-sm">No stocks match.</div>';
-        let h=`<div class="text-xs text-gray-500 mb-2">${start+1}-${Math.min(start+50,list.length)} of ${list.length}</div><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-gray-500 border-b border-white/5">`;
-        h+=`<th class="pb-3 text-left sortable" onclick="doSort('symbol')">Stock ${sortInd('symbol')}</th><th class="pb-3 text-right sortable" onclick="doSort('price')">Price ${sortInd('price')}</th><th class="pb-3 text-right sortable" onclick="doSort('yield')">Yield ${sortInd('yield')}</th><th class="pb-3 text-right sortable" onclick="doSort('growth')">3Y Growth ${sortInd('growth')}</th><th class="pb-3 text-center sortable" onclick="doSort('score')">AI Score ${sortInd('score')}</th><th class="pb-3 text-center">⭐</th></tr></thead><tbody class="divide-y divide-white/5">`;
-        paged.forEach(s=>{const hl=AI.health(s);const wl=ST.wl.includes(s.symbol);
-            h+=`<tr class="stock-row" onclick="showDetail('${s.symbol}')"><td class="py-2.5"><span class="font-semibold">${s.symbol}</span><span class="text-gray-500 text-xs ml-1">${s.name.substring(0,16)}</span></td><td class="py-2.5 text-right font-mono text-xs">₹${s.price.toFixed(0)}</td><td class="py-2.5 text-right ${s.divYield>4?'text-yellow-400 font-bold':'text-green-400'} text-xs">${s.paysDividend?s.divYield.toFixed(2)+'%':'—'}</td><td class="py-2.5 text-right ${s.divGrowth3Y>15?'text-green-400':s.divGrowth3Y>=0?'text-blue-400':'text-red-400'} text-xs">${s.paysDividend?(s.divGrowth3Y>0?'+':'')+s.divGrowth3Y.toFixed(1)+'%':'—'}</td><td class="py-2.5 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${hl>=80?'bg-green-500/20 text-green-400':hl>=60?'bg-blue-500/20 text-blue-400':hl>=35?'bg-yellow-500/20 text-yellow-400':'bg-gray-500/20 text-gray-400'}">${hl}</span></td><td class="py-2.5 text-center">${wl?'★':'☆'}</td></tr>`;});
-        h+=`</tbody></table></div>`;
-        if(tp>1)h+=`<div class="flex justify-center items-center gap-3 mt-4"><button onclick="ST.page=${page-1};renderView()" class="px-3 py-1.5 rounded-lg bg-white/5 text-xs ${page===1?'opacity-30':''}">←</button><span class="text-xs text-gray-400">${page}/${tp}</span><button onclick="ST.page=${page+1};renderView()" class="px-3 py-1.5 rounded-lg bg-white/5 text-xs ${page===tp?'opacity-30':''}">→</button></div>`;
-        return h;
-    }
-
-    function renderTopPayers(){const prevC=ST.sortCol,prevD=ST.sortDir;ST.sortCol='yield';ST.sortDir='desc';const top=getFiltered('payers').slice(0,50);ST.sortCol=prevC;ST.sortDir=prevD;document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">🏆 Top Dividend Payers</h2><div class="data-card rounded-2xl p-3">${renderTable(top,1)}</div></div>`;lucide.createIcons();}
-    function renderScreener(){document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">AI Dividend Screener</h2><p class="text-gray-500 text-center py-12">Screener ready</p></div>`;lucide.createIcons();}
-    function renderPortfolio(){document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">Your Portfolio</h2><div class="data-card rounded-2xl p-10 text-center"><p class="text-gray-500">Portfolio ready</p></div></div>`;lucide.createIcons();}
-    function renderCompare(){document.getElementById('appContent').innerHTML=`<div class="space-y-4"><h2 class="text-2xl font-black">Peer Comparison</h2><div class="data-card rounded-2xl p-10 text-center"><p class="text-gray-500">Compare ready</p></div></div>`;lucide.createIcons();}
-    function renderDetail(symbol){const s=stocks.find(t=>t.symbol===symbol);if(!s)return;const h=AI.health(s),r=AI.rec(s);document.getElementById('appContent').innerHTML=`<div class="space-y-4"><button onclick="switchTab('dashboard')" class="text-gray-400 hover:text-white text-xs">← Back</button><div class="data-card rounded-2xl p-5"><h2 class="text-2xl font-black">${s.symbol}</h2><p class="text-gray-400">${s.name} • ${s.sector}</p><p class="text-xs text-gray-500">Mkt Cap: ${s.mcap} • P/E: ${s.pe}</p></div>${s.paysDividend?`<div class="grid grid-cols-1 md:grid-cols-3 gap-3"><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">AI Health</h3><p class="text-5xl font-black text-${r.c}-400">${h}</p></div><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">Growth</h3><p class="text-4xl font-black text-blue-400">${AI.growth(s).cagr>0?'+':''}${AI.growth(s).cagr}%</p></div><div class="data-card rounded-2xl p-4"><h3 class="font-bold text-sm">Stats</h3><p class="text-4xl font-black text-green-400">${s.divYield.toFixed(2)}%</p></div></div>`:''}</div>`;lucide.createIcons();}
-
-    // ============================================
-    // NAVIGATION
-    // ============================================
-    function switchTab(tab){
-        console.log('🔄 Switching to tab:', tab);
-        ST.tab=tab;ST.selectedStock=null;ST.page=1;ST.filter='all';ST.query='';
-        document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.remove('text-green-400','nav-active');b.classList.add('text-gray-300');});
-        const nb=document.querySelector(`[data-nav="${tab}"]`);
-        if(nb){nb.classList.add('text-green-400','nav-active');nb.classList.remove('text-gray-300');}
-        renderView();
-        window.scrollTo({top:0,behavior:'smooth'});
-    }
-
-    // ============================================
-    // INITIALIZE
-    // ============================================
-    document.addEventListener('DOMContentLoaded',()=>{
-        console.log('🚀 DividendStrike initializing...');
-        console.log('📊 Stocks loaded:', stocks.length);
-        console.log('📝 Blog posts in storage:', getBlogPosts().length);
-        switchTab('dashboard');
-        document.getElementById('stockCountFooter').textContent=`${stocks.length} NSE Stocks • ${payers.length} Payers`;
-        setInterval(()=>{const el=document.getElementById('liveClock');if(el)el.textContent=new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'});},1000);
-    });
-
-    console.log('✅ DividendStrike script loaded');
         
-    // ============================================
-    // SCROLL TO TOP BUTTON
-    // ============================================
-
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
-
-function handleScrollButton() {
-    const btn = document.getElementById('scrollToTopBtn');
-    if (!btn) return;
-    
-    // Show button after scrolling down 400px
-    if (window.scrollY > 400) {
-        btn.classList.add('show');
-    } else {
-        btn.classList.remove('show');
-    }
-    
-    // Update progress indicator (optional - calculates scroll percentage)
-    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollProgress = (window.scrollY / scrollTotal) * 100;
-    
-    // Change button style based on scroll depth
-    if (scrollProgress > 80) {
-        btn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
-        btn.querySelector('.arrow-icon').textContent = '🏠';
-    } else if (scrollProgress > 50) {
-        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-        btn.querySelector('.arrow-icon').textContent = '↑';
-    } else {
-        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-        btn.querySelector('.arrow-icon').textContent = '↑';
-    }
-}
-
-// Add scroll event listener
-window.addEventListener('scroll', handleScrollButton, { passive: true });
-
-// Check button visibility on page load
-document.addEventListener('DOMContentLoaded', function() {
-    handleScrollButton();
-});
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHome();
+            console.log('🏠 Home page loaded');
+            console.log(`📊 ${stocks.length} stocks | ${payers.length} payers | AI Engine ready`);
+        });
     </script>
-    <!-- Scroll to Top Button -->
-<button id="scrollToTopBtn" class="scroll-top-btn" onclick="scrollToTop()" title="Back to top" aria-label="Scroll to top">
-    <span class="arrow-icon">↑</span>
-</button>
+    
+    <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </body>
 </html>
