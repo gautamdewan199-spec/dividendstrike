@@ -3,18 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Stock Analysis — AI-Powered Dividend & Technical Dashboard | DividendStrike</title>
-    <meta name="description" content="Complete stock analysis dashboard with AI health scores, dividend history, technical indicators (EMA, RSI, MACD), fundamental metrics, and latest company news.">
-    <meta name="keywords" content="stock analysis india, dividend stock details, technical analysis nse, ema crossover signals, rsi indicator stocks, fundamental analysis, dividend history, company news, ai stock score">
-    <meta name="robots" content="index, follow">
+    <title id="pageTitle">Stock Analysis Dashboard — AI Scores, Technical & Dividend Data | DividendStrike</title>
+    <meta name="description" content="Complete stock analysis dashboard with AI health scores, dividend history, technical indicators (EMA, RSI, MACD), fundamental metrics, and latest company news for NSE stocks.">
+    
+    <!-- Primary Keywords -->
+    <meta name="keywords" content="stock analysis india, dividend stock details, technical analysis nse, fundamental analysis stocks, stock dashboard, dividend history, company news nse, ai stock score, ema crossover signals, rsi indicator stocks">
+    
+    <!-- Longtail Keywords -->
+    <meta name="keywords" content="complete stock analysis with technical indicators india, dividend stock fundamental and technical analysis nse, ema crossover trading signals indian stocks, rsi overbought oversold nse stocks analysis, best dividend stocks technical analysis 2026, how to analyze dividend stocks fundamentals india, stock price action analysis with ema nse, free stock screener with technical indicators india, dividend history and growth chart nse stocks, ai powered stock health score analysis india, complete stock research dashboard for indian investors">
+    
+    <!-- Question-Based Keywords -->
+    <meta name="keywords" content="how to check dividend history of nse stocks, what is ema crossover signal for stocks, how to use rsi indicator for indian stocks, where to find fundamental analysis of nse stocks, how to analyze dividend stocks before investing, what are best technical indicators for dividend stocks, how to read stock charts with ema and rsi">
+    
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://dividendstrike.in/stock-detail.html">
     
-    <meta property="og:title" content="Complete Stock Analysis Dashboard | DividendStrike">
-    <meta property="og:description" content="AI-powered stock analysis with dividend history, technical indicators, fundamentals, and news.">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Complete Stock Analysis Dashboard — AI, Technical & Dividend Data | DividendStrike">
+    <meta property="og:description" content="AI-powered stock analysis with dividend history, technical indicators (EMA, RSI), fundamentals, and company news.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dividendstrike.in/stock-detail.html">
+    <meta property="og:site_name" content="DividendStrike">
+    <meta property="og:locale" content="en_IN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Complete Stock Analysis Dashboard | DividendStrike">
+    <meta name="twitter:description" content="AI-powered stock analysis with dividend history, technical indicators, and company news.">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-F67MPYPHJ3');</script>
+    
+    <!-- Dynamic Schema will be injected by JavaScript -->
+    <script type="application/ld+json" id="dynamicSchema">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Stock Analysis Dashboard",
+        "description": "Complete stock analysis with AI scores, technical indicators, dividend history, and fundamentals.",
+        "publisher": { "@type": "Organization", "name": "DividendStrike", "url": "https://dividendstrike.in" }
+    }
+    </script>
+    
+    <!-- Schema: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dividendstrike.in/home.html" },
+            { "@type": "ListItem", "position": 2, "name": "AI Stock Screener", "item": "https://dividendstrike.in/screener.html" },
+            { "@type": "ListItem", "position": 3, "name": "Stock Analysis", "item": "https://dividendstrike.in/stock-detail.html" }
+        ]
+    }
+    </script>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
@@ -202,7 +248,7 @@
                 container.innerHTML = `<div class="text-center" style="padding:60px;"><h2 style="font-size:24px;font-weight:900;">Stock Not Found</h2><p class="text-secondary">"${symbol}" not in database.</p><a href="screener.html" class="btn btn-primary" style="margin-top:16px;">Browse Stocks</a></div>`;
                 return;
             }
-            
+            updateDynamicSEO(s);
             document.title = `${s.symbol} — Complete Analysis, Technical & Dividend Dashboard | DividendStrike`;
             
             const h = AI.health(s);
@@ -398,6 +444,75 @@
         }
         
         document.addEventListener('DOMContentLoaded',()=>{handleScroll();loadStockDetail();console.log('📊 Stock Dashboard loaded');});
+
+// ============================================
+// DYNAMIC SEO UPDATER
+// ============================================
+function updateDynamicSEO(s) {
+    if (!s) return;
+    
+    const symbol = s.symbol;
+    const name = s.name;
+    const company = name.split(' ')[0];
+    const yield_val = s.paysDividend ? s.divYield.toFixed(1) : '0';
+    const h = AI.health(s);
+    const su = AI.sustain(s);
+    
+    // Update page title
+    const title = `${symbol} Stock Analysis — ${name} | Dividend, Technical & AI Score | DividendStrike`;
+    document.title = title;
+    
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+        metaDesc.setAttribute('content', `Complete ${symbol} (${company}) stock analysis. AI health score: ${h}/100. Dividend yield: ${yield_val}%. Technical indicators (EMA, RSI), fundamental metrics, 6-year dividend history, and latest ${company} news. P/E: ${s.pe}, ROE: ${s.roe}%, Promoter: ${s.promoter}%.`);
+    }
+    
+    // Update meta keywords dynamically
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+        const dynamicKW = `${symbol.toLowerCase()} stock analysis, ${company.toLowerCase()} dividend history, ${symbol} technical analysis, ${symbol} fundamental metrics, ${symbol} stock news, ${symbol} dividend yield, ${symbol.toLowerCase()} nse stock details, ${company.toLowerCase()} share price analysis, is ${symbol} good for dividend, ${symbol} stock performance 2026`;
+        metaKeywords.setAttribute('content', dynamicKW);
+    }
+    
+    // Update OG tags
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${symbol} — ${company} Stock Analysis | AI Score, Technical & Dividend Data`);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', `${symbol} (${company}) complete analysis. AI score: ${h}/100, Yield: ${yield_val}%, Sustainability: ${su.r||'N/A'}. Technical signals, fundamentals, and news.`);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', `https://dividendstrike.in/stock-detail.html?symbol=${symbol}`);
+    
+    // Update Twitter tags
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', `${symbol} Stock Analysis — AI Score, Technical & Dividend Data`);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', `${symbol} (${company}) complete analysis. AI score: ${h}/100, Yield: ${yield_val}%.`);
+    
+    // Update canonical URL
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://dividendstrike.in/stock-detail.html?symbol=${symbol}`);
+    
+    // Update dynamic schema
+    const schemaScript = document.getElementById('dynamicSchema');
+    if (schemaScript) {
+        const schema = {
+            "@context": "https://schema.org",
+            "@type": "FinancialProduct",
+            "name": `${symbol} — ${name}`,
+            "description": `${company} stock analysis with AI health score ${h}/100, dividend yield ${yield_val}%, and sustainability rating ${su.r||'N/A'}`,
+            "tickerSymbol": symbol,
+            "exchange": "NSE",
+            "category": s.sector,
+            "offers": {
+                "@type": "Offer",
+                "price": s.price.toFixed(2),
+                "priceCurrency": "INR"
+            },
+            "manufacturer": {
+                "@type": "Organization",
+                "name": name
+            }
+        };
+        schemaScript.textContent = JSON.stringify(schema);
+    }
+    
+    console.log(`✅ SEO updated for ${symbol}`);
+}
     </script>
 </body>
 </html>
