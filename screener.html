@@ -1,1 +1,319 @@
-.
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dividend Screener — Find Best NSE Dividend Stocks | DividendStrike</title>
+    <meta name="description" content="Filter 25+ NSE stocks by dividend yield, growth rate, AI health score, and sustainability. Find the best dividend paying stocks in India with our free AI-powered screener.">
+    <meta name="keywords" content="dividend screener india, nse stock screener, high dividend yield filter, ai stock analysis, best dividend stocks screener">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dividendstrike.in/screener.html">
+    
+    <meta property="og:title" content="AI Dividend Screener — Find Best NSE Dividend Stocks | DividendStrike">
+    <meta property="og:description" content="Filter NSE stocks by yield, growth, AI score. Free dividend stock screener for Indian investors.">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+    
+    <style>
+        :root{--bg:#0a0a0f;--card:rgba(15,15,25,0.85);--border:rgba(255,255,255,0.07);--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
+        *{margin:0;padding:0;box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#1f2937 transparent}
+        *::-webkit-scrollbar{width:4px;height:4px}
+        *::-webkit-scrollbar-track{background:transparent}
+        *::-webkit-scrollbar-thumb{background:#1f2937;border-radius:2px}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        .container{max-width:1440px;margin:0 auto;padding:0 20px}
+        
+        /* NAVIGATION - Same on all pages */
+        .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
+        .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:17px}
+        .logo-text{line-height:1}
+        .logo-name{font-size:17px;font-weight:900;color:#e5e7eb}
+        .logo-tagline{font-size:8px;color:#6b7280;display:block;text-transform:uppercase;letter-spacing:1px}
+        .nav-links{display:flex;gap:2px}
+        .nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;color:#9ca3af;transition:all 0.2s}
+        .nav-link:hover{color:white;background:rgba(255,255,255,0.04)}
+        .nav-link.active{background:rgba(34,197,94,0.12);color:#22c55e}
+        .nav-actions{display:flex;align-items:center;gap:14px}
+        .live-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af}
+        .pulse-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+        .mobile-menu-btn{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;padding:8px 12px;border-radius:8px}
+        .mobile-menu-btn:hover{background:rgba(255,255,255,0.05)}
+        .mobile-menu{display:none;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);background:rgba(10,10,15,0.98);grid-template-columns:1fr 1fr;gap:4px}
+        .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;text-decoration:none;color:#9ca3af;transition:all 0.2s}
+        .mobile-menu a:hover{background:rgba(255,255,255,0.04);color:white}
+        .mobile-menu a.active{color:#22c55e;background:rgba(34,197,94,0.1);font-weight:600}
+        
+        /* TEXT */
+        .text-green{color:#22c55e}.text-blue{color:#3b82f6}.text-yellow{color:#eab308}.text-red{color:#ef4444}.text-purple{color:#a855f7}.text-muted{color:#6b7280}.text-secondary{color:#9ca3af}
+        .text-xs{font-size:12px}.text-sm{font-size:14px}.font-bold{font-weight:700}.font-black{font-weight:900}
+        
+        /* CARDS */
+        .card{background:rgba(15,15,25,0.85);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px}
+        
+        /* BUTTONS */
+        .btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none}
+        .btn-primary{background:#22c55e;color:white}.btn-primary:hover{background:#16a34a;transform:translateY(-1px)}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#9ca3af}.btn-outline:hover{border-color:#22c55e;color:white}
+        .btn-sm{padding:6px 14px;font-size:12px}
+        
+        /* BADGES */
+        .badge-green{background:rgba(34,197,94,0.2);color:#22c55e;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        .badge-blue{background:rgba(59,130,246,0.2);color:#3b82f6;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        .badge-yellow{background:rgba(234,179,8,0.2);color:#eab308;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        .badge-red{background:rgba(239,68,68,0.2);color:#ef4444;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        
+        /* INPUTS */
+        .input{width:100%;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:white;font-size:14px;outline:none;font-family:inherit;transition:border-color 0.2s}
+        .input:focus{border-color:#22c55e}
+        select.input{cursor:pointer}
+        
+        /* TABLE */
+        .table{width:100%;border-collapse:collapse;font-size:14px}
+        .table th{background:rgba(34,197,94,0.08);color:#22c55e;padding:14px 16px;text-align:left;border-bottom:2px solid rgba(34,197,94,0.2);font-weight:700;font-size:13px;cursor:pointer;user-select:none}
+        .table th:hover{color:#16a34a}
+        .table td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d1d5db}
+        .table tr:hover td{background:rgba(255,255,255,0.02);cursor:pointer}
+        
+        /* FOOTER */
+        .footer-main{border-top:1px solid rgba(255,255,255,0.06);padding:24px 0;margin-top:40px;text-align:center;font-size:12px;color:#4b5563}
+        .footer-main a{color:#6b7280;text-decoration:none;margin:0 8px}.footer-main a:hover{color:#22c55e}
+        
+        /* SCROLL TOP */
+        .scroll-top-btn{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:16px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(34,197,94,0.3);transition:all 0.4s ease;opacity:0;visibility:hidden;color:white;font-size:20px;font-weight:700}
+        .scroll-top-btn.show{opacity:1;visibility:visible}.scroll-top-btn:hover{transform:translateY(-4px)}
+        
+        /* SORT INDICATOR */
+        .sort-arrow{display:inline-block;margin-left:4px;font-size:10px}.sort-arrow.asc{color:#22c55e}.sort-arrow.desc{color:#22c55e;transform:rotate(180deg)}
+        
+        /* RESPONSIVE */
+        @media(max-width:1024px){.nav-links{display:none!important}.mobile-menu-btn{display:block!important}}
+        @media(max-width:768px){.filters-grid{grid-template-columns:1fr 1fr!important}}
+        @media(max-width:500px){.filters-grid{grid-template-columns:1fr!important}.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}}
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">₹</div>
+                <div class="logo-text"><span class="logo-name">Dividend<span class="text-green">Strike</span></span><span class="logo-tagline">NSE Dividend Intelligence</span></div>
+            </a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">🏠 Home</a>
+                <a href="screener.html" class="nav-link active">🔍 Screener</a>
+                <a href="calculators.html" class="nav-link">🧮 Calculators</a>
+                <a href="blog.html" class="nav-link">📝 Blog</a>
+                <a href="knowledge-hub.html" class="nav-link">📚 Learn</a>
+            </div>
+            <div class="nav-actions">
+                <span class="live-indicator"><span class="pulse-dot"></span><span>Live NSE Data</span></span>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="mobile-menu" style="display:none;">
+            <a href="home.html">🏠 Home</a><a href="screener.html" class="active">🔍 Screener</a><a href="calculators.html">🧮 Calculators</a><a href="blog.html">📝 Blog</a><a href="knowledge-hub.html">📚 Learn</a>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="container" style="padding:24px 0;">
+        
+        <div style="margin-bottom:24px;">
+            <h1 style="font-size:28px;font-weight:900;margin-bottom:6px;">🔍 AI Dividend Stock Screener</h1>
+            <p style="color:#9ca3af;font-size:14px;">Filter 25+ NSE stocks by yield, growth, AI score, and sustainability to find the best dividend opportunities.</p>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="card" style="margin-bottom:24px;">
+            <div class="filters-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+                <div>
+                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Min Dividend Yield (%)</label>
+                    <input type="number" id="minYield" class="input" value="0" step="0.1" min="0" max="20">
+                </div>
+                <div>
+                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Min 3Y Growth (%)</label>
+                    <input type="number" id="minGrowth" class="input" value="0" step="0.1">
+                </div>
+                <div>
+                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Min AI Health Score</label>
+                    <input type="number" id="minScore" class="input" value="0" min="0" max="100">
+                </div>
+                <div>
+                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Sector</label>
+                    <select id="sectorFilter" class="input">
+                        <option value="All">All Sectors</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button onclick="runScreener()" class="btn btn-primary">🔍 Run Screener</button>
+                <button onclick="resetScreener()" class="btn btn-outline">🔄 Reset Filters</button>
+                <span id="resultCount" style="font-size:13px;color:#6b7280;display:flex;align-items:center;margin-left:8px;"></span>
+            </div>
+        </div>
+
+        <!-- RESULTS TABLE -->
+        <div class="card" style="overflow-x:auto;">
+            <div id="screenerResults">
+                <p style="color:#6b7280;text-align:center;padding:40px;">👆 Adjust filters above and click <strong>Run Screener</strong> to find stocks</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-main">
+        <div class="container">
+            <p>DividendStrike — AI-Powered NSE Analysis</p>
+            <div style="margin-top:6px;">
+                <a href="home.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <!-- SCRIPTS -->
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/ai-engine.js"></script>
+    <script src="assets/js/common.js"></script>
+    
+    <script>
+        // Navigation
+        function toggleMobileMenu(){const m=document.getElementById('mobileMenu');m.style.display=(m.style.display==='none'||m.style.display==='')?'grid':'none';}
+        document.addEventListener('click',e=>{const m=document.getElementById('mobileMenu');const b=document.querySelector('.mobile-menu-btn');if(m&&b&&!m.contains(e.target)&&!b.contains(e.target))m.style.display='none';});
+        
+        // Scroll button
+        function handleScrollButton(){const b=document.getElementById('scrollToTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);}
+        window.addEventListener('scroll',handleScrollButton,{passive:true});
+        
+        // Sort state
+        let sortCol = 'score', sortDir = 'desc';
+        
+        // Populate sector filter
+        function populateSectors() {
+            const select = document.getElementById('sectorFilter');
+            const sectors = [...new Set(stocks.map(s => s.sector))].sort();
+            sectors.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s; opt.textContent = s;
+                select.appendChild(opt);
+            });
+        }
+        
+        // Sort function
+        function sortStocks(list, col, dir) {
+            return [...list].sort((a, b) => {
+                let va, vb;
+                switch(col) {
+                    case 'symbol': va=a.symbol||''; vb=b.symbol||''; break;
+                    case 'price': va=a.price||0; vb=b.price||0; break;
+                    case 'yield': va=a.divYield||0; vb=b.divYield||0; break;
+                    case 'growth': va=a.divGrowth3Y||0; vb=b.divGrowth3Y||0; break;
+                    case 'score': va=AI.health(a); vb=AI.health(b); break;
+                    case 'sustainability': va=AI.sustain(a).sc; vb=AI.sustain(b).sc; break;
+                    default: return 0;
+                }
+                if(typeof va==='string') return dir==='asc'?va.localeCompare(vb):vb.localeCompare(va);
+                return dir==='asc'?va-vb:vb-va;
+            });
+        }
+        
+        function handleSort(col) {
+            if(sortCol===col) sortDir=sortDir==='asc'?'desc':'asc';
+            else {sortCol=col;sortDir='desc';}
+            runScreener();
+        }
+        
+        function getSortArrow(col) {
+            if(sortCol!==col) return '<span class="sort-arrow" style="color:#4b5563;">▼</span>';
+            return `<span class="sort-arrow ${sortDir}">▼</span>`;
+        }
+        
+        // Run screener
+        function runScreener() {
+            const minY = parseFloat(document.getElementById('minYield').value) || 0;
+            const minG = parseFloat(document.getElementById('minGrowth').value) || 0;
+            const minS = parseInt(document.getElementById('minScore').value) || 0;
+            const sector = document.getElementById('sectorFilter').value;
+            
+            let results = [...stocks];
+            
+            if (minY > 0) results = results.filter(s => s.divYield >= minY);
+            if (minG > 0) results = results.filter(s => s.divGrowth3Y >= minG);
+            if (minS > 0) results = results.filter(s => AI.health(s) >= minS);
+            if (sector !== 'All') results = results.filter(s => s.sector === sector);
+            
+            results = sortStocks(results, sortCol, sortDir);
+            
+            const container = document.getElementById('screenerResults');
+            document.getElementById('resultCount').textContent = `${results.length} stocks found`;
+            
+            if (results.length === 0) {
+                container.innerHTML = '<p style="color:#6b7280;text-align:center;padding:40px;">No stocks match your criteria. Try lowering the filters.</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th onclick="handleSort('symbol')">Stock ${getSortArrow('symbol')}</th>
+                        <th onclick="handleSort('price')">Price ${getSortArrow('price')}</th>
+                        <th onclick="handleSort('yield')">Yield ${getSortArrow('yield')}</th>
+                        <th onclick="handleSort('growth')">3Y Growth ${getSortArrow('growth')}</th>
+                        <th onclick="handleSort('score')">AI Score ${getSortArrow('score')}</th>
+                        <th onclick="handleSort('sustainability')">Sustainability ${getSortArrow('sustainability')}</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${results.map(s => {
+                        const h = AI.health(s);
+                        const su = AI.sustain(s);
+                        const rec = AI.rec(s);
+                        return `
+                        <tr onclick="window.location.href='stock-detail.html?symbol=${s.symbol}'">
+                            <td><span style="font-weight:600;">${s.symbol}</span><br><span style="font-size:11px;color:#6b7280;">${s.name.substring(0,20)}</span></td>
+                            <td>₹${s.price.toFixed(2)}</td>
+                            <td class="${s.divYield>4?'text-yellow':'text-green'}" style="font-weight:600;">${s.paysDividend?s.divYield.toFixed(2)+'%':'—'}</td>
+                            <td class="${s.divGrowth3Y>15?'text-green':s.divGrowth3Y>0?'text-blue':'text-red'}">${s.paysDividend?(s.divGrowth3Y>0?'+':'')+s.divGrowth3Y+'%':'—'}</td>
+                            <td><span class="badge-${rec.c==='green'?'green':rec.c==='blue'?'blue':rec.c==='yellow'?'yellow':'red'}">${h}</span></td>
+                            <td><span class="badge-${su.c==='green'?'green':su.c==='blue'?'blue':su.c==='yellow'?'yellow':'red'}">${su.r||'N/A'}</span></td>
+                            <td><a href="stock-detail.html?symbol=${s.symbol}" class="btn btn-outline btn-sm" onclick="event.stopPropagation();">View →</a></td>
+                        </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>`;
+        }
+        
+        function resetScreener() {
+            document.getElementById('minYield').value = '0';
+            document.getElementById('minGrowth').value = '0';
+            document.getElementById('minScore').value = '0';
+            document.getElementById('sectorFilter').value = 'All';
+            document.getElementById('screenerResults').innerHTML = '<p style="color:#6b7280;text-align:center;padding:40px;">👆 Adjust filters and click <strong>Run Screener</strong></p>';
+            document.getElementById('resultCount').textContent = '';
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSectors();
+            handleScrollButton();
+            console.log('🔍 Screener page loaded');
+        });
+    </script>
+</body>
+</html>
