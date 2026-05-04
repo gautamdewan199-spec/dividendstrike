@@ -28,6 +28,106 @@
         .nav-active { background:rgba(34,197,94,0.15); color:#22c55e !important; border-bottom:2px solid #22c55e; }
         .search-dropdown { position:absolute; top:100%; left:0; right:0; z-index:150; background:#1a1a2e; border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-top:4px; max-height:300px; overflow-y:auto; box-shadow:0 25px 60px rgba(0,0,0,0.7); }
         #liveClock { display:inline-block; min-width:70px; text-align:center; font-variant-numeric:tabular-nums; }
+        /* Scroll to Top Button */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(34,197,94,0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.scroll-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(34,197,94,0.5);
+    background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.scroll-top-btn:active {
+    transform: scale(0.9);
+}
+
+.scroll-top-btn .arrow-icon {
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    transition: transform 0.3s ease;
+    line-height: 1;
+}
+
+.scroll-top-btn:hover .arrow-icon {
+    transform: translateY(-3px);
+}
+
+/* Pulse ring effect */
+.scroll-top-btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    border: 2px solid rgba(34,197,94,0.3);
+    animation: pulse-ring 2s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* Progress ring around button */
+.scroll-top-btn .progress-ring {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 56px;
+    height: 56px;
+    transform: rotate(-90deg);
+}
+
+.scroll-top-btn .progress-ring circle {
+    fill: none;
+    stroke: rgba(34,197,94,0.3);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .scroll-top-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+    }
+}
     </style>
 </head>
 <body class="min-h-screen bg-[var(--bg)]">
@@ -88,6 +188,8 @@ function getBlogPosts() {
 }
 
 function renderBlog() {
+    window.scrollTo({top: 0, behavior: 'instant'});
+    handleScrollButton();
     const allPosts = getBlogPosts();
     const posts = allPosts.filter(p => p.published).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     const app = document.getElementById('appContent');
@@ -177,6 +279,8 @@ function renderBlog() {
 }
 
 function renderBlogPost(postId) {
+    window.scrollTo({top: 0, behavior: 'instant'});
+    handleScrollButton();
     const posts = getBlogPosts();
     const post = posts.find(p => p.id === postId);
     const app = document.getElementById('appContent');
@@ -361,7 +465,11 @@ function copyArticleLink() {
     // ============================================
     // MAIN RENDER
     // ============================================
-    function renderView(){
+   
+        function renderView(){
+        // Reset scroll button when switching tabs
+    window.scrollTo({top: 0, behavior: 'instant'});
+    handleScrollButton();
         const app=document.getElementById('appContent');
         app.innerHTML='';
         switch(ST.tab){
@@ -441,6 +549,57 @@ function copyArticleLink() {
     });
 
     console.log('✅ DividendStrike script loaded');
+        
+    // ============================================
+    // SCROLL TO TOP BUTTON
+    // ============================================
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+function handleScrollButton() {
+    const btn = document.getElementById('scrollToTopBtn');
+    if (!btn) return;
+    
+    // Show button after scrolling down 400px
+    if (window.scrollY > 400) {
+        btn.classList.add('show');
+    } else {
+        btn.classList.remove('show');
+    }
+    
+    // Update progress indicator (optional - calculates scroll percentage)
+    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = (window.scrollY / scrollTotal) * 100;
+    
+    // Change button style based on scroll depth
+    if (scrollProgress > 80) {
+        btn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+        btn.querySelector('.arrow-icon').textContent = '🏠';
+    } else if (scrollProgress > 50) {
+        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+        btn.querySelector('.arrow-icon').textContent = '↑';
+    } else {
+        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+        btn.querySelector('.arrow-icon').textContent = '↑';
+    }
+}
+
+// Add scroll event listener
+window.addEventListener('scroll', handleScrollButton, { passive: true });
+
+// Check button visibility on page load
+document.addEventListener('DOMContentLoaded', function() {
+    handleScrollButton();
+});
     </script>
+    <!-- Scroll to Top Button -->
+<button id="scrollToTopBtn" class="scroll-top-btn" onclick="scrollToTop()" title="Back to top" aria-label="Scroll to top">
+    <span class="arrow-icon">↑</span>
+</button>
 </body>
 </html>
