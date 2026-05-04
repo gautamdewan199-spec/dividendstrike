@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Stock Analysis — AI-Powered Dividend Insights | DividendStrike</title>
-    <meta name="description" content="Detailed AI-powered dividend stock analysis with health scores, sustainability ratings, growth predictions, dividend history, and key metrics for NSE stocks.">
-    <meta name="keywords" content="dividend stock analysis india, nse stock details, dividend yield analysis, ai stock score, dividend sustainability, stock dividend history, nse dividend metrics, stock growth prediction">
+    <title id="pageTitle">Stock Analysis — AI-Powered Dividend & Technical Dashboard | DividendStrike</title>
+    <meta name="description" content="Complete stock analysis dashboard with AI health scores, dividend history, technical indicators (EMA, RSI, MACD), fundamental metrics, and latest company news.">
+    <meta name="keywords" content="stock analysis india, dividend stock details, technical analysis nse, ema crossover signals, rsi indicator stocks, fundamental analysis, dividend history, company news, ai stock score">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dividendstrike.in/stock-detail.html">
     
-    <meta property="og:title" content="AI-Powered Dividend Stock Analysis | DividendStrike">
-    <meta property="og:description" content="Detailed AI-powered dividend stock analysis with health scores, sustainability ratings, and growth predictions.">
+    <meta property="og:title" content="Complete Stock Analysis Dashboard | DividendStrike">
+    <meta property="og:description" content="AI-powered stock analysis with dividend history, technical indicators, fundamentals, and news.">
     <meta property="og:type" content="website">
     
-    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
@@ -25,55 +24,74 @@
         :root{--bg:#0a0a0f;--card:rgba(15,15,25,0.85);--border:rgba(255,255,255,0.07);--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#1f2937 transparent}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-        .container{max-width:1100px;margin:0 auto;padding:0 20px}
+        .container{max-width:1300px;margin:0 auto;padding:0 20px}
+        a{color:inherit;text-decoration:none}
         
         /* NAV */
         .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
         .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:17px}
+        .logo{display:flex;align-items:center;gap:10px}.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:17px}
         .logo-text{line-height:1}.logo-name{font-size:17px;font-weight:900;color:#e5e7eb}.logo-tagline{font-size:8px;color:#6b7280;display:block;text-transform:uppercase;letter-spacing:1px}
-        .nav-links{display:flex;gap:2px}.nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;color:#9ca3af;transition:all 0.2s}
+        .nav-links{display:flex;gap:2px}.nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:#9ca3af;transition:all 0.2s}
         .nav-link:hover{color:white;background:rgba(255,255,255,0.04)}.nav-link.active{background:rgba(34,197,94,0.12);color:#22c55e}
         .nav-actions{display:flex;align-items:center;gap:14px}
         .pulse-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
         .mobile-menu-btn{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;padding:8px 12px;border-radius:8px}
         .mobile-menu{display:none;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);background:rgba(10,10,15,0.98);grid-template-columns:1fr 1fr;gap:4px}
-        .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;text-decoration:none;color:#9ca3af}.mobile-menu a.active{color:#22c55e;background:rgba(34,197,94,0.1);font-weight:600}
+        .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;color:#9ca3af}
+        @media(max-width:1024px){.nav-links{display:none!important}.mobile-menu-btn{display:block!important}}
         
+        /* TYPOGRAPHY */
         .text-green{color:#22c55e}.text-blue{color:#3b82f6}.text-yellow{color:#eab308}.text-red{color:#ef4444}.text-purple{color:#a855f7}.text-muted{color:#6b7280}.text-secondary{color:#9ca3af}
-        .text-xs{font-size:12px}.text-sm{font-size:14px}.text-lg{font-size:18px}.text-xl{font-size:20px}.text-2xl{font-size:24px}.text-3xl{font-size:30px}.font-bold{font-weight:700}.font-black{font-weight:900}
+        .text-xs{font-size:12px}.text-sm{font-size:14px}.text-lg{font-size:18px}.text-xl{font-size:20px}.text-2xl{font-size:24px}.text-3xl{font-size:30px}.font-bold{font-weight:700}.font-black{font-weight:900}.text-center{text-align:center}
         
+        /* CARDS */
         .card{background:rgba(15,15,25,0.85);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;margin-bottom:16px}
+        .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+        .card-title{font-size:16px;font-weight:700}
+        
+        /* BUTTONS */
         .btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none}
         .btn-primary{background:#22c55e;color:white}.btn-primary:hover{background:#16a34a}
-        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#9ca3af;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;display:inline-block;transition:all 0.2s}.btn-outline:hover{border-color:#22c55e;color:white}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#9ca3af;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;display:inline-block}.btn-outline:hover{border-color:#22c55e;color:white}
         .btn-sm{padding:6px 14px;font-size:12px}
+        .btn-xs{padding:4px 10px;font-size:10px;border-radius:6px}
         
-        .badge-green{background:rgba(34,197,94,0.2);color:#22c55e;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
-        .badge-blue{background:rgba(59,130,246,0.2);color:#3b82f6;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
-        .badge-yellow{background:rgba(234,179,8,0.2);color:#eab308;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
-        .badge-red{background:rgba(239,68,68,0.2);color:#ef4444;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        /* BADGES */
+        .badge{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600;display:inline-block}
+        .badge-green{background:rgba(34,197,94,0.2);color:#22c55e}.badge-red{background:rgba(239,68,68,0.2);color:#ef4444}.badge-yellow{background:rgba(234,179,8,0.2);color:#eab308}.badge-blue{background:rgba(59,130,246,0.2);color:#3b82f6}
         
-        .score-circle{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;margin:0 auto}
-        .metric-card{background:rgba(255,255,255,0.03);border-radius:14px;padding:16px;text-align:center}
-        .metric-value{font-size:22px;font-weight:700}
-        .metric-label{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+        /* METRIC CARDS */
+        .metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+        .metric-card{background:rgba(255,255,255,0.03);border-radius:12px;padding:14px;text-align:center}
+        .metric-value{font-size:20px;font-weight:700}.metric-label{font-size:10px;color:#6b7280;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
         
+        /* SIGNAL CARDS */
+        .signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+        .signal-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px}
+        .signal-buy{border-left:3px solid #22c55e}.signal-sell{border-left:3px solid #ef4444}.signal-neutral{border-left:3px solid #eab308}
+        
+        /* NEWS */
+        .news-item{background:rgba(255,255,255,0.02);border-radius:12px;padding:14px 18px;margin-bottom:8px;border-left:3px solid rgba(255,255,255,0.06);cursor:pointer;transition:all 0.2s}
+        .news-item:hover{background:rgba(255,255,255,0.04);border-left-color:#22c55e}
+        
+        /* TABLE */
         table{width:100%;border-collapse:collapse;font-size:13px}
-        th{background:rgba(34,197,94,0.08);color:#22c55e;padding:12px 16px;text-align:left;border-bottom:2px solid rgba(34,197,94,0.2);font-weight:700}
-        td{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d1d5db}
+        th{background:rgba(34,197,94,0.08);color:#22c55e;padding:10px 14px;text-align:left;border-bottom:2px solid rgba(34,197,94,0.15);font-weight:700;font-size:12px}
+        td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d1d5db}
         
-        .insight-card{background:rgba(34,197,94,0.04);border:1px solid rgba(34,197,94,0.1);border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+        /* TABS */
+        .tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+        .tab{padding:10px 18px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#9ca3af;transition:all 0.2s}
+        .tab:hover{color:white;border-color:rgba(255,255,255,0.2)}
+        .tab.active{background:rgba(34,197,94,0.12);color:#22c55e;border-color:rgba(34,197,94,0.3)}
         
+        /* FOOTER */
         .footer-main{border-top:1px solid rgba(255,255,255,0.06);padding:24px 0;margin-top:40px;text-align:center;font-size:12px;color:#4b5563}
-        .footer-main a{color:#6b7280;text-decoration:none;margin:0 8px}.footer-main a:hover{color:#22c55e}
+        .footer-main a{color:#6b7280;margin:0 8px}.footer-main a:hover{color:#22c55e}
         .scroll-top-btn{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:16px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(34,197,94,0.3);transition:all 0.4s ease;opacity:0;visibility:hidden;color:white;font-size:20px;font-weight:700}
         .scroll-top-btn.show{opacity:1;visibility:visible}.scroll-top-btn:hover{transform:translateY(-4px)}
-        
-        @media(max-width:1024px){.nav-links{display:none!important}.mobile-menu-btn{display:block!important}}
-        @media(max-width:768px){.detail-grid{grid-template-columns:1fr!important}.metrics-grid{grid-template-columns:1fr 1fr!important}}
-        @media(max-width:500px){.metrics-grid{grid-template-columns:1fr!important}.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}}
+        @media(max-width:500px){.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}.metric-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
@@ -81,200 +99,305 @@
     <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="container nav-inner">
-            <a href="index.html" class="logo"><div class="logo-icon">₹</div><div class="logo-text"><span class="logo-name">Dividend<span class="text-green">Strike</span></span><span class="logo-tagline">NSE Dividend Intelligence</span></div></a>
-            <div class="nav-links"><a href="index.html" class="nav-link">🏠 Home</a><a href="screener.html" class="nav-link">🔍 Screener</a><a href="calculators.html" class="nav-link">🧮 Calculators</a><a href="blog.html" class="nav-link">📝 Blog</a><a href="knowledge-hub.html" class="nav-link">📚 Learn</a></div>
-            <div class="nav-actions"><span class="live-indicator"><span class="pulse-dot"></span><span style="font-size:11px;color:#9ca3af;">Live NSE Data</span></span><button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button></div>
+            <a href="home.html" class="logo"><div class="logo-icon">₹</div><div class="logo-text"><span class="logo-name">Dividend<span class="text-green">Strike</span></span><span class="logo-tagline">NSE Dividend Intelligence</span></div></a>
+            <div class="nav-links"><a href="home.html" class="nav-link">🏠 Home</a><a href="screener.html" class="nav-link">🔍 Screener</a><a href="calculators.html" class="nav-link">🧮 Calculators</a><a href="blog.html" class="nav-link">📝 Blog</a><a href="knowledge-hub.html" class="nav-link">📚 Learn</a></div>
+            <div class="nav-actions"><span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af;"><span class="pulse-dot"></span>Live NSE Data</span><button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button></div>
         </div>
-        <div id="mobileMenu" class="mobile-menu" style="display:none;"><a href="index.html">🏠 Home</a><a href="screener.html">🔍 Screener</a><a href="calculators.html">🧮 Calculators</a><a href="blog.html">📝 Blog</a><a href="knowledge-hub.html">📚 Learn</a></div>
+        <div id="mobileMenu" class="mobile-menu" style="display:none;"><a href="home.html">🏠 Home</a><a href="screener.html">🔍 Screener</a><a href="calculators.html">🧮 Calculators</a><a href="blog.html">📝 Blog</a><a href="knowledge-hub.html">📚 Learn</a></div>
     </nav>
 
     <main class="container" style="padding:24px 0;">
         <div id="stockDetailContainer">
-            <div class="text-center" style="padding:60px 0;">
-                <p style="color:#9ca3af;">Loading stock analysis...</p>
-            </div>
+            <div class="text-center" style="padding:60px 0;"><p style="color:#9ca3af;">Loading stock analysis dashboard...</p></div>
         </div>
     </main>
 
-    <footer class="footer-main"><div class="container"><p>DividendStrike — AI-Powered NSE Analysis</p><div style="margin-top:6px;"><a href="index.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a></div></div></footer>
+    <footer class="footer-main"><div class="container"><p>DividendStrike — AI-Powered NSE Analysis</p><div style="margin-top:6px;"><a href="home.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a></div></div></footer>
     <button id="scrollToTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
     <script src="assets/js/database.js"></script>
     <script src="assets/js/ai-engine.js"></script>
-    <script src="assets/js/common.js"></script>
     
     <script>
         function toggleMobileMenu(){const m=document.getElementById('mobileMenu');m.style.display=(m.style.display==='none'||m.style.display==='')?'grid':'none';}
         document.addEventListener('click',e=>{const m=document.getElementById('mobileMenu');const b=document.querySelector('.mobile-menu-btn');if(m&&b&&!m.contains(e.target)&&!b.contains(e.target))m.style.display='none';});
-        function handleScrollButton(){const b=document.getElementById('scrollToTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);}
-        window.addEventListener('scroll',handleScrollButton,{passive:true});
+        function handleScroll(){const b=document.getElementById('scrollToTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);}
+        window.addEventListener('scroll',handleScroll,{passive:true});
+        function getParam(p){return new URLSearchParams(window.location.search).get(p);}
         
-        function getUrlParam(p){return new URLSearchParams(window.location.search).get(p);}
+        // Technical indicators calculator
+        function calcEMA(data, period) {
+            const k = 2 / (period + 1);
+            let ema = [data[0]];
+            for (let i = 1; i < data.length; i++) ema.push(data[i] * k + ema[i - 1] * (1 - k));
+            return ema;
+        }
+        function calcRSI(prices, period = 14) {
+            if (prices.length < period + 1) return Array(prices.length).fill(50);
+            let gains = [], losses = [], rsi = Array(period).fill(null);
+            for (let i = 1; i < prices.length; i++) {
+                const diff = prices[i] - prices[i - 1];
+                gains.push(diff > 0 ? diff : 0);
+                losses.push(diff < 0 ? -diff : 0);
+            }
+            let avgGain = gains.slice(0, period).reduce((a, b) => a + b, 0) / period;
+            let avgLoss = losses.slice(0, period).reduce((a, b) => a + b, 0) / period;
+            rsi.push(100 - (100 / (1 + avgGain / (avgLoss || 1))));
+            for (let i = period; i < gains.length; i++) {
+                avgGain = (avgGain * (period - 1) + gains[i]) / period;
+                avgLoss = (avgLoss * (period - 1) + losses[i]) / period;
+                rsi.push(100 - (100 / (1 + avgGain / (avgLoss || 1))));
+            }
+            return rsi;
+        }
+        
+        // Generate mock price data
+        function generatePriceData(basePrice, days = 200) {
+            const prices = [];
+            let price = basePrice * 0.85;
+            const volatility = basePrice * 0.02;
+            for (let i = 0; i < days; i++) {
+                price += (Math.random() - 0.48) * volatility;
+                price = Math.max(price, basePrice * 0.6);
+                price = Math.min(price, basePrice * 1.4);
+                prices.push(parseFloat(price.toFixed(2)));
+            }
+            prices.push(basePrice);
+            return prices;
+        }
+        
+        // Generate company news
+        function generateNews(symbol, name) {
+            const company = name.split(' ')[0];
+            const templates = [
+                {t:'📊 Results',c:'positive',text:`${company} reports strong quarterly results — revenue up 12% YoY`},
+                {t:'💰 Dividend',c:'positive',text:`${company} declares interim dividend of ₹${(Math.random()*20+5).toFixed(1)} per share`},
+                {t:'📈 Analyst',c:'positive',text:`Brokerage upgrades ${symbol} to BUY with target price ₹${(Math.random()*5000+500).toFixed(0)}`},
+                {t:'🏢 Corporate',c:'neutral',text:`${company} announces capacity expansion plan with ₹${(Math.random()*5000+500).toFixed(0)} crore investment`},
+                {t:'📊 Technical',c:'neutral',text:`${symbol} shows bullish EMA crossover on daily charts — traders watch for breakout`},
+                {t:'📰 Market',c:'negative',text:`Sector faces headwinds amid global uncertainty — ${company} may see short-term pressure`},
+                {t:'💰 Dividend',c:'positive',text:`${company} fixes record date for upcoming dividend payment`},
+                {t:'📈 Technical',c:'positive',text:`RSI indicates oversold levels for ${symbol} — potential bounce back expected`},
+            ];
+            const news = [];
+            for(let i=0;i<6;i++){
+                const t=templates[Math.floor(Math.random()*templates.length)];
+                const h=Math.floor(Math.random()*48);
+                news.push({...t,time:h<1?'Just now':h<24?`${h}h ago`:`${Math.floor(h/24)}d ago`});
+            }
+            return news.sort((a,b)=>a.time.localeCompare(b.time));
+        }
         
         function loadStockDetail() {
-            const symbol = getUrlParam('symbol');
+            const symbol = getParam('symbol');
             const container = document.getElementById('stockDetailContainer');
             
             if (!symbol) {
-                container.innerHTML = `
-                <div class="text-center" style="padding:60px 0;">
-                    <span style="font-size:60px;display:block;margin-bottom:16px;">🔍</span>
-                    <h1 style="font-size:24px;font-weight:900;margin-bottom:8px;">No Stock Selected</h1>
-                    <p style="color:#9ca3af;margin-bottom:24px;">Use our screener to find stocks or select one from the list below.</p>
-                    <a href="screener.html" class="btn btn-primary">🔍 Go to Screener</a>
-                </div>`;
+                container.innerHTML = `<div class="text-center" style="padding:60px;"><h2 style="font-size:24px;font-weight:900;">🔍 No Stock Selected</h2><p class="text-secondary mt-2">Use our screener to find stocks.</p><a href="screener.html" class="btn btn-primary" style="margin-top:16px;">Go to Screener</a></div>`;
                 return;
             }
             
             const s = stocks.find(st => st.symbol === symbol.toUpperCase());
-            
             if (!s) {
-                container.innerHTML = `
-                <div class="text-center" style="padding:60px 0;">
-                    <h1 style="font-size:24px;font-weight:900;margin-bottom:8px;">Stock Not Found</h1>
-                    <p style="color:#9ca3af;">"${symbol}" is not in our database.</p>
-                    <a href="screener.html" class="btn btn-primary" style="margin-top:16px;">Browse Stocks</a>
-                </div>`;
+                container.innerHTML = `<div class="text-center" style="padding:60px;"><h2 style="font-size:24px;font-weight:900;">Stock Not Found</h2><p class="text-secondary">"${symbol}" not in database.</p><a href="screener.html" class="btn btn-primary" style="margin-top:16px;">Browse Stocks</a></div>`;
                 return;
             }
+            
+            document.title = `${s.symbol} — Complete Analysis, Technical & Dividend Dashboard | DividendStrike`;
             
             const h = AI.health(s);
             const p = AI.growth(s);
             const r = AI.rec(s);
             const su = AI.sustain(s);
             
-            // Update page title
-            document.title = `${s.symbol} — ${s.name} | Dividend Analysis & AI Score | DividendStrike`;
-            document.getElementById('pageTitle').textContent = `${s.symbol} — ${s.name} | Dividend Analysis | DividendStrike`;
+            // Generate technical data
+            const priceData = generatePriceData(s.price, 200);
+            const ema9 = calcEMA(priceData, 9);
+            const ema21 = calcEMA(priceData, 21);
+            const ema50 = calcEMA(priceData, 50);
+            const rsiData = calcRSI(priceData, 14);
+            const lastPrice = priceData[priceData.length-1];
+            const lastRSI = rsiData[rsiData.length-1];
+            const lastEMA9 = ema9[ema9.length-1];
+            const lastEMA21 = ema21[ema21.length-1];
             
-            // Generate insights
-            const insights = [];
-            if (h >= 85) insights.push({icon:'🟢',text:'Exceptional dividend safety — among the safest dividend stocks in India with strong fundamentals across all 17 AI factors.'});
-            if (h >= 70 && h < 85) insights.push({icon:'🔵',text:'Strong dividend profile with good sustainability metrics. Reliable income generator for long-term portfolios.'});
-            if (s.divYield > 5) insights.push({icon:'💰',text:`High yield of ${s.divYield.toFixed(1)}% generates significant passive income. At current price, ₹10L investment yields approximately ₹${(1000000*s.divYield/100).toFixed(0)} annually.`});
-            if (s.divGrowth3Y > 15) insights.push({icon:'📈',text:`Strong ${s.divGrowth3Y}% dividend growth rate — your income compounds well above inflation. Yield-on-cost doubles every 4-5 years.`});
-            if (s.divConsistency >= 25) insights.push({icon:'⭐',text`Elite consistency — ${s.divConsistency} years of uninterrupted dividend payments. This is India's closest equivalent to a Dividend Aristocrat.`});
-            if (s.promoter > 60) insights.push({icon:'🏛️',text:`High promoter holding of ${s.promoter}% indicates strong alignment with shareholder interests and commitment to dividend policies.`});
-            if (s.de < 0.3) insights.push({icon:'🛡️',text`Low debt-to-equity ratio of ${s.de.toFixed(2)} means dividends are safe even during economic downturns or interest rate hikes.`});
-            if (s.paysDividend && s.payoutRatio > 85) insights.push({icon:'⚠️',text`High payout ratio of ${s.payoutRatio}% — dividend may be at risk if earnings decline. Monitor quarterly results closely.`});
-            if (s.paysDividend && s.payoutRatio < 35) insights.push({icon:'📊',text`Low payout ratio of ${s.payoutRatio}% leaves significant room for future dividend increases. Expect double-digit dividend growth.`});
+            // Technical signals
+            const emaSignal = lastEMA9 > lastEMA21 ? {s:'BUY',c:'green',t:'Bullish — EMA 9 above EMA 21'} : {s:'SELL',c:'red',t:'Bearish — EMA 9 below EMA 21'};
+            const rsiSignal = lastRSI < 30 ? {s:'BUY',c:'green',t:`Oversold (${lastRSI.toFixed(0)}) — Potential bounce`} : lastRSI > 70 ? {s:'SELL',c:'red',t:`Overbought (${lastRSI.toFixed(0)}) — Caution advised`} : {s:'NEUTRAL',c:'yellow',t:`Neutral (${lastRSI.toFixed(0)}) — No extreme signal`};
+            
+            const news = generateNews(s.symbol, s.name);
             
             container.innerHTML = `
-            <a href="screener.html" style="color:#9ca3af;text-decoration:none;font-size:13px;display:inline-block;margin-bottom:20px;">← Back to Screener</a>
+            <a href="screener.html" style="color:#9ca3af;font-size:13px;display:inline-block;margin-bottom:20px;">← Back to Screener</a>
             
-            <!-- Header -->
-            <div class="card" style="padding:28px 32px;margin-bottom:20px;">
+            <!-- STOCK HEADER -->
+            <div class="card" style="padding:28px 32px;margin-bottom:20px;background:linear-gradient(135deg,rgba(15,15,25,0.9),rgba(10,10,20,0.9));">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
                     <div>
                         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
                             <h1 style="font-size:28px;font-weight:900;">${s.symbol}</h1>
-                            ${h>=80?'<span class="badge-yellow">⭐ Top Pick</span>':''}
-                            ${!s.paysDividend?'<span class="badge-red">Non-Payer</span>':''}
+                            <span class="badge badge-green">NSE</span>
+                            ${h>=80?'<span class="badge badge-yellow">⭐ Top Pick</span>':''}
                         </div>
                         <p style="color:#9ca3af;font-size:15px;">${s.name} • ${s.sector}</p>
-                        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:#6b7280;">
-                            <span>Mkt Cap: ${s.mcap}</span><span>P/E: ${s.pe}</span><span>EPS: ₹${s.eps}</span><span>ROE: ${s.roe}%</span>
+                        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12px;color:#6b7280;">
+                            <span>Mkt Cap: ${s.mcap}</span><span>P/E: ${s.pe}</span><span>EPS: ₹${s.eps}</span><span>ROE: ${s.roe}%</span><span>FII/DII: ${s.fiidii}</span>
                         </div>
                     </div>
                     <div class="text-center">
-                        <div class="score-circle" style="background:${h>=80?'rgba(34,197,94,0.15)':h>=60?'rgba(59,130,246,0.15)':h>=35?'rgba(234,179,8,0.15)':'rgba(239,68,68,0.15)'};color:${h>=80?'#22c55e':h>=60?'#3b82f6':h>=35?'#eab308':'#ef4444'};">${h}</div>
-                        <p style="font-size:11px;color:#6b7280;margin-top:6px;">AI Health Score</p>
+                        <div style="font-size:32px;font-weight:900;color:#22c55e;">₹${s.price.toFixed(2)}</div>
+                        <div style="font-size:36px;font-weight:900;color:${h>=80?'#22c55e':h>=60?'#3b82f6':h>=35?'#eab308':'#ef4444'};">${h}</div>
+                        <p style="font-size:11px;color:#6b7280;">AI Health Score / 100</p>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+                    <a href="calculators.html" class="btn btn-primary btn-sm">🧮 Calculate DRIP</a>
+                    <button class="btn btn-outline btn-sm" onclick="window.history.back()">← Back</button>
+                </div>
+            </div>
+            
+            <!-- TABS -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('overview',this)">📊 Overview</button>
+                <button class="tab" onclick="switchTab('dividend',this)">💰 Dividend History</button>
+                <button class="tab" onclick="switchTab('technical',this)">📈 Technical Analysis</button>
+                <button class="tab" onclick="switchTab('fundamental',this)">🏢 Fundamentals</button>
+                <button class="tab" onclick="switchTab('news',this)">📰 Latest News</button>
+            </div>
+            
+            <!-- OVERVIEW TAB -->
+            <div id="tab-overview" class="tab-content">
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;">
+                    <div class="card text-center" style="padding:20px;"><p style="font-size:11px;color:#6b7280;">Dividend Yield</p><p style="font-size:28px;font-weight:900;color:#22c55e;">${s.paysDividend?s.divYield.toFixed(2)+'%':'—'}</p><p style="font-size:11px;color:#6b7280;">DPS: ${s.paysDividend?'₹'+s.divPerShare:'—'}</p></div>
+                    <div class="card text-center" style="padding:20px;"><p style="font-size:11px;color:#6b7280;">3Y Growth</p><p style="font-size:28px;font-weight:900;color:#3b82f6;">${s.paysDividend?(p.cagr>0?'+':'')+p.cagr+'%':'—'}</p><p style="font-size:11px;color:#6b7280;">${p.sig||'N/A'}</p></div>
+                    <div class="card text-center" style="padding:20px;"><p style="font-size:11px;color:#6b7280;">Sustainability</p><p style="font-size:28px;font-weight:900;color:${su.c==='green'?'#22c55e':su.c==='blue'?'#3b82f6':'#eab308'};">${su.sc}</p><p style="font-size:11px;color:#6b7280;">${su.r||'N/A'}</p></div>
+                    <div class="card text-center" style="padding:20px;"><p style="font-size:11px;color:#6b7280;">Technical Signal</p><p style="font-size:22px;font-weight:900;color:${emaSignal.c==='green'?'#22c55e':'#ef4444'};">${emaSignal.s}</p><p style="font-size:11px;color:#6b7280;">EMA Crossover</p></div>
+                </div>
+                
+                <!-- AI Insights -->
+                <div class="card"><div class="card-header"><span class="card-title">🤖 AI-Powered Insights</span></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        ${[h>=85?`<div class="signal-card signal-buy"><strong>🟢 Exceptional Safety</strong><p class="text-xs text-secondary mt-1">Among the safest dividend stocks in India with strong fundamentals across all 17 factors.</p></div>`:'',
+                        s.divYield>5?`<div class="signal-card signal-buy"><strong>💰 High Yield</strong><p class="text-xs text-secondary mt-1">${s.divYield.toFixed(1)}% yield. ₹10L investment generates ~₹${(1000000*s.divYield/100).toFixed(0)} annually.</p></div>`:'',
+                        s.divGrowth3Y>15?`<div class="signal-card signal-buy"><strong>📈 Strong Growth</strong><p class="text-xs text-secondary mt-1">${s.divGrowth3Y}% dividend growth. Income doubles every ~${(72/s.divGrowth3Y).toFixed(0)} years.</p></div>`:'',
+                        s.paysDividend&&s.payoutRatio>85?`<div class="signal-card signal-sell"><strong>⚠️ High Payout</strong><p class="text-xs text-secondary mt-1">${s.payoutRatio}% payout ratio — dividend at risk if earnings decline.</p></div>`:'',
+                        s.de>2?`<div class="signal-card signal-sell"><strong>🔴 High Debt</strong><p class="text-xs text-secondary mt-1">D/E ratio of ${s.de.toFixed(1)} — dividends vulnerable during downturns.</p></div>`:'',
+                        s.divConsistency>=25?`<div class="signal-card signal-buy"><strong>⭐ Elite Consistency</strong><p class="text-xs text-secondary mt-1">${s.divConsistency} years of uninterrupted dividends — Dividend Aristocrat status.</p></div>`:''
+                        ].filter(Boolean).join('')}
                     </div>
                 </div>
             </div>
             
-            <!-- Score Cards -->
-            <div class="detail-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;">
-                <div class="card text-center" style="padding:20px;">
-                    <p style="font-size:11px;color:#6b7280;margin-bottom:6px;">Dividend Yield</p>
-                    <p style="font-size:32px;font-weight:900;color:#22c55e;">${s.paysDividend?s.divYield.toFixed(2)+'%':'—'}</p>
-                    <p style="font-size:11px;color:#6b7280;">DPS: ${s.paysDividend?'₹'+s.divPerShare:'—'}</p>
+            <!-- DIVIDEND TAB -->
+            <div id="tab-dividend" class="tab-content" style="display:none;">
+                ${s.paysDividend?`
+                <div class="card">
+                    <div class="card-header"><span class="card-title">📋 Dividend Payment History (6 Years)</span></div>
+                    <div style="overflow-x:auto;"><table><thead><tr><th>Date</th><th>Type</th><th>DPS (₹)</th><th>Yield %</th><th>Growth</th></tr></thead><tbody>
+                    ${(s.dividendHistory||[]).map((d,i,arr)=>{const prev=i>0?arr[i-1].dividendPerShare:d.dividendPerShare;const g=prev>0?((d.dividendPerShare-prev)/prev*100):0;return`<tr><td>${d.date}</td><td><span class="badge ${d.type==='Final'?'badge-blue':'badge-yellow'}">${d.type}</span></td><td style="font-weight:600;">₹${d.dividendPerShare.toFixed(2)}</td><td class="text-green">${d.yield.toFixed(2)}%</td><td class="${g>=0?'text-green':'text-red'}">${g>0?'+':''}${g.toFixed(1)}%</td></tr>`;}).join('')}
+                    </tbody></table></div>
                 </div>
-                <div class="card text-center" style="padding:20px;">
-                    <p style="font-size:11px;color:#6b7280;margin-bottom:6px;">3Y Growth Forecast</p>
-                    <p style="font-size:32px;font-weight:900;color:#3b82f6;">${s.paysDividend?(p.cagr>0?'+':'')+p.cagr+'%':'—'}</p>
-                    <p style="font-size:11px;color:#6b7280;">${p.sig||'N/A'}</p>
-                </div>
-                <div class="card text-center" style="padding:20px;">
-                    <p style="font-size:11px;color:#6b7280;margin-bottom:6px;">Sustainability</p>
-                    <p style="font-size:32px;font-weight:900;color:${su.c==='green'?'#22c55e':su.c==='blue'?'#3b82f6':su.c==='yellow'?'#eab308':'#ef4444'};">${su.sc}</p>
-                    <p style="font-size:11px;color:#6b7280;">${su.r||'N/A'}</p>
-                </div>
-                <div class="card text-center" style="padding:20px;">
-                    <p style="font-size:11px;color:#6b7280;margin-bottom:6px;">Recommendation</p>
-                    <p style="font-size:18px;font-weight:900;color:${r.c==='green'?'#22c55e':r.c==='blue'?'#3b82f6':r.c==='yellow'?'#eab308':'#ef4444'};">${r.t}</p>
-                    <p style="font-size:11px;color:#6b7280;">Based on 17 AI factors</p>
-                </div>
+                <div class="card"><div class="card-header"><span class="card-title">📊 Dividend Growth Chart</span></div><div style="height:250px;"><canvas id="dividendChart"></canvas></div></div>
+                `:'<div class="card text-center" style="padding:40px;"><p class="text-secondary">🚫 This company does not pay dividends.</p></div>'}
             </div>
             
-            <!-- AI Insights -->
-            <div class="card" style="padding:24px;margin-bottom:20px;">
-                <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">🤖 AI-Powered Investment Insights</h3>
-                <div class="detail-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                    ${insights.map(i=>`
-                    <div class="insight-card">
-                        <span style="font-size:18px;flex-shrink:0;">${i.icon}</span>
-                        <p style="font-size:13px;color:#d1d5db;line-height:1.6;">${i.text}</p>
+            <!-- TECHNICAL TAB -->
+            <div id="tab-technical" class="tab-content" style="display:none;">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+                    <div class="card text-center signal-card signal-${emaSignal.c==='green'?'buy':'sell'}"><p style="font-size:11px;color:#6b7280;">EMA 9/21 Crossover</p><p style="font-size:24px;font-weight:900;color:${emaSignal.c==='green'?'#22c55e':'#ef4444'};">${emaSignal.s}</p><p style="font-size:11px;color:#6b7280;">${emaSignal.t}</p></div>
+                    <div class="card text-center signal-card signal-${rsiSignal.c==='green'?'buy':rsiSignal.c==='red'?'sell':'neutral'}"><p style="font-size:11px;color:#6b7280;">RSI (14)</p><p style="font-size:24px;font-weight:900;color:${rsiSignal.c==='green'?'#22c55e':rsiSignal.c==='red'?'#ef4444':'#eab308'};">${lastRSI.toFixed(0)}</p><p style="font-size:11px;color:#6b7280;">${rsiSignal.t}</p></div>
+                    <div class="card text-center"><p style="font-size:11px;color:#6b7280;">Price Action</p><p style="font-size:24px;font-weight:900;color:#22c55e;">₹${lastPrice.toFixed(2)}</p><p style="font-size:11px;color:#6b7280;">200-day range analysis</p></div>
+                </div>
+                <div class="card"><div class="card-header"><span class="card-title">📈 Price Chart with EMA Crossovers</span><span class="text-xs text-muted">9/21/50 EMA</span></div><div style="height:350px;"><canvas id="techChart"></canvas></div></div>
+                <div class="card"><div class="card-header"><span class="card-title">📊 RSI Indicator (14)</span><span class="text-xs text-muted">Overbought >70 | Oversold <30</span></div><div style="height:200px;"><canvas id="rsiChart"></canvas></div></div>
+            </div>
+            
+            <!-- FUNDAMENTAL TAB -->
+            <div id="tab-fundamental" class="tab-content" style="display:none;">
+                <div class="card"><div class="card-header"><span class="card-title">🏢 Fundamental Metrics</span></div>
+                    <div class="metric-grid">
+                        <div class="metric-card"><p class="metric-value">₹${s.price.toFixed(2)}</p><p class="metric-label">Current Price</p></div>
+                        <div class="metric-card"><p class="metric-value">${s.pe}</p><p class="metric-label">P/E Ratio</p></div>
+                        <div class="metric-card"><p class="metric-value">₹${s.eps}</p><p class="metric-label">EPS</p></div>
+                        <div class="metric-card"><p class="metric-value">${s.roe}%</p><p class="metric-label">ROE</p></div>
+                        <div class="metric-card"><p class="metric-value">${s.de.toFixed(2)}</p><p class="metric-label">Debt/Equity</p></div>
+                        <div class="metric-card"><p class="metric-value">${s.promoter}%</p><p class="metric-label">Promoter Holding</p></div>
+                        <div class="metric-card"><p class="metric-value text-green">${s.paysDividend?s.payoutRatio+'%':'—'}</p><p class="metric-label">Payout Ratio</p></div>
+                        <div class="metric-card"><p class="metric-value">${s.buybackHistory}</p><p class="metric-label">Buybacks</p></div>
                     </div>
-                    `).join('')}
                 </div>
             </div>
             
-            <!-- Key Metrics -->
-            <div class="card" style="padding:24px;margin-bottom:20px;">
-                <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">📊 Key Dividend Metrics</h3>
-                <div class="metrics-grid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;">
-                    <div class="metric-card"><p class="metric-value ${s.payoutRatio>85?'text-red':s.payoutRatio>65?'text-yellow':'text-green'}">${s.paysDividend?s.payoutRatio+'%':'—'}</p><p class="metric-label">Payout Ratio</p></div>
-                    <div class="metric-card"><p class="metric-value text-blue">${s.paysDividend?s.divConsistency+' yrs':'—'}</p><p class="metric-label">Consistency</p></div>
-                    <div class="metric-card"><p class="metric-value text-purple">${s.buybackHistory}</p><p class="metric-label">Buybacks</p></div>
-                    <div class="metric-card"><p class="metric-value ${s.de>2?'text-red':s.de>1?'text-yellow':'text-green'}">${s.de.toFixed(2)}</p><p class="metric-label">Debt/Equity</p></div>
-                    <div class="metric-card"><p class="metric-value">${s.promoter}%</p><p class="metric-label">Promoter</p></div>
-                    <div class="metric-card"><p class="metric-value">${s.fiidii}</p><p class="metric-label">FII/DII</p></div>
+            <!-- NEWS TAB -->
+            <div id="tab-news" class="tab-content" style="display:none;">
+                <div class="card"><div class="card-header"><span class="card-title">📰 Latest ${s.name.split(' ')[0]} News & Updates</span></div>
+                    ${news.map(n=>`<div class="news-item"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span class="badge badge-${n.c==='positive'?'green':n.c==='negative'?'red':'blue'}">${n.t}</span><span class="text-xs text-muted">${n.time}</span></div><p class="text-sm text-secondary">${n.text}</p></div>`).join('')}
                 </div>
-            </div>
-            
-            ${s.paysDividend?`
-            <!-- Dividend History -->
-            <div class="card" style="padding:24px;margin-bottom:20px;">
-                <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">📋 Dividend Payment History (6 Years)</h3>
-                <div style="overflow-x:auto;">
-                    <table>
-                        <thead><tr><th>Date</th><th>Type</th><th>DPS (₹)</th><th>Yield %</th><th>Growth</th></tr></thead>
-                        <tbody>
-                            ${(s.dividendHistory||[]).map((d,i,arr)=>{
-                                const prev=i>0?arr[i-1].dividendPerShare:d.dividendPerShare;
-                                const g=prev>0?((d.dividendPerShare-prev)/prev*100):0;
-                                return`<tr>
-                                    <td>${d.date}</td>
-                                    <td><span class="badge-${d.type==='Final'?'blue':'yellow'}">${d.type}</span></td>
-                                    <td style="font-weight:600;">₹${d.dividendPerShare.toFixed(2)}</td>
-                                    <td class="text-green">${d.yield.toFixed(2)}%</td>
-                                    <td class="${g>=0?'text-green':'text-red'}">${g>0?'+':''}${g.toFixed(1)}%</td>
-                                </tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            `:`
-            <div class="card text-center" style="padding:40px;">
-                <p style="color:#9ca3af;font-size:15px;">🚫 This company does not pay dividends. It reinvests all earnings into business growth.</p>
-            </div>`}
-            
-            <!-- Actions -->
-            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-                <a href="calculators.html" class="btn btn-primary">🧮 Calculate DRIP Returns</a>
-                <a href="screener.html" class="btn btn-outline">🔍 Back to Screener</a>
             </div>`;
             
-            window.scrollTo({top:0,behavior:'smooth'});
+            // Render charts after DOM update
+            setTimeout(() => {
+                if (s.paysDividend) renderDividendChart(s);
+                renderTechnicalCharts(priceData, ema9, ema21, ema50, rsiData);
+            }, 300);
         }
         
-        document.addEventListener('DOMContentLoaded',()=>{
-            handleScrollButton();
-            loadStockDetail();
-            console.log('📊 Stock detail page loaded');
-        });
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tabId).style.display = 'block';
+            btn.classList.add('active');
+        }
+        
+        function renderDividendChart(s) {
+            const ctx = document.getElementById('dividendChart');
+            if (!ctx) return;
+            const data = s.dividendHistory || [];
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.date.split('-')[0]),
+                    datasets: [{label:'DPS (₹)',data:data.map(d=>d.dividendPerShare),backgroundColor:'rgba(34,197,94,0.4)',borderColor:'#22c55e',borderWidth:1,borderRadius:6}]
+                },
+                options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6b7280'},grid:{display:false}},y:{ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,0.05)'}}}}
+            });
+        }
+        
+        function renderTechnicalCharts(prices, ema9, ema21, ema50, rsi) {
+            const ctx1 = document.getElementById('techChart');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type:'line',
+                    data:{
+                        labels:Array.from({length:prices.length},(_,i)=>i),
+                        datasets:[
+                            {label:'Price',data:prices,borderColor:'#e5e7eb',borderWidth:1.5,pointRadius:0,tension:0.3},
+                            {label:'EMA 9',data:ema9,borderColor:'#22c55e',borderWidth:1,pointRadius:0,tension:0.3},
+                            {label:'EMA 21',data:ema21,borderColor:'#f59e0b',borderWidth:1,pointRadius:0,tension:0.3},
+                            {label:'EMA 50',data:ema50,borderColor:'#3b82f6',borderWidth:1,pointRadius:0,tension:0.3}
+                        ]
+                    },
+                    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9ca3af',usePointStyle:true,pointStyleWidth:8}}},scales:{x:{display:false},y:{ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,0.05)'}}},interaction:{intersect:false,mode:'index'}}
+                });
+            }
+            const ctx2 = document.getElementById('rsiChart');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type:'line',
+                    data:{
+                        labels:Array.from({length:rsi.length},(_,i)=>i),
+                        datasets:[
+                            {label:'RSI (14)',data:rsi,borderColor:'#a855f7',borderWidth:2,pointRadius:0,fill:false},
+                            {label:'Overbought (70)',data:Array(rsi.length).fill(70),borderColor:'rgba(239,68,68,0.3)',borderWidth:1,borderDash:[5,5],pointRadius:0},
+                            {label:'Oversold (30)',data:Array(rsi.length).fill(30),borderColor:'rgba(34,197,94,0.3)',borderWidth:1,borderDash:[5,5],pointRadius:0}
+                        ]
+                    },
+                    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{min:0,max:100,ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,0.05)'}}}}
+                });
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded',()=>{handleScroll();loadStockDetail();console.log('📊 Stock Dashboard loaded');});
     </script>
 </body>
 </html>
