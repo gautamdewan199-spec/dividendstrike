@@ -134,3 +134,75 @@ const DB = {
 document.addEventListener('DOMContentLoaded', () => {
     DB.init();
 });
+
+// ============================================
+// TWELVEDATA LIVE DATA SERVICE
+// ============================================
+
+const LiveData = {
+    apiKey: 'b604df4a952e4bdea2011be87693cad7', // ← PUT YOUR KEY HERE
+    isEnabled: true,
+    lastUpdate: null,
+    updateInterval: 300000, // 5 minutes
+    
+    // Update all stock prices
+    async updatePrices() {
+        if (!this.isEnabled || !this.apiKey || this.apiKey === 'YOUR_TWELVEDATA_API_KEY') {
+            console.log('⚠️ Twelvedata API key not configured');
+            return;
+        }
+        
+        try {
+            const symbols = stocks.map(s => s.symbol).join(',');
+            const response = await fetch(
+                `https://api.twelvedata.com/price?symbol=${symbols}&apikey=${this.apiKey}`
+            );
+            
+            if (!response.ok) throw new Error('API limit reached');
+            
+            const data = await response.json();
+            let updated = 0;
+            
+            stocks.forEach(stock => {
+                if (data[stock.symbol] && data[stock.symbol].price) {
+                    const newPrice = parseFloat(data[stock.symbol].price);
+                    if (newPrice > 0 && newPrice !== stock.price) {
+                        stock.price = newPrice;
+                        if (stock.paysDividend && stock.divPerShare > 0) {
+                            stock.divYield = parseFloat(((stock.divPerShare / stock.price) * 100).toFixed(2));
+                        }
+                        updated++;
+                    }
+                }
+            });
+            
+            this.lastUpdate = new Date();
+            console.log(`✅ Updated ${updated} stock prices at ${this.lastUpdate.toLocaleTimeString('en-IN')}`);
+            this.updateIndicator(true);
+            
+        } catch (error) {
+            console.log('⚠️ Live update failed:', error.message);
+            this.updateIndicator(false);
+        }
+    },
+    
+    // Update the green dot indicator
+    updateIndicator(isLive) {
+        const dot = document.querySelector('.pulse-dot');
+        const text = document.getElementById('liveDataText');
+        if (dot) dot.style.background = isLive ? '#22c55e' : '#f59e0b';
+        if (text) text.textContent = isLive ? 'Live NSE Data' : 'Cached Data';
+    },
+    
+    // Start auto-updates
+    start() {
+        console.log('🚀 Live data service started (every 5 min)');
+        this.updatePrices();
+        setInterval(() => this.updatePrices(), this.updateInterval);
+    }
+};
+
+// Start the service
+document.addEventListener('DOMContentLoaded', () => {
+    LiveData.start();
+});
