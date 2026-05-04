@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en-IN">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DividendStrike — Best Dividend Paying Stocks India 2026 | AI-Powered NSE Analysis</title>
+    <meta name="description" content="Find the highest dividend paying stocks in India with AI-powered analysis. Track NSE dividend yields, sustainability scores, growth predictions. Free DRIP calculator, expert guides, and stock screener.">
+    <meta name="keywords" content="dividend stocks india, best dividend paying stocks, nse dividend yield, high dividend stocks, monthly dividend income india, dividend screener, drip calculator india, top dividend stocks 2026">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dividendstrike.in/">
+    
+    <meta property="og:title" content="DividendStrike — Best Dividend Paying Stocks India 2026">
+    <meta property="og:description" content="AI-powered NSE dividend analysis. Find highest yield stocks, sustainability scores, and DRIP calculator.">
+    <meta property="og:type" content="website">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
 <script>
@@ -10,129 +27,665 @@
 
   gtag('config', 'G-F67MPYPHJ3');
 </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DividendStrike — Best Dividend Paying Stocks India 2026 | AI-Powered NSE Analysis</title>
-    <meta name="description" content="Find the highest dividend paying stocks in India with AI-powered analysis. Track NSE dividend yields, sustainability scores, growth predictions. Free DRIP calculator, expert guides, and stock screener.">
-    <meta name="keywords" content="dividend stocks india, best dividend paying stocks, nse dividend yield, high dividend stocks, monthly dividend income india, dividend screener, drip calculator india, top dividend stocks 2026, psu dividend stocks, dividend investing guide">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <link rel="canonical" href="https://dividendstrike.in/">
     
-    <meta property="og:title" content="DividendStrike — Best Dividend Paying Stocks India 2026">
-    <meta property="og:description" content="AI-powered NSE dividend analysis platform. Find highest yield stocks, sustainability scores, and free DRIP calculator.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://dividendstrike.in/assets/images/og-image.jpg">
-    
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* ========== BASE STYLES ========== */
+        :root {
+            --bg: #0a0a0f;
+            --card: rgba(15,15,25,0.85);
+            --border: rgba(255,255,255,0.07);
+            --text: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #1f2937 transparent; }
+        *::-webkit-scrollbar { width: 4px; height: 4px; }
+        *::-webkit-scrollbar-track { background: transparent; }
+        *::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 2px; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 1440px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Text utilities */
+        .text-green { color: #22c55e; }
+        .text-blue { color: #3b82f6; }
+        .text-yellow { color: #eab308; }
+        .text-red { color: #ef4444; }
+        .text-purple { color: #a855f7; }
+        .text-muted { color: #6b7280; }
+        .text-secondary { color: #9ca3af; }
+        .text-xs { font-size: 12px; }
+        .text-sm { font-size: 14px; }
+        .font-bold { font-weight: 700; }
+        .font-black { font-weight: 900; }
+        .text-center { text-align: center; }
+        .py-4 { padding: 16px 0; }
+        
+        /* ========== NAVIGATION ========== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,15,0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 17px;
+        }
+        
+        .logo-text { line-height: 1; }
+        .logo-name { font-size: 17px; font-weight: 900; color: #e5e7eb; }
+        .logo-tagline { font-size: 8px; color: #6b7280; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .nav-links { display: flex; gap: 2px; }
+        
+        .nav-link {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #9ca3af;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.04);
+        }
+        
+        .nav-link.active {
+            background: rgba(34,197,94,0.12);
+            color: #22c55e;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+        
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        
+        .mobile-menu-btn:hover { background: rgba(255,255,255,0.05); }
+        
+        .mobile-menu {
+            display: none;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            background: rgba(10,10,15,0.98);
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-decoration: none;
+            color: #9ca3af;
+            transition: all 0.2s;
+        }
+        
+        .mobile-menu a:hover { background: rgba(255,255,255,0.04); color: white; }
+        
+        .mobile-menu a.active {
+            color: #22c55e;
+            background: rgba(34,197,94,0.1);
+            font-weight: 600;
+        }
+        
+        /* ========== BUTTONS ========== */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-primary { background: #22c55e; color: white; }
+        .btn-primary:hover { background: #16a34a; transform: translateY(-1px); }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #9ca3af; }
+        .btn-outline:hover { border-color: #22c55e; color: white; }
+        .btn-lg { padding: 14px 24px; font-size: 15px; border-radius: 12px; }
+        
+        /* ========== BADGES ========== */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .badge-green { background: rgba(34,197,94,0.2); color: #22c55e; }
+        .badge-blue { background: rgba(59,130,246,0.2); color: #3b82f6; }
+        .badge-yellow { background: rgba(234,179,8,0.2); color: #eab308; }
+        
+        /* ========== CARDS ========== */
+        .card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .card-clickable { cursor: pointer; }
+        .card-clickable:hover {
+            border-color: rgba(34,197,94,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -15px rgba(34,197,94,0.15);
+        }
+        
+        /* ========== HERO ========== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(59,130,246,0.04));
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 48px 40px;
+            margin: 20px 0 40px;
+        }
+        
+        .hero-bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        
+        .hero-bg-glow-1 { top: -100px; right: -50px; width: 400px; height: 400px; background: rgba(34,197,94,0.06); }
+        .hero-bg-glow-2 { bottom: -80px; left: -30px; width: 300px; height: 300px; background: rgba(59,130,246,0.05); }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 48px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 40px;
+            padding: 7px 18px;
+            font-size: 12px;
+            color: #22c55e;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .hero-title { font-size: 42px; font-weight: 900; line-height: 1.15; margin-bottom: 18px; color: #f3f4f6; }
+        .hero-description { font-size: 15px; line-height: 1.7; color: #9ca3af; margin-bottom: 28px; max-width: 520px; }
+        .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+        .hero-trusted { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .hero-avatars { display: flex; align-items: center; gap: 6px; }
+        
+        .avatar {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 700; color: white;
+        }
+        .avatar:nth-child(1) { background: #22c55e; }
+        .avatar:nth-child(2) { background: #3b82f6; }
+        .avatar:nth-child(3) { background: #a855f7; }
+        
+        .hero-stats-card {
+            background: rgba(15,15,25,0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+        }
+        
+        .hero-stats-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-stat {
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .hero-stat-number { font-size: 30px; font-weight: 900; }
+        .hero-stat-label { font-size: 11px; color: #6b7280; margin-top: 4px; }
+        .hero-top-yielder { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .hero-top-yielder-name { font-size: 16px; font-weight: 700; margin-top: 8px; color: #eab308; }
+        
+        /* ========== SECTIONS ========== */
+        section { margin-bottom: 48px; }
+        
+        .section-header {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .section-title { font-size: 22px; font-weight: 800; color: #f3f4f6; }
+        .section-subtitle { font-size: 14px; color: #6b7280; }
+        
+        .view-all-link {
+            font-size: 13px;
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .view-all-link:hover { text-decoration: underline; }
+        
+        /* ========== FEATURES ========== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .feature-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 24px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(34,197,94,0.3);
+            box-shadow: 0 20px 40px -15px rgba(34,197,94,0.15);
+        }
+        
+        .feature-icon-wrapper {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        
+        .feature-icon { font-size: 24px; }
+        .feature-title { font-size: 16px; font-weight: 700; color: #f3f4f6; margin-bottom: 8px; }
+        .feature-desc { font-size: 13px; color: #9ca3af; line-height: 1.6; margin-bottom: 12px; }
+        .feature-link { font-size: 13px; color: #22c55e; font-weight: 600; }
+        
+        /* ========== STOCK CARDS ========== */
+        .stocks-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .stock-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .stock-card:hover {
+            border-color: rgba(34,197,94,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .stock-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        
+        .stock-symbol { font-size: 15px; font-weight: 700; color: #f3f4f6; display: block; }
+        .stock-name { font-size: 11px; color: #6b7280; display: block; margin-top: 2px; }
+        
+        .stock-score {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .score-green { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .score-blue { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .score-yellow { background: rgba(234,179,8,0.15); color: #eab308; }
+        
+        .stock-card-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        
+        .stock-metric-label {
+            font-size: 10px;
+            color: #6b7280;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stock-metric-value { font-size: 14px; font-weight: 700; color: #d1d5db; }
+        
+        .stock-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        /* ========== BLOG SECTION ========== */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+        
+        .blog-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        
+        .blog-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover { border-color: rgba(34,197,94,0.3); }
+        .blog-card-title { font-size: 16px; font-weight: 700; color: #f3f4f6; margin: 10px 0; line-height: 1.4; }
+        .blog-card-excerpt { font-size: 13px; color: #9ca3af; line-height: 1.5; margin-bottom: 12px; }
+        .blog-card-meta { font-size: 11px; color: #6b7280; display: flex; gap: 12px; }
+        
+        .sidebar-card {
+            background: rgba(15,15,25,0.85);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .sidebar-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+        
+        .quick-link {
+            display: block;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #9ca3af;
+            font-size: 13px;
+            margin-bottom: 6px;
+            background: rgba(255,255,255,0.02);
+            transition: all 0.2s;
+        }
+        
+        .quick-link:hover { background: rgba(34,197,94,0.08); color: #22c55e; }
+        
+        .snapshot-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 13px;
+        }
+        
+        .snapshot-item:last-child { border-bottom: none; }
+        
+        /* ========== NEWSLETTER ========== */
+        .newsletter-cta {
+            background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.06));
+            border: 1px solid rgba(34,197,94,0.15);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .newsletter-content { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+        .newsletter-text { flex: 1; min-width: 250px; }
+        .newsletter-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .newsletter-desc { font-size: 14px; color: #9ca3af; line-height: 1.6; }
+        
+        .newsletter-form { display: flex; gap: 10px; flex: 1; min-width: 280px; }
+        
+        .newsletter-input {
+            flex: 1;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .newsletter-input:focus { border-color: #22c55e; }
+        
+        /* ========== FOOTER ========== */
+        .footer-main {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 48px 0 24px;
+            margin-top: 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 32px;
+        }
+        
+        .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #f3f4f6; }
+        .footer-col p { font-size: 13px; color: #6b7280; line-height: 1.6; }
+        .footer-col a { display: block; font-size: 13px; color: #6b7280; text-decoration: none; padding: 4px 0; transition: color 0.2s; }
+        .footer-col a:hover { color: #22c55e; }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            font-size: 12px;
+            color: #4b5563;
+        }
+        
+        /* ========== SCROLL TO TOP ========== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(34,197,94,0.3);
+            transition: all 0.4s ease;
+            opacity: 0;
+            visibility: hidden;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .scroll-top-btn.show { opacity: 1; visibility: visible; }
+        .scroll-top-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(34,197,94,0.5); }
+        
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .nav-links { display: none !important; }
+            .mobile-menu-btn { display: block !important; }
+        }
+        
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+            .hero { padding: 32px 24px; }
+            .hero-title { font-size: 30px; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .stocks-grid { grid-template-columns: 1fr 1fr; }
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-title { font-size: 26px; }
+            .hero { padding: 24px 16px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .stocks-grid { grid-template-columns: 1fr; }
+            .blog-cards { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 500px) {
+            .hero-buttons { flex-direction: column; }
+            .hero-buttons .btn { width: 100%; text-align: center; }
+            .newsletter-form { flex-direction: column; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .scroll-top-btn { bottom: 16px; right: 16px; width: 40px; height: 40px; font-size: 16px; }
+        }
+    </style>
 </head>
 <body>
 
-    <div id="toastContainer"></div>
-
     <!-- ========== NAVIGATION ========== -->
-   <nav class="navbar">
-    <div class="container nav-inner">
-        <a href="home.html" class="logo">
-            <div class="logo-icon">₹</div>
-            <div class="logo-text">
-                <span class="logo-name">Dividend<span class="text-green">Strike</span></span>
-                <span class="logo-tagline">NSE Dividend Intelligence</span>
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">₹</div>
+                <div class="logo-text">
+                    <span class="logo-name">Dividend<span class="text-green">Strike</span></span>
+                    <span class="logo-tagline">NSE Dividend Intelligence</span>
+                </div>
+            </a>
+            
+            <div class="nav-links">
+                <a href="home.html" class="nav-link active" id="nav-home">🏠 Home</a>
+                <a href="screener.html" class="nav-link" id="nav-screener">🔍 Screener</a>
+                <a href="calculators.html" class="nav-link" id="nav-calculators">🧮 Calculators</a>
+                <a href="blog.html" class="nav-link" id="nav-blog">📝 Blog</a>
+                <a href="knowledge-hub.html" class="nav-link" id="nav-learn">📚 Learn</a>
             </div>
-        </a>
-        
-        <!-- DESKTOP NAV (hidden on mobile) -->
-        <div class="nav-links" id="desktopNav">
-            <a href="home.html" class="nav-link active">🏠 Home</a>
-            <a href="screener.html" class="nav-link">🔍 Screener</a>
-            <a href="calculators.html" class="nav-link">🧮 Calculators</a>
-            <a href="blog.html" class="nav-link">📝 Blog</a>
-            <a href="knowledge-hub.html" class="nav-link">📚 Learn</a>
+            
+            <div class="nav-actions">
+                <span class="live-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Live NSE Data</span>
+                </span>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
+            </div>
         </div>
         
-        <!-- RIGHT SIDE -->
-        <div class="nav-actions">
-            <span class="live-indicator" id="liveIndicator">
-                <span class="pulse-dot"></span>
-                <span id="liveDataText">Live NSE Data</span>
-            </span>
-            <!-- MOBILE MENU BUTTON (hidden on desktop) -->
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
+        <div id="mobileMenu" class="mobile-menu" style="display:none;">
+            <a href="home.html" class="active">🏠 Home</a>
+            <a href="screener.html">🔍 Screener</a>
+            <a href="calculators.html">🧮 Calculators</a>
+            <a href="blog.html">📝 Blog</a>
+            <a href="knowledge-hub.html">📚 Learn</a>
         </div>
-    </div>
-    
-    <!-- MOBILE MENU (hidden by default) -->
-    <div id="mobileMenu" class="mobile-menu" style="display:none;">
-        <a href="home.html" class="active">🏠 Home</a>
-        <a href="screener.html">🔍 Screener</a>
-        <a href="calculators.html">🧮 Calculators</a>
-        <a href="blog.html">📝 Blog</a>
-        <a href="knowledge-hub.html">📚 Learn</a>
-    </div>
-</nav>
-    <script>
-    // Toggle mobile menu
-    function toggleMobileMenu() {
-        const menu = document.getElementById('mobileMenu');
-        menu.style.display = menu.style.display === 'none' ? 'grid' : 'none';
-    }
-    
-    // Highlight active nav based on current page
-    function setActiveNav() {
-        const page = window.location.pathname.split('/').pop() || 'home.html';
-        document.querySelectorAll('.nav-link, .mobile-menu a').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === page) {
-                link.classList.add('active');
-            }
-        });
-    }
-    document.addEventListener('DOMContentLoaded', setActiveNav);
-</script>
+    </nav>
 
-<style>
-    /* Mobile menu button - only visible on small screens */
-    .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 22px;
-        cursor: pointer;
-        padding: 8px;
-    }
-    
-    @media (max-width: 1024px) {
-        .nav-links { display: none !important; }
-        .mobile-menu-btn { display: block; }
-    }
-    
-    .mobile-menu {
-        padding: 12px 16px;
-        border-top: 1px solid rgba(255,255,255,0.06);
-        grid-template-columns: 1fr 1fr;
-        gap: 4px;
-    }
-    
-    .mobile-menu a {
-        display: block;
-        padding: 10px 14px;
-        border-radius: 8px;
-        font-size: 13px;
-        text-decoration: none;
-        color: #9ca3af;
-    }
-    
-    .mobile-menu a.active {
-        color: #22c55e;
-        background: rgba(34,197,94,0.1);
-    }
-</style>
     <!-- ========== MAIN CONTENT ========== -->
     <main class="container">
         
-        <!-- SECTION 1: HERO -->
+        <!-- HERO SECTION -->
         <section class="hero">
             <div class="hero-bg-glow hero-bg-glow-1"></div>
             <div class="hero-bg-glow hero-bg-glow-2"></div>
@@ -155,12 +708,8 @@
                     </p>
                     
                     <div class="hero-buttons">
-                        <a href="screener.html" class="btn btn-primary btn-lg">
-                            🔍 Explore Stock Screener
-                        </a>
-                        <a href="blog.html" class="btn btn-outline btn-lg">
-                            📝 Read Investment Guides
-                        </a>
+                        <a href="screener.html" class="btn btn-primary btn-lg">🔍 Explore Stock Screener</a>
+                        <a href="blog.html" class="btn btn-outline btn-lg">📝 Read Investment Guides</a>
                     </div>
                     
                     <div class="hero-trusted">
@@ -177,7 +726,7 @@
                 <div class="hero-stats-card">
                     <div class="hero-stats-header">
                         <span class="pulse-dot"></span>
-                        <span class="text-xs" style="color:#22c55e;">Live Market Data</span>
+                        <span class="text-xs text-green">Live Market Data</span>
                     </div>
                     
                     <div class="hero-stats-grid">
@@ -186,20 +735,20 @@
                             <p class="hero-stat-label">NSE Stocks Tracked</p>
                         </div>
                         <div class="hero-stat">
-                            <p class="hero-stat-number" style="color:#eab308;" id="statYield">4.8%</p>
+                            <p class="hero-stat-number text-yellow" id="statYield">4.8%</p>
                             <p class="hero-stat-label">Average Yield</p>
                         </div>
                         <div class="hero-stat">
-                            <p class="hero-stat-number" style="color:#3b82f6;" id="statPayers">22</p>
+                            <p class="hero-stat-number text-blue" id="statPayers">22</p>
                             <p class="hero-stat-label">Dividend Payers</p>
                         </div>
                         <div class="hero-stat">
-                            <p class="hero-stat-number" style="color:#a855f7;">17</p>
+                            <p class="hero-stat-number text-purple">17</p>
                             <p class="hero-stat-label">AI Analysis Factors</p>
                         </div>
                     </div>
                     
-                    <div class="hero-top-yielder" id="topYielderCard">
+                    <div class="hero-top-yielder">
                         <span class="badge badge-yellow">🏆 Today's Highest Yielder</span>
                         <p class="hero-top-yielder-name" id="topYielderName">Loading...</p>
                     </div>
@@ -207,7 +756,7 @@
             </div>
         </section>
 
-        <!-- SECTION 2: FEATURES -->
+        <!-- FEATURES SECTION -->
         <section class="features">
             <div class="section-header">
                 <h2 class="section-title">Powerful Tools for Dividend Investors</h2>
@@ -220,7 +769,7 @@
                         <span class="feature-icon">🔍</span>
                     </div>
                     <h3 class="feature-title">AI Stock Screener</h3>
-                    <p class="feature-desc">Filter 25+ NSE stocks by dividend yield, growth rate, AI health score, and sustainability. Find hidden gems in seconds.</p>
+                    <p class="feature-desc">Filter 25+ NSE stocks by dividend yield, growth rate, AI health score, and sustainability.</p>
                     <span class="feature-link">Try Screener →</span>
                 </a>
                 
@@ -229,7 +778,7 @@
                         <span class="feature-icon">🧮</span>
                     </div>
                     <h3 class="feature-title">DRIP Calculator</h3>
-                    <p class="feature-desc">Project your dividend reinvestment returns over 1-30 years. Includes Indian tax brackets (10%, 20%, 30%) for accurate planning.</p>
+                    <p class="feature-desc">Project dividend reinvestment returns over 1-30 years with Indian tax brackets.</p>
                     <span class="feature-link">Calculate Returns →</span>
                 </a>
                 
@@ -238,7 +787,7 @@
                         <span class="feature-icon">📝</span>
                     </div>
                     <h3 class="feature-title">Expert Guides</h3>
-                    <p class="feature-desc">In-depth articles on dividend investing strategies, tax planning, stock analysis, and building monthly passive income in India.</p>
+                    <p class="feature-desc">In-depth articles on dividend strategies, tax planning, and building passive income.</p>
                     <span class="feature-link">Read Guides →</span>
                 </a>
                 
@@ -247,17 +796,17 @@
                         <span class="feature-icon">📚</span>
                     </div>
                     <h3 class="feature-title">Knowledge Hub</h3>
-                    <p class="feature-desc">Learn dividend investing from scratch. Understand yields, payout ratios, ex-dividend dates, and how to build a passive income portfolio.</p>
+                    <p class="feature-desc">Learn dividend investing from scratch. Understand yields, payout ratios, and more.</p>
                     <span class="feature-link">Start Learning →</span>
                 </a>
             </div>
         </section>
 
-        <!-- SECTION 3: TOP STOCKS -->
+        <!-- TOP STOCKS SECTION -->
         <section class="top-stocks">
             <div class="section-header">
                 <h2 class="section-title">🏆 Top Rated Dividend Stocks</h2>
-                <p class="section-subtitle">Highest AI health scores combining yield, sustainability, and growth potential</p>
+                <p class="section-subtitle">Highest AI health scores combining yield, sustainability, and growth</p>
                 <a href="screener.html" class="view-all-link">View All Stocks →</a>
             </div>
             
@@ -268,7 +817,7 @@
             </div>
         </section>
 
-        <!-- SECTION 4: BLOG + QUICK LINKS -->
+        <!-- BLOG SECTION -->
         <section class="blog-section">
             <div class="blog-grid">
                 <div class="blog-main">
@@ -295,28 +844,16 @@
                     
                     <div class="sidebar-card market-snapshot">
                         <h3 class="sidebar-title">📊 Market Snapshot</h3>
-                        <div class="snapshot-item">
-                            <span>NSE Stocks</span>
-                            <span class="text-green font-bold" id="snapStocks">25</span>
-                        </div>
-                        <div class="snapshot-item">
-                            <span>Dividend Payers</span>
-                            <span class="text-blue font-bold" id="snapPayers">22</span>
-                        </div>
-                        <div class="snapshot-item">
-                            <span>Average Yield</span>
-                            <span class="text-yellow font-bold" id="snapYield">4.8%</span>
-                        </div>
-                        <div class="snapshot-item">
-                            <span>Highest Yield</span>
-                            <span class="text-green font-bold" id="snapHighest">17.86%</span>
-                        </div>
+                        <div class="snapshot-item"><span>NSE Stocks</span><span class="text-green font-bold" id="snapStocks">25</span></div>
+                        <div class="snapshot-item"><span>Dividend Payers</span><span class="text-blue font-bold" id="snapPayers">22</span></div>
+                        <div class="snapshot-item"><span>Average Yield</span><span class="text-yellow font-bold" id="snapYield">4.8%</span></div>
+                        <div class="snapshot-item"><span>Highest Yield</span><span class="text-green font-bold" id="snapHighest">17.86%</span></div>
                     </div>
                 </aside>
             </div>
         </section>
 
-        <!-- SECTION 5: NEWSLETTER CTA -->
+        <!-- NEWSLETTER CTA -->
         <section class="newsletter-cta">
             <div class="newsletter-content">
                 <div class="newsletter-text">
@@ -332,7 +869,7 @@
 
     </main>
 
-    <!-- ========== FOOTER ========== -->
+    <!-- FOOTER -->
     <footer class="footer-main">
         <div class="container">
             <div class="footer-grid">
@@ -362,25 +899,67 @@
         </div>
     </footer>
 
-    <!-- Scroll to Top -->
-    <button id="scrollToTopBtn" class="scroll-top-btn" onclick="scrollToTop()">↑</button>
+    <!-- SCROLL TO TOP -->
+    <button id="scrollToTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
     <script src="assets/js/database.js"></script>
     <script src="assets/js/ai-engine.js"></script>
     <script src="assets/js/common.js"></script>
+    
     <script>
         // ============================================
-        // HOMEPAGE DYNAMIC CONTENT
+        // NAVIGATION FUNCTIONS
+        // ============================================
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'grid' : 'none';
+        }
+        
+        function setActiveNav() {
+            const page = window.location.pathname.split('/').pop() || 'home.html';
+            document.querySelectorAll('.nav-link, .mobile-menu a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === page) link.classList.add('active');
+            });
+        }
+        
+        // Close mobile menu on outside click
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.querySelector('.mobile-menu-btn');
+            if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.style.display = 'none';
+            }
+        });
+        
+        // ============================================
+        // SCROLL TO TOP BUTTON
+        // ============================================
+        
+        function handleScrollButton() {
+            const btn = document.getElementById('scrollToTopBtn');
+            if (btn) btn.classList.toggle('show', window.scrollY > 400);
+        }
+        window.addEventListener('scroll', handleScrollButton, { passive: true });
+        
+        // ============================================
+        // HOMEPAGE CONTENT LOADER
         // ============================================
         
         function loadHomePage() {
-            // Top stocks
+            if (typeof stocks === 'undefined') {
+                console.log('Stock database not loaded yet');
+                return;
+            }
+            
+            // Top 6 stocks by AI score
             const topStocks = [...stocks.filter(s => s.paysDividend)]
                 .sort((a, b) => AI.health(b) - AI.health(a)).slice(0, 6);
             
-            const stocksGrid = document.getElementById('topStocksGrid');
-            stocksGrid.innerHTML = topStocks.map(s => {
+            const grid = document.getElementById('topStocksGrid');
+            grid.innerHTML = topStocks.map(s => {
                 const h = AI.health(s);
                 const su = AI.sustain(s);
                 return `
@@ -390,7 +969,7 @@
                             <span class="stock-symbol">${s.symbol}</span>
                             <span class="stock-name">${s.name.substring(0,22)}</span>
                         </div>
-                        <span class="stock-score ${su.c === 'green' ? 'score-green' : su.c === 'blue' ? 'score-blue' : 'score-yellow'}">${h}</span>
+                        <span class="stock-score ${su.c==='green'?'score-green':su.c==='blue'?'score-blue':'score-yellow'}">${h}</span>
                     </div>
                     <div class="stock-card-body">
                         <div class="stock-metric">
@@ -419,10 +998,9 @@
             
             // Blog posts
             const blogPosts = getBlogPosts().filter(p => p.published).slice(0, 2);
-            const blogCards = document.getElementById('blogCards');
-            
+            const blogContainer = document.getElementById('blogCards');
             if (blogPosts.length > 0) {
-                blogCards.innerHTML = blogPosts.map(post => `
+                blogContainer.innerHTML = blogPosts.map(post => `
                 <a href="blog.html?post=${post.id}" class="blog-card">
                     <span class="badge badge-green">${post.category||'Guide'}</span>
                     <h3 class="blog-card-title">${post.title}</h3>
@@ -433,7 +1011,7 @@
                     </div>
                 </a>`).join('');
             } else {
-                blogCards.innerHTML = `<p class="text-muted text-center py-4">Investment guides coming soon!</p>`;
+                blogContainer.innerHTML = '<p class="text-muted text-center py-4">Investment guides coming soon!</p>';
             }
             
             // Stats
@@ -456,248 +1034,28 @@
         function subscribeNewsletter() {
             const email = document.querySelector('.newsletter-input').value;
             if (email) {
-                // Save to localStorage for now
                 const subs = JSON.parse(localStorage.getItem('ds_subscribers')||'[]');
                 subs.push({email, date: new Date().toISOString()});
                 localStorage.setItem('ds_subscribers', JSON.stringify(subs));
-                showToast('✅ Subscribed successfully! Welcome aboard.', 'success');
+                alert('✅ Subscribed successfully! Welcome aboard.');
                 document.querySelector('.newsletter-input').value = '';
             }
         }
         
+        function getBlogPosts() {
+            try {
+                const posts = localStorage.getItem('dividendstrike_blog_posts');
+                return posts ? JSON.parse(posts) : [];
+            } catch(e) { return []; }
+        }
+        
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            setActiveNav();
+            handleScrollButton();
             loadHomePage();
-            initIcons();
-            console.log('🏠 Premium Homepage Loaded');
+            console.log('🏠 Premium Homepage Loaded Successfully');
         });
     </script>
-
-    <!-- Inline styles specific to homepage -->
-    <style>
-        /* ========== NAVBAR ========== */
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(20px);
-            background: rgba(10,10,15,0.95);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .nav-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 900;
-            font-size: 17px;
-        }
-        .logo-text { line-height: 1; }
-        .logo-name { font-size: 17px; font-weight: 900; color: #e5e7eb; }
-        .logo-tagline { font-size: 8px; color: #6b7280; display: block; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 2px; }
-        .nav-link { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; color: #9ca3af; transition: all 0.2s; }
-        .nav-link:hover { color: white; background: rgba(255,255,255,0.04); }
-        .nav-link.active { background: rgba(34,197,94,0.12); color: #22c55e; }
-        .nav-actions { display: flex; align-items: center; gap: 14px; }
-        .live-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #9ca3af; }
-        @media (max-width: 1024px) { .nav-links { display: none; } }
-        @media (min-width: 1024px) { .mobile-menu-btn { display: none; } }
-        .mobile-menu-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
-        .mobile-menu { padding: 10px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-        .mobile-menu a { padding: 10px 14px; border-radius: 8px; font-size: 13px; text-decoration: none; color: #9ca3af; }
-        .mobile-menu a.active { color: #22c55e; background: rgba(34,197,94,0.1); }
-
-        /* ========== HERO ========== */
-        .hero {
-            position: relative;
-            overflow: hidden;
-            border-radius: 24px;
-            background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(16,185,129,0.04) 25%, rgba(59,130,246,0.04) 50%, rgba(168,85,247,0.03) 75%, rgba(245,158,11,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.06);
-            padding: 48px 40px;
-            margin: 20px 0 40px;
-        }
-        .hero-bg-glow {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            pointer-events: none;
-        }
-        .hero-bg-glow-1 { top: -100px; right: -50px; width: 400px; height: 400px; background: rgba(34,197,94,0.06); }
-        .hero-bg-glow-2 { bottom: -80px; left: -30px; width: 300px; height: 300px; background: rgba(59,130,246,0.05); }
-        .hero-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; position: relative; z-index: 1; }
-        @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } .hero { padding: 32px 24px; } }
-        
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(34,197,94,0.1);
-            border: 1px solid rgba(34,197,94,0.2);
-            border-radius: 40px;
-            padding: 7px 18px;
-            font-size: 12px;
-            color: #22c55e;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-        .hero-title { font-size: 42px; font-weight: 900; line-height: 1.15; margin-bottom: 18px; color: #f3f4f6; }
-        @media (max-width: 768px) { .hero-title { font-size: 30px; } }
-        .hero-description { font-size: 15px; line-height: 1.7; color: #9ca3af; margin-bottom: 28px; max-width: 520px; }
-        .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
-        .btn-lg { padding: 14px 24px; font-size: 15px; border-radius: 12px; }
-        .hero-trusted { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .hero-avatars { display: flex; align-items: center; gap: 6px; }
-        .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; }
-        .avatar:nth-child(1) { background: #22c55e; }
-        .avatar:nth-child(2) { background: #3b82f6; }
-        .avatar:nth-child(3) { background: #a855f7; }
-        
-        .hero-stats-card {
-            background: rgba(15,15,25,0.9);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 24px;
-        }
-        .hero-stats-header { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-        .hero-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
-        .hero-stat { background: rgba(255,255,255,0.03); border-radius: 14px; padding: 16px; text-align: center; }
-        .hero-stat-number { font-size: 30px; font-weight: 900; }
-        .hero-stat-label { font-size: 11px; color: #6b7280; margin-top: 4px; }
-        .hero-top-yielder { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .hero-top-yielder-name { font-size: 16px; font-weight: 700; margin-top: 8px; color: #eab308; }
-
-        /* ========== SECTIONS ========== */
-        section { margin-bottom: 48px; }
-        .section-header { margin-bottom: 24px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .section-title { font-size: 22px; font-weight: 800; color: #f3f4f6; }
-        .section-subtitle { font-size: 14px; color: #6b7280; }
-        .view-all-link { font-size: 13px; color: #22c55e; text-decoration: none; font-weight: 500; white-space: nowrap; }
-        .view-all-link:hover { text-decoration: underline; }
-
-        /* ========== FEATURES ========== */
-        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-        @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 500px) { .features-grid { grid-template-columns: 1fr; } }
-        .feature-card {
-            background: rgba(15,15,25,0.85);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 24px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        .feature-card:hover { transform: translateY(-3px); border-color: rgba(34,197,94,0.3); box-shadow: 0 20px 40px -15px rgba(34,197,94,0.15); }
-        .feature-icon-wrapper { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-        .feature-icon { font-size: 24px; }
-        .feature-title { font-size: 16px; font-weight: 700; color: #f3f4f6; margin-bottom: 8px; }
-        .feature-desc { font-size: 13px; color: #9ca3af; line-height: 1.6; margin-bottom: 12px; }
-        .feature-link { font-size: 13px; color: #22c55e; font-weight: 600; }
-
-        /* ========== STOCK CARDS ========== */
-        .stocks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        @media (max-width: 1000px) { .stocks-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { .stocks-grid { grid-template-columns: 1fr; } }
-        .stock-card {
-            background: rgba(15,15,25,0.85);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 20px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        .stock-card:hover { border-color: rgba(34,197,94,0.3); transform: translateY(-2px); }
-        .stock-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-        .stock-symbol { font-size: 15px; font-weight: 700; color: #f3f4f6; display: block; }
-        .stock-name { font-size: 11px; color: #6b7280; display: block; margin-top: 2px; }
-        .stock-score { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-        .score-green { background: rgba(34,197,94,0.15); color: #22c55e; }
-        .score-blue { background: rgba(59,130,246,0.15); color: #3b82f6; }
-        .score-yellow { background: rgba(234,179,8,0.15); color: #eab308; }
-        .stock-card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-        .stock-metric-label { font-size: 10px; color: #6b7280; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stock-metric-value { font-size: 14px; font-weight: 700; color: #d1d5db; }
-        .stock-card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.04); }
-
-        /* ========== BLOG SECTION ========== */
-        .blog-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
-        @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr; } }
-        .blog-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media (max-width: 600px) { .blog-cards { grid-template-columns: 1fr; } }
-        .blog-card {
-            background: rgba(15,15,25,0.85);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 20px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        .blog-card:hover { border-color: rgba(34,197,94,0.3); }
-        .blog-card-title { font-size: 16px; font-weight: 700; color: #f3f4f6; margin: 10px 0; line-height: 1.4; }
-        .blog-card-excerpt { font-size: 13px; color: #9ca3af; line-height: 1.5; margin-bottom: 12px; }
-        .blog-card-meta { font-size: 11px; color: #6b7280; display: flex; gap: 12px; }
-        
-        .sidebar-card { background: rgba(15,15,25,0.85); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
-        .sidebar-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
-        .quick-link { display: block; padding: 10px 14px; border-radius: 10px; text-decoration: none; color: #9ca3af; font-size: 13px; margin-bottom: 6px; background: rgba(255,255,255,0.02); transition: all 0.2s; }
-        .quick-link:hover { background: rgba(34,197,94,0.08); color: #22c55e; }
-        .snapshot-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
-        .snapshot-item:last-child { border-bottom: none; }
-
-        /* ========== NEWSLETTER ========== */
-        .newsletter-cta {
-            background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.06));
-            border: 1px solid rgba(34,197,94,0.15);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 20px;
-        }
-        .newsletter-content { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
-        .newsletter-text { flex: 1; min-width: 250px; }
-        .newsletter-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-        .newsletter-desc { font-size: 14px; color: #9ca3af; line-height: 1.6; }
-        .newsletter-form { display: flex; gap: 10px; flex: 1; min-width: 280px; }
-        .newsletter-input {
-            flex: 1;
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 14px 18px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-            font-family: inherit;
-        }
-        .newsletter-input:focus { border-color: #22c55e; }
-
-        /* ========== FOOTER ========== */
-        .footer-main { border-top: 1px solid rgba(255,255,255,0.06); padding: 48px 0 24px; margin-top: 20px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 32px; }
-        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
-        .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #f3f4f6; }
-        .footer-col p { font-size: 13px; color: #6b7280; line-height: 1.6; }
-        .footer-col a { display: block; font-size: 13px; color: #6b7280; text-decoration: none; padding: 4px 0; transition: color 0.2s; }
-        .footer-col a:hover { color: #22c55e; }
-        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: #4b5563; }
-    </style>
 </body>
 </html>
