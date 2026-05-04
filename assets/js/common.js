@@ -67,3 +67,70 @@ document.addEventListener('DOMContentLoaded', () => {
     handleScrollButton();
     initIcons();
 });
+
+// ============================================
+// SUPABASE BACKEND SERVICE
+// ============================================
+
+const DB = {
+    url: 'https://oezmykupzqjfuklxvxzi.supabase.co/rest/v1/',  // ← PUT YOUR SUPABASE URL
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE',                // ← PUT YOUR SUPABASE KEY
+    client: null,
+    
+    init() {
+        if (this.url.includes('YOUR-PROJECT-ID')) {
+            console.log('⚠️ Supabase not configured - using local storage');
+            return false;
+        }
+        this.client = supabase.createClient(this.url, this.key);
+        console.log('✅ Supabase connected');
+        return true;
+    },
+    
+    // Save blog post
+    async savePost(post) {
+        if (!this.client) return this.saveLocal(post);
+        const { error } = await this.client.from('blog_posts').upsert(post);
+        if (error) console.error('Save error:', error);
+        return !error;
+    },
+    
+    // Get all posts
+    async getPosts() {
+        if (!this.client) return this.getLocal();
+        const { data } = await this.client.from('blog_posts').select('*').eq('published', true).order('created_at', { ascending: false });
+        return data || [];
+    },
+    
+    // Save subscriber
+    async saveSubscriber(email) {
+        if (!this.client) return this.saveLocalSub(email);
+        const { error } = await this.client.from('subscribers').insert({ email });
+        return !error;
+    },
+    
+    // Local fallbacks
+    saveLocal(post) {
+        const posts = JSON.parse(localStorage.getItem('ds_posts') || '[]');
+        const idx = posts.findIndex(p => p.id === post.id);
+        if (idx > -1) posts[idx] = post;
+        else posts.push(post);
+        localStorage.setItem('ds_posts', JSON.stringify(posts));
+        return true;
+    },
+    
+    getLocal() {
+        return JSON.parse(localStorage.getItem('ds_posts') || '[]');
+    },
+    
+    saveLocalSub(email) {
+        const subs = JSON.parse(localStorage.getItem('ds_subs') || '[]');
+        subs.push({ email, date: new Date().toISOString() });
+        localStorage.setItem('ds_subs', JSON.stringify(subs));
+        return true;
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    DB.init();
+});
