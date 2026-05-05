@@ -1074,7 +1074,7 @@
             const blogContainer = document.getElementById('blogCards');
             if (blogPosts.length > 0) {
                 blogContainer.innerHTML = blogPosts.map(post => `
-                <a href="blog.html?post=${post.id}" class="blog-card">
+                <a href="blog.html?slug=${post.slug}" class="blog-card">
                     <span class="badge badge-green">${post.category||'Guide'}</span>
                     <h3 class="blog-card-title">${post.title}</h3>
                     <p class="blog-card-excerpt">${post.excerpt || post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...'}</p>
