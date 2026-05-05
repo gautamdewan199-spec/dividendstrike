@@ -209,7 +209,7 @@
             <!-- Post Grid -->
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;">
                 ${remaining.map((post, i) => `
-                <div class="card card-clickable" style="padding:24px;" onclick="renderBlogPost('${post.id}')">
+                <div class="card card-clickable" style="padding:24px;" onclick="renderBlogPost('${slug=SLUG}')">
                     <div style="height:4px;background:linear-gradient(90deg,${i%3===0?'#22c55e,#16a34a':i%3===1?'#3b82f6,#8b5cf6':'#f59e0b,#ef4444'});border-radius:2px;margin-bottom:16px;width:${40+(i*10)}%;transition:width 0.3s;"></div>
                     <span class="badge-green" style="margin-bottom:10px;">${post.category||'Guide'}</span>
                     <h3 style="font-size:17px;font-weight:700;margin:10px 0;line-height:1.4;">${post.title}</h3>
@@ -292,14 +292,29 @@
         
         // Check for post in URL
         function checkUrlForPost() {
-            const params = new URLSearchParams(window.location.search);
-            const postId = params.get('post');
-            if (postId) {
-                renderBlogPost(postId);
-            } else {
-                renderBlog();
-            }
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('post');
+    const postSlug = params.get('slug');
+    
+    if (postSlug) {
+        // Find post by slug
+        const posts = getBlogPosts();
+        const post = posts.find(p => p.slug === postSlug);
+        if (post) {
+            console.log('🔗 Opening post by slug:', postSlug);
+            renderBlogPost(post.id);
+            return;
         }
+    }
+    
+    if (postId) {
+        console.log('🔗 Opening post by ID:', postId);
+        renderBlogPost(postId);
+        return;
+    }
+    
+    renderBlog();
+}
         
         document.addEventListener('DOMContentLoaded',()=>{
             handleScrollButton();
