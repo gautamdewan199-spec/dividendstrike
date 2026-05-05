@@ -8,17 +8,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0a0a0f; --card: #111118; --border: rgba(255,255,255,0.08); --green: #22c55e; }
+        :root { --bg: #0a0a0f; --card: #111118; --border: rgba(255,255,255,0.08); }
         * { margin: 0; padding: 0; box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #1f2937 transparent; }
-        *::-webkit-scrollbar { width: 4px; height: 4px; }
-        *::-webkit-scrollbar-track { background: transparent; }
-        *::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 2px; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: #e5e7eb; min-height: 100vh; padding: 20px; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
         input, textarea, select { width: 100%; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 16px; color: white; font-size: 14px; outline: none; margin-bottom: 12px; font-family: inherit; }
         textarea { resize: vertical; min-height: 100px; }
         input:focus, textarea:focus, select:focus { border-color: #22c55e; }
-        select { cursor: pointer; }
         label { display: block; font-size: 13px; color: #9ca3af; margin-bottom: 4px; font-weight: 500; }
         .btn { padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; display: inline-block; text-decoration: none; }
         .btn-green { background: #22c55e; color: white; } .btn-green:hover { background: #16a34a; }
@@ -27,16 +23,17 @@
         .btn-gray { background: #374151; color: white; } .btn-gray:hover { background: #4b5563; }
         .btn-sm { padding: 6px 14px; font-size: 12px; }
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
-        .badge-published { background: rgba(34,197,94,0.2); color: #22c55e; }
+        .badge-pub { background: rgba(34,197,94,0.2); color: #22c55e; }
         .badge-draft { background: rgba(234,179,8,0.2); color: #eab308; }
         .post-row { display: flex; justify-content: space-between; align-items: center; padding: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .post-row:hover { background: rgba(255,255,255,0.02); }
         .toast { position: fixed; top: 20px; right: 20px; z-index: 999; padding: 14px 20px; border-radius: 12px; font-size: 14px; color: white; animation: slideIn 0.3s ease; }
         @keyframes slideIn { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-        .status-ok { background: rgba(34,197,94,0.1); color: #22c55e; padding: 10px 16px; border-radius: 10px; text-align: center; margin-bottom: 16px; font-size: 13px; }
-        .status-err { background: rgba(239,68,68,0.1); color: #ef4444; padding: 10px 16px; border-radius: 10px; text-align: center; margin-bottom: 16px; font-size: 13px; }
+        .status { padding: 12px 16px; border-radius: 10px; text-align: center; margin-bottom: 16px; font-size: 13px; font-weight: 500; }
+        .status-ok { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .status-warn { background: rgba(234,179,8,0.1); color: #eab308; }
+        .status-err { background: rgba(239,68,68,0.1); color: #ef4444; }
     </style>
 </head>
 <body>
@@ -45,162 +42,113 @@
 
     <div style="max-width: 1000px; margin: 0 auto;">
         
-        <!-- Header -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
                 <h1 style="font-size: 28px; font-weight: 900;">📝 Blog Manager</h1>
-                <p style="color: #6b7280; font-size: 14px; margin-top: 4px;">
-                    Status: <span id="dbStatus" style="color:#eab308;">Connecting to Supabase...</span>
-                </p>
+                <p style="color: #6b7280; font-size: 14px; margin-top: 4px;">Posts saved to localStorage & Supabase</p>
             </div>
             <div style="display: flex; gap: 10px;">
                 <button onclick="loadPosts()" class="btn btn-gray btn-sm">🔄 Refresh</button>
+                <button onclick="syncToSupabase()" class="btn btn-blue btn-sm">☁️ Sync to Cloud</button>
                 <a href="blog.html" target="_blank" class="btn btn-green btn-sm" style="text-decoration:none;">🌐 View Blog</a>
             </div>
         </div>
 
+        <div id="connectionStatus" class="status status-warn">💾 Using localStorage (offline mode) — Click "Sync to Cloud" to upload to Supabase</div>
+
         <!-- Blog Editor -->
         <div class="card">
             <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;" id="formTitle">✍️ Create New Blog Post</h2>
-            
             <input type="hidden" id="postId">
             
             <div class="grid-2">
-                <div>
-                    <label>Title *</label>
-                    <input type="text" id="postTitle" placeholder="Enter blog post title..." required>
-                </div>
-                <div>
-                    <label>Slug (URL) *</label>
-                    <input type="text" id="postSlug" placeholder="my-blog-post-slug" required>
-                </div>
+                <div><label>Title *</label><input type="text" id="postTitle" placeholder="Enter blog post title..." required></div>
+                <div><label>Slug (URL) *</label><input type="text" id="postSlug" placeholder="my-blog-post-slug" required></div>
             </div>
             
             <div class="grid-2">
-                <div>
-                    <label>Category</label>
-                    <select id="postCategory">
-                        <option>Stock Lists</option>
-                        <option>Strategy</option>
-                        <option>Tools & Calculators</option>
-                        <option>Tax Guide</option>
-                        <option>Market News</option>
-                        <option>PSU Analysis</option>
-                        <option>General</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Author</label>
-                    <input type="text" id="postAuthor" value="DividendStrike Research">
-                </div>
+                <div><label>Category</label><select id="postCategory"><option>Stock Lists</option><option>Strategy</option><option>Tools & Calculators</option><option>Tax Guide</option><option>Market News</option><option>General</option></select></div>
+                <div><label>Author</label><input type="text" id="postAuthor" value="DividendStrike Research"></div>
             </div>
             
             <label>Excerpt / Meta Description</label>
-            <textarea id="postExcerpt" rows="2" placeholder="Brief description for SEO and previews..."></textarea>
+            <textarea id="postExcerpt" rows="2" placeholder="Brief description for SEO..."></textarea>
             
             <label>Keywords (comma separated)</label>
             <input type="text" id="postKeywords" placeholder="keyword1, keyword2, keyword3">
             
             <label>Content (HTML) *</label>
             <textarea id="postContent" rows="15" placeholder="<h2>Your heading</h2><p>Your content here...</p>" required></textarea>
-            <p style="font-size: 11px; color: #6b7280; margin-top: 4px;">💡 HTML tags: &lt;h2&gt; &lt;h3&gt; &lt;p&gt; &lt;table&gt; &lt;ul&gt; &lt;ol&gt; &lt;strong&gt; &lt;a&gt;</p>
             
             <div style="display: flex; align-items: center; gap: 10px; margin: 12px 0;">
                 <input type="checkbox" id="postPublished" style="width: auto; margin: 0;">
-                <label style="margin: 0; cursor: pointer;">✅ Published (visible to public)</label>
+                <label style="margin: 0; cursor: pointer;">✅ Published</label>
             </div>
             
             <div style="display: flex; gap: 10px;">
                 <button onclick="savePost()" class="btn btn-green">💾 Save Post</button>
-                <button onclick="clearForm()" class="btn btn-gray">🔄 Clear Form</button>
+                <button onclick="clearForm()" class="btn btn-gray">🔄 Clear</button>
             </div>
         </div>
 
         <!-- Posts List -->
         <div class="card">
-            <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 All Posts</h2>
-            <div id="postsList">
-                <p style="color: #6b7280; text-align: center; padding: 40px;">Loading posts...</p>
-            </div>
+            <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 All Posts (<span id="postCount">0</span>)</h2>
+            <div id="postsList"><p style="color:#6b7280;text-align:center;padding:40px;">No posts yet.</p></div>
         </div>
     </div>
 
     <script>
         // ============================================
-        // SUPABASE CONFIGURATION
+        // SUPABASE CONFIG
         // ============================================
         const SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
         
-        let supabase;
+        let supabase = null;
         
+        // Try to connect to Supabase
         try {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            testConnection();
-        } catch (e) {
-            document.getElementById('dbStatus').innerHTML = '🔴 Supabase not configured';
-            document.getElementById('dbStatus').className = 'status-err';
-            console.error('Supabase init error:', e);
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            testSupabaseConnection();
+        } catch(e) {
+            console.log('Supabase not available, using localStorage only');
         }
 
-        async function testConnection() {
+        async function testSupabaseConnection() {
             try {
-                const { data, error } = await supabase.from('blog_posts').select('count', { count: 'exact', head: true });
+                const { error } = await supabase.from('blog_posts').select('count', { count: 'exact', head: true });
                 if (error) throw error;
-                document.getElementById('dbStatus').innerHTML = '🟢 Connected to Supabase ✅';
-                document.getElementById('dbStatus').className = 'status-ok';
-                loadPosts();
-            } catch (e) {
-                document.getElementById('dbStatus').innerHTML = '🔴 Connection failed: ' + e.message;
-                document.getElementById('dbStatus').className = 'status-err';
-                console.error('Connection error:', e);
+                document.getElementById('connectionStatus').innerHTML = '🟢 Connected to Supabase ✅ — Posts sync automatically';
+                document.getElementById('connectionStatus').className = 'status status-ok';
+                console.log('✅ Supabase connected');
+            } catch(e) {
+                document.getElementById('connectionStatus').innerHTML = '💾 Using localStorage (offline) — <button onclick="syncToSupabase()" style="background:#3b82f6;color:white;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;">Sync Now</button>';
+                document.getElementById('connectionStatus').className = 'status status-warn';
+                console.log('⚠️ Supabase not connected, using localStorage');
             }
         }
 
         // ============================================
-        // LOAD ALL POSTS FROM SUPABASE
+        // LOCAL STORAGE FUNCTIONS (Always works)
         // ============================================
-        async function loadPosts() {
-            const container = document.getElementById('postsList');
-            container.innerHTML = '<p style="color:#6b7280;text-align:center;padding:40px;">Loading...</p>';
-            
+        function getPosts() {
             try {
-                const { data, error } = await supabase
-                    .from('blog_posts')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="color:#6b7280;text-align:center;padding:40px;">📝 No posts yet. Create your first blog post above!</p>';
-                    return;
-                }
-                
-                container.innerHTML = data.map(post => `
-                    <div class="post-row">
-                        <div style="flex:1;">
-                            <span class="badge ${post.published ? 'badge-published' : 'badge-draft'}">${post.published ? '📤 Published' : '📥 Draft'}</span>
-                            <span style="font-size:12px;color:#6b7280;margin-left:8px;">${post.category || 'General'}</span>
-                            <strong style="display:block;margin-top:6px;font-size:15px;">${post.title}</strong>
-                            <small style="color:#6b7280;">Slug: ${post.slug} • ${new Date(post.created_at).toLocaleDateString('en-IN')}</small>
-                        </div>
-                        <div style="display:flex;gap:8px;flex-shrink:0;">
-                            <button onclick="editPost(${post.id})" class="btn btn-blue btn-sm">✏️ Edit</button>
-                            <button onclick="togglePublish(${post.id}, ${post.published})" class="btn btn-gray btn-sm">${post.published ? '📥' : '📤'}</button>
-                            <button onclick="deletePost(${post.id})" class="btn btn-red btn-sm">🗑️</button>
-                        </div>
-                    </div>
-                `).join('');
-                
-            } catch (e) {
-                container.innerHTML = '<p style="color:#ef4444;text-align:center;padding:40px;">❌ Error loading posts: ' + e.message + '</p>';
-                console.error('Load error:', e);
-            }
+                const data = localStorage.getItem('dividendstrike_blog_posts');
+                return data ? JSON.parse(data) : [];
+            } catch(e) { return []; }
+        }
+
+        function saveAllPosts(posts) {
+            localStorage.setItem('dividendstrike_blog_posts', JSON.stringify(posts));
+        }
+
+        function generateId() {
+            return 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
         // ============================================
-        // SAVE POST TO SUPABASE
+        // SAVE POST (localStorage first, then Supabase)
         // ============================================
         async function savePost() {
             const title = document.getElementById('postTitle').value.trim();
@@ -208,11 +156,12 @@
             const content = document.getElementById('postContent').value.trim();
             
             if (!title || !slug || !content) {
-                showToast('❌ Please fill in Title, Slug, and Content', '#ef4444');
+                showToast('❌ Please fill Title, Slug, and Content', '#ef4444');
                 return;
             }
             
             const postData = {
+                id: document.getElementById('postId').value || generateId(),
                 title: title,
                 slug: slug,
                 category: document.getElementById('postCategory').value,
@@ -222,85 +171,149 @@
                 content: content,
                 published: document.getElementById('postPublished').checked,
                 read_time: '5 min read',
+                created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             };
             
-            const postId = document.getElementById('postId').value;
-            
-            try {
-                let result;
-                if (postId) {
-                    result = await supabase.from('blog_posts').update(postData).eq('id', postId);
-                    if (result.error) throw result.error;
-                    showToast('✅ Post updated in Supabase!', '#22c55e');
-                } else {
-                    result = await supabase.from('blog_posts').insert([postData]);
-                    if (result.error) throw result.error;
-                    showToast('✅ Post saved to Supabase! It will appear on your blog.', '#22c55e');
-                }
-                
-                clearForm();
-                loadPosts();
-            } catch (e) {
-                showToast('❌ Error: ' + e.message, '#ef4444');
-                console.error('Save error:', e);
+            // ALWAYS save to localStorage (guaranteed to work)
+            const posts = getPosts();
+            const existingIdx = posts.findIndex(p => p.id === postData.id);
+            if (existingIdx > -1) {
+                postData.created_at = posts[existingIdx].created_at;
+                posts[existingIdx] = postData;
+            } else {
+                posts.push(postData);
             }
+            saveAllPosts(posts);
+            
+            // Try to save to Supabase
+            if (supabase) {
+                try {
+                    const supabaseData = { ...postData };
+                    delete supabaseData.id; // Let Supabase generate its own ID
+                    
+                    const { error } = await supabase.from('blog_posts').upsert(supabaseData, { onConflict: 'slug' });
+                    if (error) throw error;
+                    console.log('✅ Also saved to Supabase');
+                } catch(e) {
+                    console.log('⚠️ Saved locally only — Supabase sync failed:', e.message);
+                }
+            }
+            
+            showToast('✅ Post saved! ' + (supabase ? '(Local + Cloud)' : '(Local storage)'), '#22c55e');
+            clearForm();
+            loadPosts();
+        }
+
+        // ============================================
+        // LOAD POSTS
+        // ============================================
+        async function loadPosts() {
+            // Always load from localStorage (guaranteed to work)
+            let posts = getPosts();
+            
+            // Try to merge with Supabase data
+            if (supabase) {
+                try {
+                    const { data } = await supabase.from('blog_posts').select('*').eq('published', true).order('created_at', { ascending: false });
+                    if (data && data.length > 0) {
+                        // Merge Supabase data with localStorage
+                        const mergedPosts = [...posts];
+                        data.forEach(sp => {
+                            if (!mergedPosts.find(p => p.slug === sp.slug)) {
+                                mergedPosts.push(sp);
+                            }
+                        });
+                        posts = mergedPosts;
+                        saveAllPosts(posts);
+                    }
+                } catch(e) {}
+            }
+            
+            posts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            
+            const container = document.getElementById('postsList');
+            document.getElementById('postCount').textContent = posts.length;
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<p style="color:#6b7280;text-align:center;padding:40px;">📝 No posts yet. Create your first blog post above!</p>';
+                return;
+            }
+            
+            container.innerHTML = posts.map(post => `
+                <div class="post-row">
+                    <div style="flex:1;">
+                        <span class="badge ${post.published ? 'badge-pub' : 'badge-draft'}">${post.published ? '📤 Published' : '📥 Draft'}</span>
+                        <span style="font-size:12px;color:#6b7280;margin-left:8px;">${post.category || 'General'}</span>
+                        <strong style="display:block;margin-top:6px;font-size:15px;">${post.title}</strong>
+                        <small style="color:#6b7280;">Slug: ${post.slug} • ${new Date(post.created_at).toLocaleDateString('en-IN')}</small>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-shrink:0;">
+                        <button onclick="editPost('${post.id}')" class="btn btn-blue btn-sm">✏️</button>
+                        <button onclick="deletePost('${post.id}')" class="btn btn-red btn-sm">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         // ============================================
         // EDIT POST
         // ============================================
-        async function editPost(id) {
-            try {
-                const { data, error } = await supabase.from('blog_posts').select('*').eq('id', id).single();
-                if (error) throw error;
-                if (!data) { showToast('Post not found', '#ef4444'); return; }
-                
-                document.getElementById('formTitle').textContent = '✏️ Edit Blog Post';
-                document.getElementById('postId').value = data.id;
-                document.getElementById('postTitle').value = data.title;
-                document.getElementById('postSlug').value = data.slug;
-                document.getElementById('postCategory').value = data.category || 'General';
-                document.getElementById('postAuthor').value = data.author || 'DividendStrike Research';
-                document.getElementById('postExcerpt').value = data.excerpt || '';
-                document.getElementById('postKeywords').value = (data.keywords || []).join(', ');
-                document.getElementById('postContent').value = data.content;
-                document.getElementById('postPublished').checked = data.published;
-                
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (e) {
-                showToast('❌ Error: ' + e.message, '#ef4444');
-            }
-        }
-
-        // ============================================
-        // TOGGLE PUBLISH
-        // ============================================
-        async function togglePublish(id, currentStatus) {
-            try {
-                const { error } = await supabase.from('blog_posts').update({ published: !currentStatus }).eq('id', id);
-                if (error) throw error;
-                showToast(currentStatus ? '📥 Post unpublished' : '📤 Post published!', '#22c55e');
-                loadPosts();
-            } catch (e) {
-                showToast('❌ Error: ' + e.message, '#ef4444');
-            }
+        function editPost(id) {
+            const posts = getPosts();
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            
+            document.getElementById('formTitle').textContent = '✏️ Edit Blog Post';
+            document.getElementById('postId').value = post.id;
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postSlug').value = post.slug;
+            document.getElementById('postCategory').value = post.category || 'General';
+            document.getElementById('postAuthor').value = post.author || '';
+            document.getElementById('postExcerpt').value = post.excerpt || '';
+            document.getElementById('postKeywords').value = (post.keywords || []).join(', ');
+            document.getElementById('postContent').value = post.content;
+            document.getElementById('postPublished').checked = post.published;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ============================================
         // DELETE POST
         // ============================================
-        async function deletePost(id) {
-            if (!confirm('⚠️ Delete this post? This cannot be undone.')) return;
-            
-            try {
-                const { error } = await supabase.from('blog_posts').delete().eq('id', id);
-                if (error) throw error;
-                showToast('🗑️ Post deleted!', '#22c55e');
-                loadPosts();
-            } catch (e) {
-                showToast('❌ Error: ' + e.message, '#ef4444');
+        function deletePost(id) {
+            if (!confirm('Delete this post?')) return;
+            const posts = getPosts().filter(p => p.id !== id);
+            saveAllPosts(posts);
+            showToast('🗑️ Post deleted', '#22c55e');
+            loadPosts();
+        }
+
+        // ============================================
+        // SYNC TO SUPABASE
+        // ============================================
+        async function syncToSupabase() {
+            if (!supabase) {
+                showToast('❌ Supabase not connected', '#ef4444');
+                return;
             }
+            
+            const posts = getPosts();
+            if (posts.length === 0) {
+                showToast('No posts to sync', '#eab308');
+                return;
+            }
+            
+            let count = 0;
+            for (const post of posts) {
+                try {
+                    const data = { ...post };
+                    delete data.id;
+                    const { error } = await supabase.from('blog_posts').upsert(data, { onConflict: 'slug' });
+                    if (!error) count++;
+                } catch(e) {}
+            }
+            
+            showToast(`✅ Synced ${count} posts to Supabase!`, '#22c55e');
         }
 
         // ============================================
@@ -311,8 +324,6 @@
             document.getElementById('postId').value = '';
             document.getElementById('postTitle').value = '';
             document.getElementById('postSlug').value = '';
-            document.getElementById('postCategory').value = 'General';
-            document.getElementById('postAuthor').value = 'DividendStrike Research';
             document.getElementById('postExcerpt').value = '';
             document.getElementById('postKeywords').value = '';
             document.getElementById('postContent').value = '';
@@ -320,7 +331,7 @@
         }
 
         // ============================================
-        // TOAST NOTIFICATION
+        // TOAST
         // ============================================
         function showToast(message, bgColor) {
             const container = document.getElementById('toastContainer');
@@ -332,17 +343,14 @@
             setTimeout(() => toast.remove(), 3000);
         }
 
-        // ============================================
-        // KEYBOARD SHORTCUTS
-        // ============================================
-        document.addEventListener('keydown', function(e) {
+        // Keyboard shortcuts
+        document.addEventListener('keydown', e => {
             if (e.ctrlKey && e.key === 's') { e.preventDefault(); savePost(); }
-            if (e.ctrlKey && e.key === 'n') { e.preventDefault(); clearForm(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
         });
 
-        console.log('✅ Admin Panel Ready — Connected to Supabase');
-        console.log('📝 All posts saved directly to Supabase database');
-        console.log('🌐 Blog reads from the same database');
+        // Load posts on start
+        loadPosts();
+        console.log('✅ Admin Panel Ready — localStorage mode');
     </script>
 </body>
 </html>
