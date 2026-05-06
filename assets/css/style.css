@@ -231,3 +231,93 @@ select.input { cursor: pointer; }
 .relative { position: relative; } .overflow-hidden { overflow: hidden; }
 .hidden { display: none; }
 @media (min-width: 1024px) { .lg\:flex { display: flex; } .lg\:hidden { display: none; } }
+
+/* ============================================ */
+/* MOBILE RESPONSIVE STYLES                      */
+/* ============================================ */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+    /* Container */
+    .container { padding: 0 16px; }
+    
+    /* Navigation */
+    .nav-links { display: none !important; }
+    .mobile-menu-btn { display: block !important; }
+    .logo-name { font-size: 15px; }
+    .logo-icon { width: 32px; height: 32px; font-size: 14px; }
+    
+    /* Hero Section */
+    .hero { padding: 24px 16px !important; border-radius: 16px; }
+    .hero-grid { grid-template-columns: 1fr !important; gap: 20px; }
+    .hero-title { font-size: 24px !important; line-height: 1.2; }
+    .hero-description { font-size: 14px !important; }
+    .hero-buttons { flex-direction: column; }
+    .hero-buttons .btn { width: 100%; text-align: center; }
+    .hero-stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .hero-stat { padding: 12px; }
+    .hero-stat-number { font-size: 22px; }
+    
+    /* Feature Cards */
+    .features-grid { grid-template-columns: 1fr !important; }
+    .feature-card { padding: 18px; }
+    
+    /* Stock Cards */
+    .stocks-grid { grid-template-columns: 1fr !important; }
+    
+    /* Blog Grid */
+    .blog-grid { grid-template-columns: 1fr !important; }
+    .blog-cards { grid-template-columns: 1fr !important; }
+    
+    /* Calculator */
+    .calc-grid { grid-template-columns: 1fr !important; }
+    .results-grid { grid-template-columns: 1fr 1fr !important; }
+    
+    /* Tables - Make scrollable */
+    table { font-size: 11px; }
+    th, td { padding: 8px 10px; }
+    
+    /* Stock Detail Cards */
+    .stock-card-header { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
+    .stock-card-body { padding: 16px; }
+    .stock-metrics-strip { gap: 10px; }
+    .stock-highlights { grid-template-columns: 1fr 1fr; }
+    .stock-name-main { font-size: 18px; }
+    
+    /* FAQ */
+    .faq-header { padding: 14px 16px; font-size: 14px; }
+    .faq-body { padding: 0 16px 14px 16px; font-size: 13px; }
+    
+    /* Mistake Cards */
+    .mistake-card { padding: 14px; }
+    .mistake-icon { width: 36px; height: 36px; font-size: 20px; }
+    
+    /* Newsletter */
+    .newsletter-cta { padding: 24px 16px; }
+    .newsletter-content { flex-direction: column; }
+    .newsletter-form { flex-direction: column; }
+    
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    
+    /* Scroll Button */
+    .scroll-top-btn { bottom: 16px; right: 16px; width: 40px; height: 40px; font-size: 16px; border-radius: 12px; }
+    
+    /* General Spacing */
+    section { margin-bottom: 32px; }
+    .card { padding: 16px; }
+    h1 { font-size: 24px !important; }
+    h2 { font-size: 20px !important; }
+    h3 { font-size: 16px !important; }
+    p { font-size: 14px !important; }
+}
+
+/* Small Phones (480px and below) */
+@media (max-width: 480px) {
+    .hero-title { font-size: 22px !important; }
+    .hero-stats-grid { grid-template-columns: 1fr; }
+    .stock-highlights { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .btn { padding: 10px 16px; font-size: 13px; }
+    .btn-lg { padding: 12px 20px; font-size: 14px; }
+}
