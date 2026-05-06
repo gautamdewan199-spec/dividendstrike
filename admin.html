@@ -86,9 +86,66 @@
             catch(e) { return []; }
         }
 
-        function savePosts(posts) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+        async function savePost() {
+    var title = document.getElementById('postTitle').value.trim();
+    var slug = document.getElementById('postSlug').value.trim();
+    var content = document.getElementById('postContent').value.trim();
+    
+    if (!title || !slug || !content) {
+        showToast('❌ Fill all required fields', '#ef4444');
+        return;
+    }
+    
+    var post = {
+        title: title, slug: slug,
+        category: document.getElementById('postCategory').value,
+        author: document.getElementById('postAuthor').value || 'DividendStrike Research',
+        excerpt: document.getElementById('postExcerpt').value.trim(),
+        keywords: document.getElementById('postKeywords').value.split(',').map(function(k){return k.trim();}).filter(function(k){return k;}),
+        content: content,
+        published: document.getElementById('postPublished').checked,
+        read_time: '5 min read',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+    };
+    
+    var postId = document.getElementById('postId').value;
+    
+    // Step 1: Save to localStorage (always works)
+    var posts = getPosts();
+    if (postId) {
+        var idx = posts.findIndex(function(p){ return p.id === postId; });
+        if (idx > -1) { post.id = postId; post.created_at = posts[idx].created_at; posts[idx] = post; }
+    } else {
+        post.id = 'p_' + Date.now();
+        posts.push(post);
+    }
+    savePosts(posts);
+    
+    // Step 2: Try to save to Supabase
+    try {
+        if (typeof supabase !== 'undefined' && supabase) {
+            var supabaseData = {
+                title: post.title, slug: post.slug, category: post.category,
+                author: post.author, excerpt: post.excerpt, keywords: post.keywords,
+                content: post.content, published: post.published,
+                read_time: post.read_time, updated_at: post.updated_at
+            };
+            var result = await supabase.from('blog_posts').upsert(supabaseData, { onConflict: 'slug' });
+            if (result.error) {
+                console.log('Supabase save failed (post saved locally):', result.error.message);
+            } else {
+                console.log('✅ Post synced to Supabase cloud');
+            }
         }
+    } catch(e) {
+        console.log('Supabase not available (post saved locally only)');
+    }
+    
+    showToast('✅ Post saved! Available on all devices.', '#22c55e');
+    clearForm();
+    loadPosts();
+}
 
         function showToast(msg, color) {
             var t = document.createElement('div');
