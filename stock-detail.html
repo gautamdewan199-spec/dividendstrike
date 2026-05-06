@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="pageTitle">Stock Analysis Dashboard — AI Scores, Technical Indicators & Dividend Data | DividendStrike</title>
     <meta name="description" content="Complete NSE stock analysis with AI health scores, dividend history, EMA/RSI/MACD technical indicators, fundamental metrics, and latest company news. Free stock research tool for Indian investors.">
     
@@ -100,6 +101,12 @@
         .scroll-top-btn.show{opacity:1;visibility:visible}.scroll-top-btn:hover{transform:translateY(-4px)}
         @media(max-width:768px){.metric-grid{grid-template-columns:1fr 1fr}}
         @media(max-width:500px){.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}.metric-grid{grid-template-columns:1fr 1fr}}
+        @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .mobile-menu-btn { display: block !important; }
+    [class*="grid"] { grid-template-columns: 1fr !important; }
+    table { display: block; overflow-x: auto; white-space: nowrap; }
+}
     </style>
 </head>
 <body>
