@@ -9,6 +9,23 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-F67MPYPHJ3');</script>
     <style>
+        /* Prevent overflow on all elements */
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+img, table, pre, code, iframe {
+    max-width: 100%;
+}
+
+table {
+    word-break: break-word;
+}
         :root{--bg:#0a0a0f;--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
         .container{max-width:1100px;margin:0 auto;padding:0 20px}
@@ -34,6 +51,174 @@
         .blog-content th{background:rgba(34,197,94,0.1);color:#22c55e;padding:14px 18px;text-align:left;border-bottom:2px solid rgba(34,197,94,0.3);font-weight:700;font-size:13px}
         .blog-content td{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d1d5db;font-size:14px}
         @media(max-width:768px){.nav-links{display:none}}
+        /* ============================================ */
+/* MOBILE FIX - Prevent Content Overflow         */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    /* Container */
+    .container { padding: 0 12px; width: 100%; overflow-x: hidden; }
+    body { overflow-x: hidden; width: 100%; }
+    
+    /* Blog post content */
+    .blog-content {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        font-size: 15px !important;
+    }
+    
+    /* Make all tables scrollable instead of overflowing */
+    .blog-content table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        max-width: 100%;
+        font-size: 12px;
+    }
+    .blog-content th,
+    .blog-content td {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+    
+    /* Make images fit */
+    .blog-content img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Make code blocks scrollable */
+    .blog-content pre,
+    .blog-content code {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        max-width: 100%;
+    }
+    
+    /* Fix any fixed-width divs */
+    .blog-content div[style*="width"] {
+        max-width: 100% !important;
+        width: auto !important;
+    }
+    
+    /* Single post container */
+    [style*="max-width:800px"],
+    [style*="max-width:850px"] {
+        padding: 0 8px !important;
+    }
+    
+    /* Card padding */
+    .card {
+        padding: 16px 12px !important;
+    }
+    
+    /* Headings */
+    .blog-content h2 {
+        font-size: 20px !important;
+    }
+    .blog-content h3 {
+        font-size: 16px !important;
+    }
+    
+    /* Lists */
+    .blog-content ul,
+    .blog-content ol {
+        padding-left: 16px;
+    }
+    
+    /* Blockquotes and highlighted boxes */
+    .blog-content div[style*="border-left"] {
+        padding: 12px 14px !important;
+        margin: 16px 0 !important;
+    }
+    
+    /* FAQ Styles */
+    .faq-header {
+        font-size: 13px !important;
+        padding: 12px 14px !important;
+    }
+    .faq-body {
+        font-size: 13px !important;
+        padding: 0 14px 12px 14px !important;
+    }
+    
+    /* Stock detail cards */
+    .stock-card-header {
+        padding: 14px !important;
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+    .stock-metrics-strip {
+        gap: 8px;
+    }
+    .stock-metric-mini .metric-val {
+        font-size: 16px;
+    }
+    .stock-card-body {
+        padding: 14px !important;
+    }
+    .stock-highlights {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px;
+    }
+    .stock-highlight-item {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+    .my-take-box {
+        padding: 12px 14px !important;
+    }
+    
+    /* Mistake cards */
+    .mistake-card {
+        padding: 12px !important;
+    }
+    .mistake-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+    
+    /* Newsletter CTA */
+    .newsletter-cta {
+        padding: 20px 16px !important;
+    }
+    
+    /* Navigation */
+    .nav-links { display: none !important; }
+    .mobile-menu-btn { display: block !important; }
+    
+    /* General text */
+    h1 { font-size: 22px !important; }
+    h2 { font-size: 18px !important; }
+    h3 { font-size: 15px !important; }
+    p { font-size: 14px !important; }
+    
+    /* Buttons */
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+    
+    /* Scroll button */
+    .scroll-top-btn {
+        bottom: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    /* Disclaimer box */
+    [style*="border-radius: 16px"] {
+        padding: 16px !important;
+    }
+}
     </style>
 </head>
 <body>
