@@ -3,144 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dividend Investing Blog — Expert Guides & Stock Analysis | DividendStrike</title>
-    <meta name="description" content="Expert dividend investing blog for Indian investors. AI-powered NSE stock analysis, DRIP strategies, tax planning guides.">
+    <title>Dividend Investing Blog — Expert Guides & Analysis | DividendStrike</title>
+    <meta name="description" content="Expert dividend investing blog for Indian investors. Stock analysis, DRIP strategies, tax guides, and passive income tips.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-F67MPYPHJ3');</script>
     <style>
-        :root{--bg:#0a0a0f;--card:rgba(15,15,25,0.85);--border:rgba(255,255,255,0.07);--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
+        :root{--bg:#0a0a0f;--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-        .container{max-width:1200px;margin:0 auto;padding:0 20px}
-        .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
-        .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+        .container{max-width:1100px;margin:0 auto;padding:0 20px}
+        .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:10px 0}
+        .navbar .container{display:flex;align-items:center;justify-content:space-between}
         .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
         .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:17px}
-        .logo-name{font-size:17px;font-weight:900;color:#e5e7eb}.logo-tagline{font-size:8px;color:#6b7280;display:block;text-transform:uppercase;letter-spacing:1px}
-        .nav-links{display:flex;gap:2px}.nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;color:#9ca3af}
-        .nav-link:hover{color:white;background:rgba(255,255,255,0.04)}.nav-link.active{background:rgba(34,197,94,0.12);color:#22c55e}
-        .mobile-menu-btn{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;padding:8px 12px;border-radius:8px}
-        .mobile-menu{display:none;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);background:rgba(10,10,15,0.98);grid-template-columns:1fr 1fr;gap:4px}
-        .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;text-decoration:none;color:#9ca3af}
-        .text-green{color:#22c55e}.text-muted{color:#6b7280}.text-secondary{color:#9ca3af}.text-xs{font-size:12px}.text-sm{font-size:14px}.font-bold{font-weight:700}.font-black{font-weight:900}.text-center{text-align:center}
-        .card{background:rgba(15,15,25,0.85);border:1px solid rgba(255,255,255,0.07);border-radius:16px;transition:all 0.3s ease}
-        .card-clickable{cursor:pointer}.card-clickable:hover{border-color:rgba(34,197,94,0.35);box-shadow:0 20px 50px -15px rgba(34,197,94,0.2);transform:translateY(-2px)}
-        .btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;display:inline-block;text-decoration:none}
-        .btn-primary{background:#22c55e;color:white}.btn-primary:hover{background:#16a34a}
+        .logo-name{font-size:17px;font-weight:900;color:#e5e7eb}.logo-name span{color:#22c55e}
+        .nav-links{display:flex;gap:2px}.nav-links a{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;color:#9ca3af}
+        .nav-links a:hover{color:white;background:rgba(255,255,255,0.04)}.nav-links a.active{background:rgba(34,197,94,0.12);color:#22c55e}
+        .text-center{text-align:center}.text-green{color:#22c55e}.text-muted{color:#6b7280}.text-secondary{color:#9ca3af}
+        .card{background:rgba(15,15,25,0.85);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;margin-bottom:16px;transition:all 0.3s ease}
+        .card-clickable{cursor:pointer}.card-clickable:hover{border-color:rgba(34,197,94,0.35);transform:translateY(-2px)}
+        .btn{display:inline-block;padding:10px 20px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:600;border:none;cursor:pointer;font-size:14px}
+        .btn:hover{background:#16a34a}
         .badge-green{background:rgba(34,197,94,0.2);color:#22c55e;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
         .badge-yellow{background:rgba(234,179,8,0.2);color:#eab308;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
-        .footer-main{border-top:1px solid rgba(255,255,255,0.06);padding:24px 0;margin-top:40px;text-align:center;font-size:12px;color:#4b5563}
-        .footer-main a{color:#6b7280}.footer-main a:hover{color:#22c55e}
-        .scroll-top-btn{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:16px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(34,197,94,0.3);transition:all 0.4s ease;opacity:0;visibility:hidden;color:white;font-size:20px;font-weight:700}
-        .scroll-top-btn.show{opacity:1;visibility:visible}.scroll-top-btn:hover{transform:translateY(-4px)}
-        @media(max-width:1024px){.nav-links{display:none!important}.mobile-menu-btn{display:block!important}}
-        @media(max-width:500px){.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}}
+        .footer{border-top:1px solid rgba(255,255,255,0.06);padding:24px 0;margin-top:40px;text-align:center;font-size:12px;color:#4b5563}
+        .footer a{color:#6b7280;margin:0 8px;text-decoration:none}
+        .blog-content{line-height:1.9;color:#d1d5db;font-size:16px}
+        .blog-content h2{font-size:24px;font-weight:800;color:#f3f4f6;margin:32px 0 16px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:8px}
+        .blog-content table{width:100%;border-collapse:collapse;margin:20px 0}
+        .blog-content th{background:rgba(34,197,94,0.1);color:#22c55e;padding:14px 18px;text-align:left;border-bottom:2px solid rgba(34,197,94,0.3);font-weight:700;font-size:13px}
+        .blog-content td{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d1d5db;font-size:14px}
+        @media(max-width:768px){.nav-links{display:none}}
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="container nav-inner">
-            <a href="index.html" class="logo"><div class="logo-icon">₹</div><div class="logo-text"><span class="logo-name">Dividend<span class="text-green">Strike</span></span><span class="logo-tagline">NSE Dividend Intelligence</span></div></a>
-            <div class="nav-links"><a href="index.html" class="nav-link">🏠 Home</a><a href="screener.html" class="nav-link">🔍 Screener</a><a href="calculators.html" class="nav-link">🧮 Calculators</a><a href="blog.html" class="nav-link active">📝 Blog</a><a href="knowledge-hub.html" class="nav-link">📚 Learn</a></div>
-            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').style.display=document.getElementById('mobileMenu').style.display==='none'?'grid':'none'">☰</button>
+        <div class="container">
+            <a href="index.html" class="logo"><div class="logo-icon">₹</div><div><span class="logo-name">Dividend<span>Strike</span></span></div></a>
+            <div class="nav-links">
+                <a href="index.html">🏠 Home</a>
+                <a href="screener.html">🔍 Screener</a>
+                <a href="calculators.html">🧮 Calculators</a>
+                <a href="blog.html" class="active">📝 Blog</a>
+                <a href="knowledge-hub.html">📚 Learn</a>
+            </div>
         </div>
-        <div id="mobileMenu" class="mobile-menu" style="display:none;"><a href="index.html">🏠 Home</a><a href="screener.html">🔍 Screener</a><a href="calculators.html">🧮 Calculators</a><a href="blog.html">📝 Blog</a><a href="knowledge-hub.html">📚 Learn</a></div>
     </nav>
 
-    <main id="blogContainer" class="container" style="padding:24px 0;">
-        <p style="text-align:center;padding:40px;color:#9ca3af;">Loading posts from database...</p>
-    </main>
+    <main id="blogContainer" class="container" style="padding:24px 0;"></main>
 
-    <footer class="footer-main"><div class="container"><p>DividendStrike — AI-Powered NSE Analysis</p><div style="margin-top:6px;"><a href="index.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a></div></div></footer>
-    <button id="scrollTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+    <footer class="footer">
+        <p>DividendStrike — AI-Powered NSE Analysis</p>
+        <div style="margin-top:6px;"><a href="index.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a></div>
+    </footer>
 
     <script>
-        window.addEventListener('scroll',function(){var b=document.getElementById('scrollTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);});
+        // LOCAL STORAGE ONLY - NO SUPABASE
+        var STORAGE_KEY = 'dividendstrike_blog_posts';
 
-        // ============================================
-        // SUPABASE CONFIG
-        // ============================================
-        var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
-        var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
-        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        function getPosts() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } 
+            catch(e) { return []; }
+        }
 
-        console.log('🔌 Supabase connected');
-        console.log('📡 Fetching blog posts...');
-
-        // Fetch posts from Supabase
-        supabase.from('blog_posts').select('*').eq('published', true).order('created_at', { ascending: false })
-        .then(function(result) {
+        function showBlog() {
+            var allPosts = getPosts();
+            var posts = allPosts.filter(function(p){ return p.published; });
+            posts.sort(function(a,b){ return new Date(b.created_at) - new Date(a.created_at); });
+            
             var container = document.getElementById('blogContainer');
             
-            if (result.error) {
-                console.error('❌ Supabase error:', result.error);
-                container.innerHTML = '<div style="text-align:center;padding:60px;"><h2 style="color:#ef4444;">Database Error</h2><p style="color:#9ca3af;">' + result.error.message + '</p><p style="color:#6b7280;font-size:12px;margin-top:8px;">Check Supabase connection and table permissions.</p></div>';
-                return;
-            }
-            
-            var posts = result.data || [];
-            console.log('✅ Posts fetched:', posts.length);
-            
-            if (posts.length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:60px;"><h1 style="font-size:28px;font-weight:900;">📝 Blog Coming Soon</h1><p style="color:#9ca3af;">No published posts yet. Create your first post in the admin panel.</p><a href="admin.html" style="display:inline-block;margin-top:16px;padding:10px 24px;background:#22c55e;color:white;border-radius:10px;text-decoration:none;font-weight:600;">Open Admin Panel</a></div>';
-                return;
-            }
-            
-            // Check URL for single post
+            // Check URL for single post via slug
             var slug = new URLSearchParams(window.location.search).get('slug');
             if (slug) {
-                var post = posts.find(function(p) { return p.slug === slug; });
-                if (post) { showPost(post); return; }
+                var post = posts.find(function(p){ return p.slug === slug; });
+                if (post) { showSingle(post, posts); return; }
             }
             
-            // Show blog listing
+            // No posts
+            if (posts.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:80px 20px;"><div style="font-size:64px;margin-bottom:16px;">📝</div><h1 style="font-size:28px;font-weight:900;margin-bottom:8px;">Blog Coming Soon</h1><p style="color:#9ca3af;font-size:14px;">Posts published from the admin panel will appear here.</p><p style="color:#6b7280;font-size:12px;margin-top:8px;">Storage: ' + allPosts.length + ' total posts (' + posts.length + ' published)</p><a href="index.html" class="btn" style="margin-top:20px;">🏠 Back to Home</a></div>';
+                return;
+            }
+            
+            console.log('📝 Showing', posts.length, 'published posts');
+            
             var html = '<div style="margin-bottom:28px;"><h1 style="font-size:28px;font-weight:900;">📝 Dividend Investing Blog</h1><p style="color:#9ca3af;">' + posts.length + ' article' + (posts.length>1?'s':'') + '</p></div>';
             
             // Featured post
             var featured = posts[0];
-            html += '<div class="card card-clickable" style="padding:28px;margin-bottom:24px;background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(16,185,129,0.03));cursor:pointer;" onclick="location.href=\'?slug=' + featured.slug + '\'">';
-            html += '<span class="badge-yellow">⭐ Featured</span> ';
-            html += '<span class="badge-green">' + (featured.category || 'Guide') + '</span>';
+            html += '<div class="card card-clickable" style="padding:28px;margin-bottom:24px;background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(16,185,129,0.03));" onclick="location.href=\'?slug=' + featured.slug + '\'">';
+            html += '<span class="badge-yellow">⭐ Featured</span> <span class="badge-green">' + (featured.category||'Guide') + '</span>';
             html += '<h2 style="font-size:22px;font-weight:900;margin:10px 0;">' + featured.title + '</h2>';
-            html += '<p style="color:#9ca3af;">' + (featured.excerpt || '') + '</p>';
+            html += '<p style="color:#9ca3af;">' + (featured.excerpt||'') + '</p>';
+            html += '<div style="font-size:11px;color:#6b7280;margin-top:12px;">📅 ' + new Date(featured.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + '</div>';
             html += '</div>';
             
-            // Post grid
+            // Rest of posts
             var rest = posts.slice(1);
             html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;">';
-            rest.forEach(function(post) {
-                html += '<div class="card card-clickable" style="padding:20px;cursor:pointer;" onclick="location.href=\'?slug=' + post.slug + '\'">';
-                html += '<span class="badge-green">' + (post.category || 'Guide') + '</span>';
+            rest.forEach(function(post){
+                html += '<div class="card card-clickable" style="padding:20px;" onclick="location.href=\'?slug=' + post.slug + '\'">';
+                html += '<span class="badge-green">' + (post.category||'Guide') + '</span>';
                 html += '<h3 style="font-size:16px;font-weight:700;margin:8px 0;">' + post.title + '</h3>';
-                html += '<p style="color:#9ca3af;font-size:12px;">' + (post.excerpt || '') + '</p>';
+                html += '<p style="color:#9ca3af;font-size:12px;">' + (post.excerpt||'') + '</p>';
                 html += '</div>';
             });
             html += '</div>';
             
             container.innerHTML = html;
-        })
-        .catch(function(err) {
-            console.error('❌ Fetch failed:', err);
-            document.getElementById('blogContainer').innerHTML = '<div style="text-align:center;padding:60px;"><h2 style="color:#ef4444;">Connection Error</h2><p style="color:#9ca3af;">Could not connect to the database.</p><p style="color:#6b7280;font-size:12px;margin-top:8px;">' + err.message + '</p></div>';
-        });
+        }
 
-        // Show single post
-        function showPost(post) {
+        function showSingle(post, allPosts) {
             var container = document.getElementById('blogContainer');
-            container.innerHTML = '<div style="max-width:800px;margin:0 auto;">' +
-                '<a href="blog.html" style="color:#9ca3af;text-decoration:none;font-size:14px;">← Back to Blog</a>' +
-                '<div class="card" style="padding:28px;margin-top:20px;">' +
-                '<span class="badge-green">' + (post.category || 'General') + '</span>' +
-                '<h1 style="font-size:26px;font-weight:900;margin:12px 0;">' + post.title + '</h1>' +
-                '<p style="color:#9ca3af;">' + (post.excerpt || '') + '</p>' +
-                '<div style="font-size:11px;color:#6b7280;margin-top:12px;">✍️ ' + (post.author || 'DividendStrike') + ' | 📅 ' + new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) + '</div>' +
-                '</div>' +
-                '<div class="card" style="padding:28px;margin-top:16px;"><div style="line-height:1.9;color:#d1d5db;font-size:16px;">' + (post.content || '') + '</div></div>' +
-                '</div>';
+            var related = allPosts.filter(function(p){ return p.slug !== post.slug; }).slice(0,3);
+            
+            var html = '<div style="max-width:800px;margin:0 auto;">';
+            html += '<a href="blog.html" style="color:#9ca3af;text-decoration:none;font-size:14px;">← Back to Blog</a>';
+            html += '<div class="card" style="padding:28px;margin-top:20px;">';
+            html += '<span class="badge-green">' + (post.category||'General') + '</span>';
+            html += '<h1 style="font-size:26px;font-weight:900;margin:12px 0;">' + post.title + '</h1>';
+            if(post.excerpt) html += '<p style="color:#9ca3af;">' + post.excerpt + '</p>';
+            html += '<div style="font-size:11px;color:#6b7280;margin-top:12px;">✍️ ' + (post.author||'DividendStrike') + ' | 📅 ' + new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) + '</div>';
+            html += '</div>';
+            html += '<div class="card" style="padding:28px;margin-top:16px;"><div class="blog-content">' + (post.content||'') + '</div></div>';
+            
+            if (related.length > 0) {
+                html += '<div style="margin-top:24px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:12px;">📚 Related</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">';
+                related.forEach(function(r){
+                    html += '<div class="card card-clickable" style="padding:16px;" onclick="location.href=\'?slug=' + r.slug + '\'"><span class="badge-green" style="font-size:10px;">' + (r.category||'Guide') + '</span><h4 style="font-size:14px;font-weight:700;margin:6px 0;">' + r.title + '</h4></div>';
+                });
+                html += '</div></div>';
+            }
+            html += '</div>';
+            
+            container.innerHTML = html;
             window.scrollTo({top:0,behavior:'smooth'});
         }
+
+        showBlog();
+        console.log('✅ Blog loaded from localStorage — dividendstrike.in');
     </script>
 </body>
 </html>
