@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="pageTitle">Stock Analysis Dashboard — AI Scores, Technical Indicators & Dividend Data | DividendStrike</title>
     <meta name="description" content="Complete NSE stock analysis with AI health scores, dividend history, EMA/RSI/MACD technical indicators, fundamental metrics, and latest company news. Free stock research tool for Indian investors.">
     
@@ -106,6 +105,130 @@
     .mobile-menu-btn { display: block !important; }
     [class*="grid"] { grid-template-columns: 1fr !important; }
     table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+        /* ============================================ */
+/* MOBILE RESPONSIVE FIXES                       */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    /* Container */
+    .container { padding: 0 12px; }
+    
+    /* Navigation */
+    .nav-links { display: none !important; }
+    .mobile-menu-btn { display: block !important; }
+    
+    /* Stock Header */
+    .card { padding: 16px !important; }
+    
+    /* Score Cards Grid - 2 per row on mobile */
+    [style*="display:grid;grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    
+    /* Signal Cards Grid */
+    [style*="display:grid;grid-template-columns:repeat(4,1fr)"] .card {
+        padding: 14px !important;
+    }
+    
+    /* Tabs - Make scrollable */
+    .tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 4px;
+        padding-bottom: 4px;
+    }
+    .tab {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    /* Tables - Make scrollable */
+    table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        font-size: 11px;
+    }
+    th, td { padding: 8px 10px; }
+    
+    /* Metric Grid */
+    .metric-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px;
+    }
+    .metric-card { padding: 12px 8px; }
+    .metric-value { font-size: 18px; }
+    
+    /* Charts */
+    [style*="height:380px"] { height: 250px !important; }
+    [style*="height:350px"] { height: 220px !important; }
+    [style*="height:220px"] { height: 180px !important; }
+    [style*="height:200px"] { height: 160px !important; }
+    [style*="height:250px"] { height: 200px !important; }
+    
+    /* Technical Analysis Grid */
+    [style*="display:grid;grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Insight Cards */
+    [style*="display:grid;grid-template-columns:1fr 1fr"] .signal-card {
+        padding: 12px;
+    }
+    
+    /* Stock Header Flex */
+    [style*="display:flex;justify-content:space-between"] {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    /* Price and Score */
+    .text-center h1 { font-size: 24px !important; }
+    
+    /* Buttons */
+    .btn-sm { padding: 8px 14px; font-size: 11px; }
+    
+    /* Back link */
+    a[style*="margin-bottom:20px"] {
+        font-size: 12px;
+    }
+    
+    /* Sentiment meter */
+    [style*="width:300px"] { width: 100% !important; max-width: 280px; }
+    
+    /* News items */
+    .news-item { padding: 12px; }
+    
+    /* Scroll button */
+    .scroll-top-btn {
+        bottom: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Score Cards - 1 per row on small phones */
+    [style*="display:grid;grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .metric-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    
+    h1 { font-size: 20px !important; }
+    h2 { font-size: 18px !important; }
+    h3 { font-size: 15px !important; }
+    p { font-size: 13px !important; }
 }
     </style>
 </head>
