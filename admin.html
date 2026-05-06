@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DividendStrike — Blog Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,6 +42,7 @@
             <div style="display:flex;gap:10px;">
                 <button onclick="exportPosts()" class="btn-gray" style="font-size:12px;">📥 Export</button>
                 <button onclick="importPosts()" class="btn-gray" style="font-size:12px;">📤 Import</button>
+                <button onclick="syncAllToSupabase()" class="btn-gray" style="font-size:12px;background:#3b82f6;color:white;">☁️ Sync to Cloud</button>
                 <a href="blog.html" target="_blank" style="background:#22c55e;color:white;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">🌐 View Blog</a>
             </div>
         </div>
@@ -79,6 +81,9 @@
     </div>
 
     <script>
+        var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
+var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         var STORAGE_KEY = 'dividendstrike_blog_posts';
 
         function getPosts() {
@@ -288,6 +293,70 @@
 
         loadPosts();
         console.log('✅ Admin Panel Ready');
+
+        async function syncAllToSupabase() {
+    if (typeof supabase === 'undefined' || !supabase) {
+        showToast('❌ Supabase not connected. Check your credentials.', '#ef4444');
+        return;
+    }
+    
+    var posts = [];
+    try {
+        posts = JSON.parse(localStorage.getItem('dividendstrike_blog_posts') || '[]');
+    } catch(e) {
+        showToast('❌ No posts found in localStorage.', '#ef4444');
+        return;
+    }
+    
+    if (posts.length === 0) {
+        showToast('⚠️ No posts to sync.', '#eab308');
+        return;
+    }
+    
+    showToast('☁️ Syncing ' + posts.length + ' posts to cloud...', '#3b82f6');
+    
+    var success = 0;
+    var failed = 0;
+    
+    for (var i = 0; i < posts.length; i++) {
+        var post = posts[i];
+        var supabaseData = {
+            title: post.title,
+            slug: post.slug,
+            category: post.category || 'General',
+            author: post.author || 'DividendStrike Research',
+            excerpt: post.excerpt || '',
+            keywords: post.keywords || [],
+            content: post.content,
+            published: post.published,
+            read_time: post.read_time || '5 min read',
+            updated_at: new Date().toISOString()
+        };
+        
+        try {
+            var result = await supabase
+                .from('blog_posts')
+                .upsert(supabaseData, { onConflict: 'slug' });
+            
+            if (result.error) {
+                console.log('❌ ' + post.title + ': ' + result.error.message);
+                failed++;
+            } else {
+                console.log('✅ ' + post.title + ' synced');
+                success++;
+            }
+        } catch(e) {
+            console.log('❌ ' + post.title + ': ' + e.message);
+            failed++;
+        }
+    }
+    
+    showToast('✅ ' + success + ' posts synced! ' + (failed > 0 ? failed + ' failed.' : ''), success > 0 ? '#22c55e' : '#ef4444');
+    console.log('========================================');
+    console.log('✅ Synced: ' + success + ' posts');
+    console.log('❌ Failed: ' + failed + ' posts');
+    console.log('📱 Blog now available on all devices!');
+}
     </script>
 </body>
 </html>
