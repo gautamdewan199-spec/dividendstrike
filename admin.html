@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DividendStrike — Blog Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -39,13 +39,10 @@
     <div class="container">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
             <h1 style="font-size:24px;">📝 Blog Manager</h1>
-            <div style="display:flex;gap:10px;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
                 <button onclick="exportPosts()" class="btn-gray" style="font-size:12px;">📥 Export</button>
-                <button onclick="exportPosts()" class="btn-gray" style="font-size:12px;">📥 Export</button>
+                <button onclick="importPosts()" class="btn-gray" style="font-size:12px;">📤 Import</button>
                 <button onclick="syncAllToSupabase()" style="background:#3b82f6;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">☁️ Sync to Cloud</button>
-                <button onclick="importPosts()" class="btn-gray" style="font-size:12px;">📤 Import</button>
-                <button onclick="importPosts()" class="btn-gray" style="font-size:12px;">📤 Import</button>
-                <button onclick="syncAllToSupabase()" class="btn-gray" style="font-size:12px;background:#3b82f6;color:white;">☁️ Sync to Cloud</button>
                 <a href="blog.html" target="_blank" style="background:#22c55e;color:white;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">🌐 View Blog</a>
             </div>
         </div>
@@ -54,7 +51,6 @@
         <div class="card">
             <h2 style="font-size:18px;font-weight:700;margin-bottom:16px;" id="formTitle">✍️ Create New Post</h2>
             <input type="hidden" id="postId">
-            
             <div class="grid-2">
                 <div><label>Title *</label><input type="text" id="postTitle" placeholder="Post title"></div>
                 <div><label>Slug (URL) *</label><input type="text" id="postSlug" placeholder="my-post-slug"></div>
@@ -84,91 +80,21 @@
     </div>
 
     <script>
+        // SUPABASE CONFIG
         var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
-var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
+        var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         var STORAGE_KEY = 'dividendstrike_blog_posts';
 
         function getPosts() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } 
-            catch(e) { return []; }
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
         }
 
-        async function savePost() {
-    var title = document.getElementById('postTitle').value.trim();
-    var slug = document.getElementById('postSlug').value.trim();
-    var content = document.getElementById('postContent').value.trim();
-    
-    if (!title || !slug || !content) {
-        showToast('❌ Please fill in Title, Slug, and Content', '#ef4444');
-        return;
-    }
-    
-    var postData = {
-        title: title,
-        slug: slug,
-        category: document.getElementById('postCategory').value,
-        author: document.getElementById('postAuthor').value || 'DividendStrike Research',
-        excerpt: document.getElementById('postExcerpt').value.trim(),
-        keywords: document.getElementById('postKeywords').value.split(',').map(function(k) { return k.trim(); }).filter(function(k) { return k; }),
-        content: content,
-        published: document.getElementById('postPublished').checked,
-        read_time: '5 min read',
-        updated_at: new Date().toISOString()
-    };
-    
-    var postId = document.getElementById('postId').value;
-    
-    try {
-        var result;
-        if (postId) {
-            // Update existing post in Supabase
-            result = await supabase.from('blog_posts').update(postData).eq('id', postId);
-        } else {
-            // Insert new post to Supabase
-            result = await supabase.from('blog_posts').insert([postData]);
-        }
-        
-        if (result.error) {
-            throw result.error;
-        }
-        
-        showToast('✅ Post saved to cloud! Available on all devices.', '#22c55e');
-        clearForm();
-        loadPosts();
-        
-    } catch(e) {
-        // If Supabase fails, save locally as backup
-        console.error('Supabase error, saving locally:', e.message);
-        
-        var posts = [];
-        try { 
-            posts = JSON.parse(localStorage.getItem('dividendstrike_blog_posts') || '[]'); 
-        } catch(err) {}
-        
-        postData.id = postId || 'local_' + Date.now();
-        postData.created_at = new Date().toISOString();
-        
-        if (postId) {
-            var idx = posts.findIndex(function(p) { return p.id == postId; });
-            if (idx > -1) { posts[idx] = postData; }
-        } else {
-            posts.push(postData);
-        }
-        
-        localStorage.setItem('dividendstrike_blog_posts', JSON.stringify(posts));
-        showToast('⚠️ Cloud save failed. Saved locally only.', '#eab308');
-        
-        clearForm();
-        loadPosts();
-    }
-}
+        function savePosts(posts) { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
 
         function showToast(msg, color) {
             var t = document.createElement('div');
-            t.className = 'toast';
-            t.style.background = color || '#22c55e';
-            t.textContent = msg;
+            t.className = 'toast'; t.style.background = color || '#22c55e'; t.textContent = msg;
             document.getElementById('toastBox').appendChild(t);
             setTimeout(function(){ t.remove(); }, 2500);
         }
@@ -179,53 +105,67 @@ var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             document.getElementById('count').textContent = posts.length;
             var html = '';
             if (posts.length === 0) {
-                html = '<p style="color:#6b7280;text-align:center;padding:30px;">No posts yet. Create one above!</p>';
+                html = '<p style="color:#6b7280;text-align:center;padding:30px;">No posts yet</p>';
             } else {
                 posts.forEach(function(p){
-                    html += '<div class="post-item">';
-                    html += '<div><span class="badge '+(p.published?'badge-pub':'badge-draft')+'">'+(p.published?'📤 Published':'📥 Draft')+'</span> ';
-                    html += '<strong>'+p.title+'</strong><br><small style="color:#6b7280;">'+p.slug+'</small></div>';
-                    html += '<div style="display:flex;gap:6px;">';
-                    html += '<button onclick="editPost(\''+p.id+'\')" class="btn-edit">✏️</button>';
-                    html += '<button onclick="deletePost(\''+p.id+'\')" class="btn-delete">🗑️</button>';
-                    html += '</div></div>';
+                    html += '<div class="post-item"><div><span class="badge '+(p.published?'badge-pub':'badge-draft')+'">'+(p.published?'📤 Published':'📥 Draft')+'</span> <strong>'+p.title+'</strong><br><small style="color:#6b7280;">'+p.slug+'</small></div><div style="display:flex;gap:6px;"><button onclick="editPost(\''+p.id+'\')" class="btn-edit">✏️</button><button onclick="deletePost(\''+p.id+'\')" class="btn-delete">🗑️</button></div></div>';
                 });
             }
             document.getElementById('postsList').innerHTML = html;
         }
 
-        function savePost() {
+        // SINGLE savePost function - saves to BOTH localStorage and Supabase
+        async function savePost() {
             var title = document.getElementById('postTitle').value.trim();
             var slug = document.getElementById('postSlug').value.trim();
             var content = document.getElementById('postContent').value.trim();
             if (!title || !slug || !content) { showToast('❌ Fill all required fields', '#ef4444'); return; }
             
-            var posts = getPosts();
-            var id = document.getElementById('postId').value;
-            
             var post = {
-                id: id || 'p_'+Date.now(),
                 title: title, slug: slug,
                 category: document.getElementById('postCategory').value,
-                author: document.getElementById('postAuthor').value,
+                author: document.getElementById('postAuthor').value || 'DividendStrike Research',
                 excerpt: document.getElementById('postExcerpt').value.trim(),
                 keywords: document.getElementById('postKeywords').value.split(',').map(function(k){return k.trim();}).filter(function(k){return k;}),
                 content: content,
                 published: document.getElementById('postPublished').checked,
                 read_time: '5 min read',
-                created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             };
             
-            if (id) {
-                var idx = posts.findIndex(function(p){ return p.id === id; });
-                if (idx > -1) { post.created_at = posts[idx].created_at; posts[idx] = post; }
+            var postId = document.getElementById('postId').value;
+            
+            // STEP 1: Save to localStorage (always works)
+            var posts = getPosts();
+            if (postId) {
+                var idx = posts.findIndex(function(p){ return p.id === postId; });
+                if (idx > -1) { post.id = postId; post.created_at = posts[idx].created_at; posts[idx] = post; }
             } else {
+                post.id = 'p_' + Date.now();
+                post.created_at = new Date().toISOString();
                 posts.push(post);
             }
-            
             savePosts(posts);
-            showToast('✅ Post saved!', '#22c55e');
+            
+            // STEP 2: Try Supabase
+            try {
+                var supabaseData = {
+                    title: post.title, slug: post.slug, category: post.category,
+                    author: post.author, excerpt: post.excerpt, keywords: post.keywords,
+                    content: post.content, published: post.published,
+                    read_time: post.read_time, updated_at: post.updated_at
+                };
+                var result = await supabase.from('blog_posts').upsert(supabaseData, { onConflict: 'slug' });
+                if (result.error) {
+                    console.log('Supabase: ' + result.error.message);
+                    showToast('✅ Saved locally (click ☁️ Sync to Cloud to update)', '#eab308');
+                } else {
+                    showToast('✅ Post saved! Available on all devices.', '#22c55e');
+                }
+            } catch(e) {
+                showToast('✅ Saved locally (click ☁️ Sync to Cloud to update)', '#eab308');
+            }
+            
             clearForm();
             loadPosts();
         }
@@ -263,47 +203,33 @@ var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             document.getElementById('postContent').value = '';
             document.getElementById('postPublished').checked = false;
         }
-async function syncAllToSupabase() {
-    if (typeof supabase === 'undefined' || !supabase) {
-        showToast('❌ Supabase not connected', '#ef4444');
-        return;
-    }
-    
-    var posts = [];
-    try { posts = JSON.parse(localStorage.getItem('dividendstrike_blog_posts') || '[]'); } catch(e) {}
-    
-    if (posts.length === 0) {
-        showToast('⚠️ No posts to sync', '#eab308');
-        return;
-    }
-    
-    showToast('☁️ Syncing ' + posts.length + ' posts...', '#3b82f6');
-    
-    var success = 0;
-    for (var i = 0; i < posts.length; i++) {
-        var post = posts[i];
-        try {
-            var result = await supabase.from('blog_posts').upsert({
-                title: post.title, slug: post.slug,
-                category: post.category || 'General',
-                author: post.author || 'DividendStrike Research',
-                excerpt: post.excerpt || '',
-                keywords: post.keywords || [],
-                content: post.content,
-                published: post.published,
-                read_time: post.read_time || '5 min read',
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'slug' });
+
+        // SINGLE sync function
+        async function syncAllToSupabase() {
+            var posts = getPosts();
+            if (posts.length === 0) { showToast('⚠️ No posts to sync', '#eab308'); return; }
             
-            if (!result.error) success++;
-            else console.log('❌ ' + post.title + ': ' + result.error.message);
-        } catch(e) { console.log('❌ ' + post.title + ': ' + e.message); }
-    }
-    
-    showToast('✅ ' + success + ' posts synced to cloud!', '#22c55e');
-}
+            showToast('☁️ Syncing ' + posts.length + ' posts...', '#3b82f6');
+            var success = 0;
+            
+            for (var i = 0; i < posts.length; i++) {
+                var post = posts[i];
+                try {
+                    var result = await supabase.from('blog_posts').upsert({
+                        title: post.title, slug: post.slug, category: post.category || 'General',
+                        author: post.author || 'DividendStrike Research', excerpt: post.excerpt || '',
+                        keywords: post.keywords || [], content: post.content,
+                        published: post.published, read_time: post.read_time || '5 min read',
+                        updated_at: new Date().toISOString()
+                    }, { onConflict: 'slug' });
+                    if (!result.error) success++;
+                } catch(e) {}
+            }
+            showToast('✅ ' + success + ' posts synced!', '#22c55e');
+        }
+
         function exportPosts() {
-                        var posts = getPosts();
+            var posts = getPosts();
             if (posts.length === 0) { showToast('No posts to export', '#eab308'); return; }
             var blob = new Blob([JSON.stringify(posts, null, 2)], {type:'application/json'});
             var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
@@ -334,70 +260,6 @@ async function syncAllToSupabase() {
 
         loadPosts();
         console.log('✅ Admin Panel Ready');
-
-        async function syncAllToSupabase() {
-    if (typeof supabase === 'undefined' || !supabase) {
-        showToast('❌ Supabase not connected. Check your credentials.', '#ef4444');
-        return;
-    }
-    
-    var posts = [];
-    try {
-        posts = JSON.parse(localStorage.getItem('dividendstrike_blog_posts') || '[]');
-    } catch(e) {
-        showToast('❌ No posts found in localStorage.', '#ef4444');
-        return;
-    }
-    
-    if (posts.length === 0) {
-        showToast('⚠️ No posts to sync.', '#eab308');
-        return;
-    }
-    
-    showToast('☁️ Syncing ' + posts.length + ' posts to cloud...', '#3b82f6');
-    
-    var success = 0;
-    var failed = 0;
-    
-    for (var i = 0; i < posts.length; i++) {
-        var post = posts[i];
-        var supabaseData = {
-            title: post.title,
-            slug: post.slug,
-            category: post.category || 'General',
-            author: post.author || 'DividendStrike Research',
-            excerpt: post.excerpt || '',
-            keywords: post.keywords || [],
-            content: post.content,
-            published: post.published,
-            read_time: post.read_time || '5 min read',
-            updated_at: new Date().toISOString()
-        };
-        
-        try {
-            var result = await supabase
-                .from('blog_posts')
-                .upsert(supabaseData, { onConflict: 'slug' });
-            
-            if (result.error) {
-                console.log('❌ ' + post.title + ': ' + result.error.message);
-                failed++;
-            } else {
-                console.log('✅ ' + post.title + ' synced');
-                success++;
-            }
-        } catch(e) {
-            console.log('❌ ' + post.title + ': ' + e.message);
-            failed++;
-        }
-    }
-    
-    showToast('✅ ' + success + ' posts synced! ' + (failed > 0 ? failed + ' failed.' : ''), success > 0 ? '#22c55e' : '#ef4444');
-    console.log('========================================');
-    console.log('✅ Synced: ' + success + ' posts');
-    console.log('❌ Failed: ' + failed + ' posts');
-    console.log('📱 Blog now available on all devices!');
-}
     </script>
 </body>
 </html>
