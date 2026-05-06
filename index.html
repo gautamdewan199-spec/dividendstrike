@@ -724,6 +724,7 @@
     table { display: block; overflow-x: auto; white-space: nowrap; }
 }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -990,6 +991,10 @@
     <script src="assets/js/common.js"></script>
     
     <script>
+    var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
+    var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
         // ============================================
         // NAVIGATION FUNCTIONS
         // ============================================
@@ -1030,7 +1035,7 @@
         // HOMEPAGE CONTENT LOADER
         // ============================================
         
-        function loadHomePage() {
+        async function loadHomePage() {
             if (typeof stocks === 'undefined') {
                 console.log('Stock database not loaded yet');
                 return;
@@ -1079,7 +1084,8 @@
             }).join('');
             
             // Blog posts
-            const blogPosts = getBlogPosts().filter(p => p.published).slice(0, 2);
+           const allPosts = await getBlogPosts();
+        const blogPosts = allPosts.filter(p => p.published).slice(0, 2);
             const blogContainer = document.getElementById('blogCards');
             if (blogPosts.length > 0) {
                 blogContainer.innerHTML = blogPosts.map(post => `
@@ -1124,12 +1130,36 @@
             }
         }
         
-        function getBlogPosts() {
-            try {
-                const posts = localStorage.getItem('dividendstrike_blog_posts');
-                return posts ? JSON.parse(posts) : [];
-            } catch(e) { return []; }
+       async function getBlogPosts() {
+    // Try Supabase first
+    try {
+        var result = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
+        
+        if (result.data && result.data.length > 0) {
+            console.log('✅ Homepage loaded from Supabase:', result.data.length, 'posts');
+            return result.data;
         }
+    } catch(e) {
+        console.log('Supabase not available, trying localStorage...');
+    }
+    
+    // Fallback to localStorage
+    try {
+        var posts = localStorage.getItem('dividendstrike_blog_posts');
+        if (posts) {
+            var parsed = JSON.parse(posts);
+            console.log('📦 Homepage loaded from localStorage:', parsed.length, 'posts');
+            return parsed;
+        }
+    } catch(e) {}
+    
+    console.log('ℹ️ No posts found');
+    return [];
+}
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
