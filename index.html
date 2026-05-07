@@ -1087,7 +1087,7 @@
             
             // Blog posts
            const allPosts = await getBlogPosts();
-        const blogPosts = allPosts.filter(p => p.published).slice(0, 2);
+        const blogPosts = allPosts.filter(p => p.published).slice(0, 4);
             const blogContainer = document.getElementById('blogCards');
             if (blogPosts.length > 0) {
                 blogContainer.innerHTML = blogPosts.map(post => `
@@ -1164,12 +1164,12 @@
 }
         
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            setActiveNav();
-            handleScrollButton();
-            loadHomePage();
-            console.log('🏠 Premium Homepage Loaded Successfully');
-        });
+       document.addEventListener('DOMContentLoaded', async () => {
+    setActiveNav();
+    handleScrollButton();
+    await loadHomePage();  // ← Add await here
+    console.log('🏠 Premium Homepage Loaded Successfully');
+});
     </script>
 </body>
 </html>
