@@ -261,37 +261,50 @@ table {
     // ============================================
     // GET POSTS - Supabase first, localStorage backup
     // ============================================
-    async function getPosts() {
-        // Try Supabase first
-        try {
-            var result = await supabase
-                .from('blog_posts')
-                .select('*')
-                .eq('published', true)
-                .order('created_at', { ascending: false });
-            
-            if (!result.error && result.data && result.data.length > 0) {
-                console.log('✅ Loaded ' + result.data.length + ' posts from Supabase cloud');
-                return result.data;
-            }
-        } catch(e) {
-            console.log('⚠️ Supabase not available, trying localStorage...');
+   async function getPosts() {
+    // Try Supabase with timeout
+    try {
+        var result = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
+        
+        if (!result.error && result.data && result.data.length > 0) {
+            // Cache for next time
+            localStorage.setItem('dividendstrike_blog_cache', JSON.stringify(result.data));
+            console.log('✅ Loaded ' + result.data.length + ' posts from Supabase');
+            return result.data;
         }
-        
-        // Fallback to localStorage
-        try {
-            var localData = localStorage.getItem('dividendstrike_blog_posts');
-            if (localData) {
-                var parsed = JSON.parse(localData);
-                console.log('📦 Loaded ' + parsed.length + ' posts from localStorage');
-                return parsed;
-            }
-        } catch(e) {}
-        
-        console.log('ℹ️ No posts found anywhere');
-        return [];
+    } catch(e) {
+        console.log('⚠️ Supabase fetch failed, trying cache...');
     }
-
+    
+    // Fallback to cache
+    try {
+        var cached = localStorage.getItem('dividendstrike_blog_cache');
+        if (cached) {
+            var posts = JSON.parse(cached);
+            if (posts.length > 0) {
+                console.log('📦 Loaded ' + posts.length + ' posts from cache');
+                return posts;
+            }
+        }
+    } catch(e) {}
+    
+    // Last resort: localStorage old key
+    try {
+        var oldData = localStorage.getItem('dividendstrike_blog_posts');
+        if (oldData) {
+            console.log('📦 Loaded from old localStorage');
+            return JSON.parse(oldData);
+        }
+    } catch(e) {}
+    
+    console.log('ℹ️ No posts found');
+    return [];
+}
+   
     // ============================================
     // SHOW BLOG LISTING
     // ============================================
