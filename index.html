@@ -988,67 +988,92 @@
     <button id="scrollToTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
     <!-- SCRIPTS -->
-    <script src="assets/js/database.js"></script>
-    <script src="assets/js/ai-engine.js"></script>
-    <script src="assets/js/common.js"></script>
-    
-    <script>
-    // ========== SUPABASE CONFIG ==========
+<script src="assets/js/database.js"></script>
+<script src="assets/js/ai-engine.js"></script>
+<script src="assets/js/common.js"></script>
+
+<script>
+    // ============================================
+    // SUPABASE CONFIG - MUST BE FIRST!
+    // ============================================
     var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
-    var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // ============================================
-        // NAVIGATION FUNCTIONS
-        // ============================================
-        
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'grid' : 'none';
+    
+    // Wait for window.supabase to be available
+    function initSupabase() {
+        if (window.supabase && typeof window.supabase.createClient === 'function') {
+            var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            window.mySupabase = supabase; // Store globally
+            console.log('✅ Supabase initialized');
+            return true;
         }
-        
-        function setActiveNav() {
-            const page = window.location.pathname.split('/').pop() || 'index.html';
-            document.querySelectorAll('.nav-link, .mobile-menu a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === page) link.classList.add('active');
-            });
-        }
-        
-        // Close mobile menu on outside click
-        document.addEventListener('click', function(e) {
-            const menu = document.getElementById('mobileMenu');
-            const btn = document.querySelector('.mobile-menu-btn');
-            if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
-                menu.style.display = 'none';
+        return false;
+    }
+    
+    // Try immediately, if not ready, wait for it
+    if (!initSupabase()) {
+        console.log('⏳ Waiting for Supabase library...');
+        window.addEventListener('load', function() {
+            initSupabase();
+            // Re-initialize page content after supabase is ready
+            if (typeof loadHomePage === 'function') {
+                loadHomePage();
             }
         });
-        
-        // ============================================
-        // SCROLL TO TOP BUTTON
-        // ============================================
-        
-        function handleScrollButton() {
-            const btn = document.getElementById('scrollToTopBtn');
-            if (btn) btn.classList.toggle('show', window.scrollY > 400);
+    }
+    
+    // ============================================
+    // NAVIGATION FUNCTIONS
+    // ============================================
+    
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'grid' : 'none';
+    }
+    
+    function setActiveNav() {
+        const page = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-link, .mobile-menu a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === page) link.classList.add('active');
+        });
+    }
+    
+    // Close mobile menu on outside click
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('mobileMenu');
+        const btn = document.querySelector('.mobile-menu-btn');
+        if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.style.display = 'none';
         }
-        window.addEventListener('scroll', handleScrollButton, { passive: true });
+    });
+    
+    // ============================================
+    // SCROLL TO TOP BUTTON
+    // ============================================
+    
+    function handleScrollButton() {
+        const btn = document.getElementById('scrollToTopBtn');
+        if (btn) btn.classList.toggle('show', window.scrollY > 400);
+    }
+    window.addEventListener('scroll', handleScrollButton, { passive: true });
+    
+    // ============================================
+    // HOMEPAGE CONTENT LOADER
+    // ============================================
+    
+    async function loadHomePage() {
+        if (typeof stocks === 'undefined') {
+            console.log('Stock database not loaded yet');
+            return;
+        }
         
-        // ============================================
-        // HOMEPAGE CONTENT LOADER
-        // ============================================
+        // Top 6 stocks by AI score
+        const topStocks = [...stocks.filter(s => s.paysDividend)]
+            .sort((a, b) => AI.health(b) - AI.health(a)).slice(0, 6);
         
-        async function loadHomePage() {
-            if (typeof stocks === 'undefined') {
-                console.log('Stock database not loaded yet');
-                return;
-            }
-            
-            // Top 6 stocks by AI score
-            const topStocks = [...stocks.filter(s => s.paysDividend)]
-                .sort((a, b) => AI.health(b) - AI.health(a)).slice(0, 6);
-            
-            const grid = document.getElementById('topStocksGrid');
+        const grid = document.getElementById('topStocksGrid');
+        if (grid) {
             grid.innerHTML = topStocks.map(s => {
                 const h = AI.health(s);
                 const su = AI.sustain(s);
@@ -1085,17 +1110,19 @@
                     </div>
                 </a>`;
             }).join('');
-            
-            // Blog posts
-            const allPosts = await getBlogPosts();
-            const blogPosts = allPosts.filter(p => p.published).slice(0, 4);
-            const blogContainer = document.getElementById('blogCards');
+        }
+        
+        // Blog posts using window.mySupabase
+        const allPosts = await getBlogPosts();
+        const blogPosts = allPosts.filter(p => p.published).slice(0, 4);
+        const blogContainer = document.getElementById('blogCards');
+        if (blogContainer) {
             if (blogPosts.length > 0) {
                 blogContainer.innerHTML = blogPosts.map(post => `
                 <a href="blog.html?slug=${post.slug}" class="blog-card">
                     <span class="badge badge-green">${post.category||'Guide'}</span>
                     <h3 class="blog-card-title">${post.title}</h3>
-                    <p class="blog-card-excerpt">${post.excerpt || post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...'}</p>
+                    <p class="blog-card-excerpt">${post.excerpt || (post.content ? post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...' : 'Read more...')}</p>
                     <div class="blog-card-meta">
                         <span>📅 ${new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
                         <span>⏱️ ${post.read_time||'5 min read'}</span>
@@ -1104,83 +1131,97 @@
             } else {
                 blogContainer.innerHTML = '<p class="text-muted text-center py-4">Investment guides coming soon!</p>';
             }
-            
-            // Stats
-            const avgYield = payers.length > 0 ? (payers.reduce((s,st)=>s+st.divYield,0)/payers.length).toFixed(1) : '0';
-            const topYielder = [...payers].sort((a,b)=>b.divYield-a.divYield)[0];
-            
-            document.getElementById('statStocks').textContent = stocks.length;
-            document.getElementById('statYield').textContent = avgYield + '%';
-            document.getElementById('statPayers').textContent = payers.length;
-            if (topYielder) {
-                document.getElementById('topYielderName').textContent = `${topYielder.symbol} — ${topYielder.divYield.toFixed(2)}%`;
-            }
-            
-            document.getElementById('snapStocks').textContent = stocks.length;
-            document.getElementById('snapPayers').textContent = payers.length;
-            document.getElementById('snapYield').textContent = avgYield + '%';
-            document.getElementById('snapHighest').textContent = topYielder ? topYielder.divYield.toFixed(2)+'%' : '--';
         }
         
-        function subscribeNewsletter() {
-            const email = document.querySelector('.newsletter-input').value;
-            if (email) {
-                const subs = JSON.parse(localStorage.getItem('ds_subscribers')||'[]');
-                subs.push({email, date: new Date().toISOString()});
-                localStorage.setItem('ds_subscribers', JSON.stringify(subs));
-                alert('✅ Subscribed successfully! Welcome aboard.');
-                document.querySelector('.newsletter-input').value = '';
-            }
-        }
+        // Stats
+        const payers = stocks.filter(s => s.paysDividend);
+        const avgYield = payers.length > 0 ? (payers.reduce((s,st)=>s+st.divYield,0)/payers.length).toFixed(1) : '0';
+        const topYielder = [...payers].sort((a,b)=>b.divYield-a.divYield)[0];
         
-       async function getBlogPosts() {
-    // Try Supabase first
-    try {
-        var result = await supabase
-            .from('blog_posts')
-            .select('*')
-            .eq('published', true)
-            .order('created_at', { ascending: false });
+        const statStocks = document.getElementById('statStocks');
+        const statYield = document.getElementById('statYield');
+        const statPayers = document.getElementById('statPayers');
+        const topYielderName = document.getElementById('topYielderName');
+        const snapStocks = document.getElementById('snapStocks');
+        const snapPayers = document.getElementById('snapPayers');
+        const snapYield = document.getElementById('snapYield');
+        const snapHighest = document.getElementById('snapHighest');
         
-        if (result.data && result.data.length > 0) {
-            console.log('✅ Homepage loaded from Supabase:', result.data.length, 'posts');
-            return result.data;
-        }
-    } catch(e) {
-        console.log('Supabase not available, trying localStorage...');
+        if (statStocks) statStocks.textContent = stocks.length;
+        if (statYield) statYield.textContent = avgYield + '%';
+        if (statPayers) statPayers.textContent = payers.length;
+        if (topYielderName && topYielder) topYielderName.textContent = `${topYielder.symbol} — ${topYielder.divYield.toFixed(2)}%`;
+        
+        if (snapStocks) snapStocks.textContent = stocks.length;
+        if (snapPayers) snapPayers.textContent = payers.length;
+        if (snapYield) snapYield.textContent = avgYield + '%';
+        if (snapHighest && topYielder) snapHighest.textContent = topYielder.divYield.toFixed(2)+'%';
     }
     
-    // Fallback to localStorage
-    try {
-        var posts = localStorage.getItem('dividendstrike_blog_posts');
-        if (posts) {
-            var parsed = JSON.parse(posts);
-            console.log('📦 Homepage loaded from localStorage:', parsed.length, 'posts');
-            return parsed;
+    function subscribeNewsletter() {
+        const emailInput = document.querySelector('.newsletter-input');
+        if (emailInput && emailInput.value) {
+            const subs = JSON.parse(localStorage.getItem('ds_subscribers')||'[]');
+            subs.push({email: emailInput.value, date: new Date().toISOString()});
+            localStorage.setItem('ds_subscribers', JSON.stringify(subs));
+            alert('✅ Subscribed successfully! Welcome aboard.');
+            emailInput.value = '';
         }
-    } catch(e) {}
-    
-    console.log('ℹ️ No posts found');
-    return [];
-}
-        
-        // Initialize
-document.addEventListener('DOMContentLoaded', async () => {
-    setActiveNav();
-    handleScrollButton();
-    
-    // Force load blog posts from Supabase
-    try {
-        const posts = await getBlogPosts();
-        console.log('📊 Blog posts found:', posts.length);
-        posts.forEach((p, i) => console.log(`  ${i+1}. ${p.title}`));
-    } catch(e) {
-        console.log('❌ Blog load error:', e.message);
     }
     
-    await loadHomePage();
-    console.log('🏠 Premium Homepage Loaded Successfully');
-});
-    </script>
+    async function getBlogPosts() {
+        // Try Supabase first using window.mySupabase
+        if (window.mySupabase) {
+            try {
+                var result = await window.mySupabase
+                    .from('blog_posts')
+                    .select('*')
+                    .eq('published', true)
+                    .order('created_at', { ascending: false });
+                
+                if (result.data && result.data.length > 0) {
+                    console.log('✅ Homepage loaded from Supabase:', result.data.length, 'posts');
+                    return result.data;
+                }
+            } catch(e) {
+                console.log('Supabase query error:', e.message);
+            }
+        } else {
+            console.log('⏳ Supabase not ready yet, trying again in 1 second...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return getBlogPosts(); // Retry
+        }
+        
+        // Fallback to localStorage
+        try {
+            var posts = localStorage.getItem('dividendstrike_blog_posts');
+            if (posts) {
+                var parsed = JSON.parse(posts);
+                console.log('📦 Homepage loaded from localStorage:', parsed.length, 'posts');
+                return parsed;
+            }
+        } catch(e) {}
+        
+        console.log('ℹ️ No posts found');
+        return [];
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+        setActiveNav();
+        handleScrollButton();
+        
+        // Wait a moment for supabase to be ready
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Try to initialize supabase again if not ready
+        if (!window.mySupabase && window.supabase) {
+            initSupabase();
+        }
+        
+        await loadHomePage();
+        console.log('🏠 Premium Homepage Loaded Successfully');
+    });
+</script>
 </body>
 </html>
