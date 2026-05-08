@@ -8,12 +8,57 @@
 <meta name="keywords" content="best dividend paying stocks india, highest dividend yield stocks nse, dividend stocks india 2026, nse dividend screener, high dividend stocks, monthly dividend income india, drip calculator india, dividend investing guide, top dividend paying companies, psu dividend stocks, passive income through dividends india, best stocks for monthly income">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2322c55e'/><text y='.75em' x='50%' text-anchor='middle' font-size='60' font-weight='bold' fill='white'>₹</text></svg>">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+   
 <!-- Longtail Keywords -->
 <meta name="keywords" content="highest dividend paying stocks in nse 2026, nse stocks with dividend yield above 5 percent, best high dividend yield stocks for monthly income india, psu dividend paying stocks list nse, how to find sustainable dividend stocks in india, dividend reinvestment calculator with tax india, how much to invest for 50000 monthly dividend india, government companies paying high dividend in india, best dividend paying banking stocks in india, oil and gas dividend paying stocks nse, fmcg dividend paying stocks india">
 
 <link rel="canonical" href="https://dividendstrike.in/">
+
+<!-- Supabase Library - Multiple CDN Fallbacks -->
+<script>
+    // Function to load Supabase from different CDNs
+    function loadSupabase(cdnUrls, index = 0) {
+        if (index >= cdnUrls.length) {
+            console.error('❌ All Supabase CDNs failed to load');
+            return;
+        }
+        
+        const script = document.createElement('script');
+        script.src = cdnUrls[index];
+        script.onload = function() {
+            console.log(`✅ Supabase loaded from: ${cdnUrls[index]}`);
+            // Initialize Supabase client
+            if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+                window.supabaseClient = window.supabase.createClient(
+                    'https://oezmykupzqjfuklxvxzi.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE'
+                );
+                console.log('✅ Supabase client initialized');
+                
+                // Test connection
+                window.supabaseClient.from('blog_posts').select('count', { count: 'exact', head: true })
+                    .then(({ count, error }) => {
+                        if (error) console.error('Connection test failed:', error);
+                        else console.log(`✅ Connected! ${count} blog posts available`);
+                    });
+            }
+        };
+        script.onerror = function() {
+            console.warn(`⚠️ Failed to load from: ${cdnUrls[index]}`);
+            loadSupabase(cdnUrls, index + 1);
+        };
+        document.head.appendChild(script);
+    }
+    
+    // Try CDNs in order of reliability
+    const cdnList = [
+        'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js',
+        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js',
+        'https://cdn.skypack.dev/@supabase/supabase-js@2'
+    ];
+    
+    loadSupabase(cdnList);
+</script>
 
 <!-- Schema: WebApplication -->
 <script type="application/ld+json">
