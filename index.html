@@ -14,50 +14,79 @@
 
 <link rel="canonical" href="https://dividendstrike.in/">
 
-<!-- Supabase Library - Multiple CDN Fallbacks -->
+<!-- Direct Supabase REST API Client (No external library!) -->
 <script>
-    // Function to load Supabase from different CDNs
-    function loadSupabase(cdnUrls, index = 0) {
-        if (index >= cdnUrls.length) {
-            console.error('❌ All Supabase CDNs failed to load');
-            return;
-        }
+    // Create a simple Supabase REST client
+    window.supabaseClient = {
+        url: 'https://oezmykupzqjfuklxvxzi.supabase.co',
+        key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE',
         
-        const script = document.createElement('script');
-        script.src = cdnUrls[index];
-        script.onload = function() {
-            console.log(`✅ Supabase loaded from: ${cdnUrls[index]}`);
-            // Initialize Supabase client
-            if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
-                window.supabaseClient = window.supabase.createClient(
-                    'https://oezmykupzqjfuklxvxzi.supabase.co',
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE'
-                );
-                console.log('✅ Supabase client initialized');
-                
-                // Test connection
-                window.supabaseClient.from('blog_posts').select('count', { count: 'exact', head: true })
-                    .then(({ count, error }) => {
-                        if (error) console.error('Connection test failed:', error);
-                        else console.log(`✅ Connected! ${count} blog posts available`);
-                    });
+        from: function(table) {
+            return {
+                select: function(columns = '*') {
+                    return {
+                        eq: function(column, value) {
+                            return {
+                                order: function(orderColumn, options) {
+                                    return {
+                                        then: async function(callback) {
+                                            try {
+                                                const params = new URLSearchParams({
+                                                    select: columns,
+                                                    [`${column}`]: `eq.${value}`,
+                                                    order: `${orderColumn}.desc`
+                                                });
+                                                
+                                                const response = await fetch(
+                                                    `${this.url}/rest/v1/${table}?${params}`,
+                                                    {
+                                                        headers: {
+                                                            'apikey': this.key,
+                                                            'Authorization': `Bearer ${this.key}`,
+                                                            'Content-Type': 'application/json'
+                                                        }
+                                                    }
+                                                );
+                                                
+                                                const data = await response.json();
+                                                callback({ data: data, error: null });
+                                            } catch(error) {
+                                                callback({ data: null, error: error });
+                                            }
+                                        }.bind(this)
+                                    };
+                                }.bind(this)
+                            };
+                        }.bind(this)
+                    };
+                }.bind(this)
+            };
+        }.bind(this)
+    };
+    
+    console.log('✅ Custom Supabase REST client created');
+    
+    // Test the connection immediately
+    (async function() {
+        try {
+            console.log('🔍 Testing Supabase connection...');
+            const response = await fetch('https://oezmykupzqjfuklxvxzi.supabase.co/rest/v1/blog_posts?select=count&published=eq.true', {
+                headers: {
+                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE'
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('✅ Supabase connected! Response:', data);
+            } else {
+                console.error('❌ Supabase connection failed:', response.status, response.statusText);
             }
-        };
-        script.onerror = function() {
-            console.warn(`⚠️ Failed to load from: ${cdnUrls[index]}`);
-            loadSupabase(cdnUrls, index + 1);
-        };
-        document.head.appendChild(script);
-    }
-    
-    // Try CDNs in order of reliability
-    const cdnList = [
-        'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js',
-        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js',
-        'https://cdn.skypack.dev/@supabase/supabase-js@2'
-    ];
-    
-    loadSupabase(cdnList);
+        } catch(error) {
+            console.error('❌ Supabase connection error:', error.message);
+        }
+    })();
 </script>
 
 <!-- Schema: WebApplication -->
