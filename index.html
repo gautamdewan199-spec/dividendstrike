@@ -994,27 +994,52 @@
 
 <script>
     // ============================================
-    // SUPABASE CONFIG - MUST BE FIRST!
+    // SUPABASE CONFIG - DIRECT CREATION
     // ============================================
-    var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
-    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
-    
-    // Create global supabase client variable
-    window.supabaseClient = null;
-    
-    // Initialize Supabase and store globally
-    function initSupabase() {
-        if (window.supabase && typeof window.supabase.createClient === 'function') {
-            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            console.log('✅ Supabase initialized successfully');
-            return true;
+    (function() {
+        const SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
+        
+        // Function to create client
+        function createSupabaseClient() {
+            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                console.log('✅ Supabase client created successfully');
+                
+                // Test immediately
+                window.supabaseClient.from('blog_posts').select('count', { count: 'exact', head: true })
+                    .then(({ count, error }) => {
+                        if (error) {
+                            console.error('❌ Supabase connection error:', error.message);
+                        } else {
+                            console.log(`✅ Supabase connected! Found ${count} total posts`);
+                        }
+                    });
+                return true;
+            }
+            return false;
         }
-        console.log('⏳ Waiting for Supabase library...');
-        return false;
-    }
-    
-    // Try to initialize immediately
-    initSupabase();
+        
+        // Try to create immediately
+        if (!createSupabaseClient()) {
+            console.log('⏳ Waiting for Supabase library to load...');
+            // Wait for library to load
+            const checkInterval = setInterval(() => {
+                if (createSupabaseClient()) {
+                    clearInterval(checkInterval);
+                }
+            }, 100);
+            
+            // Stop checking after 5 seconds
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                if (!window.supabaseClient) {
+                    console.error('❌ Failed to load Supabase library after 5 seconds');
+                    console.log('💡 Check if CDN is accessible: https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+                }
+            }, 5000);
+        }
+    })();
     
     // ============================================
     // NAVIGATION FUNCTIONS
