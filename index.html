@@ -1165,10 +1165,20 @@
 }
         
         // Initialize
-       document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     setActiveNav();
     handleScrollButton();
-    await loadHomePage();  // ← Add await here
+    
+    // Force load blog posts from Supabase
+    try {
+        const posts = await getBlogPosts();
+        console.log('📊 Blog posts found:', posts.length);
+        posts.forEach((p, i) => console.log(`  ${i+1}. ${p.title}`));
+    } catch(e) {
+        console.log('❌ Blog load error:', e.message);
+    }
+    
+    await loadHomePage();
     console.log('🏠 Premium Homepage Loaded Successfully');
 });
     </script>
