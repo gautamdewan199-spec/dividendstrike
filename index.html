@@ -8,6 +8,7 @@
 <meta name="keywords" content="best dividend paying stocks india, highest dividend yield stocks nse, dividend stocks india 2026, nse dividend screener, high dividend stocks, monthly dividend income india, drip calculator india, dividend investing guide, top dividend paying companies, psu dividend stocks, passive income through dividends india, best stocks for monthly income">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2322c55e'/><text y='.75em' x='50%' text-anchor='middle' font-size='60' font-weight='bold' fill='white'>₹</text></svg>">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
 <!-- Longtail Keywords -->
 <meta name="keywords" content="highest dividend paying stocks in nse 2026, nse stocks with dividend yield above 5 percent, best high dividend yield stocks for monthly income india, psu dividend paying stocks list nse, how to find sustainable dividend stocks in india, dividend reinvestment calculator with tax india, how much to invest for 50000 monthly dividend india, government companies paying high dividend in india, best dividend paying banking stocks in india, oil and gas dividend paying stocks nse, fmcg dividend paying stocks india">
@@ -726,7 +727,6 @@
     table { display: block; overflow-x: auto; white-space: nowrap; }
 }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -993,6 +993,7 @@
     <script src="assets/js/common.js"></script>
     
     <script>
+    // ========== SUPABASE CONFIG ==========
     var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
     var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1086,8 +1087,8 @@
             }).join('');
             
             // Blog posts
-           const allPosts = await getBlogPosts();
-        const blogPosts = allPosts.filter(p => p.published).slice(0, 4);
+            const allPosts = await getBlogPosts();
+            const blogPosts = allPosts.filter(p => p.published).slice(0, 4);
             const blogContainer = document.getElementById('blogCards');
             if (blogPosts.length > 0) {
                 blogContainer.innerHTML = blogPosts.map(post => `
