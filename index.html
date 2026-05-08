@@ -999,28 +999,22 @@
     var SUPABASE_URL = 'https://oezmykupzqjfuklxvxzi.supabase.co';
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
     
-    // Wait for window.supabase to be available
+    // Create global supabase client variable
+    window.supabaseClient = null;
+    
+    // Initialize Supabase and store globally
     function initSupabase() {
         if (window.supabase && typeof window.supabase.createClient === 'function') {
-            var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            window.mySupabase = supabase; // Store globally
-            console.log('✅ Supabase initialized');
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log('✅ Supabase initialized successfully');
             return true;
         }
+        console.log('⏳ Waiting for Supabase library...');
         return false;
     }
     
-    // Try immediately, if not ready, wait for it
-    if (!initSupabase()) {
-        console.log('⏳ Waiting for Supabase library...');
-        window.addEventListener('load', function() {
-            initSupabase();
-            // Re-initialize page content after supabase is ready
-            if (typeof loadHomePage === 'function') {
-                loadHomePage();
-            }
-        });
-    }
+    // Try to initialize immediately
+    initSupabase();
     
     // ============================================
     // NAVIGATION FUNCTIONS
@@ -1028,7 +1022,9 @@
     
     function toggleMobileMenu() {
         const menu = document.getElementById('mobileMenu');
-        menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'grid' : 'none';
+        if (menu) {
+            menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'grid' : 'none';
+        }
     }
     
     function setActiveNav() {
@@ -1059,21 +1055,104 @@
     window.addEventListener('scroll', handleScrollButton, { passive: true });
     
     // ============================================
+    // BLOG POSTS FETCHER
+    // ============================================
+    
+    async function getBlogPosts() {
+        console.log('🔍 Fetching blog posts...');
+        
+        // Try Supabase first if client is available
+        if (window.supabaseClient) {
+            try {
+                console.log('📡 Querying Supabase...');
+                const { data, error } = await window.supabaseClient
+                    .from('blog_posts')
+                    .select('*')
+                    .eq('published', true)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('❌ Supabase error:', error);
+                } else if (data && data.length > 0) {
+                    console.log('✅ Found', data.length, 'posts in Supabase');
+                    data.forEach((post, i) => {
+                        console.log(`  ${i+1}. ${post.title}`);
+                    });
+                    return data;
+                } else {
+                    console.log('ℹ️ No posts found in Supabase');
+                }
+            } catch(e) {
+                console.error('❌ Supabase query failed:', e.message);
+            }
+        } else {
+            console.log('⚠️ Supabase client not ready, trying localStorage fallback');
+            
+            // Try to initialize again if not ready
+            if (initSupabase()) {
+                console.log('🔄 Supabase initialized on second attempt');
+                return getBlogPosts(); // Retry the fetch
+            }
+        }
+        
+        // Fallback to localStorage
+        try {
+            const storedPosts = localStorage.getItem('dividendstrike_blog_posts');
+            if (storedPosts) {
+                const parsedPosts = JSON.parse(storedPosts);
+                console.log('📦 Using localStorage backup:', parsedPosts.length, 'posts');
+                return parsedPosts;
+            }
+        } catch(e) {
+            console.error('❌ localStorage error:', e);
+        }
+        
+        console.log('⚠️ No blog posts found anywhere');
+        
+        // Return sample posts for testing if nothing exists
+        return [
+            {
+                title: "How to Start Dividend Investing in India",
+                slug: "how-to-start-dividend-investing",
+                excerpt: "A complete guide for beginners to start building passive income through dividends.",
+                category: "Guide",
+                content: "Sample content",
+                published: true,
+                created_at: new Date().toISOString(),
+                read_time: "8 min read"
+            },
+            {
+                title: "Top 5 Dividend Stocks for 2026",
+                slug: "top-dividend-stocks-2026",
+                excerpt: "Our AI analysis reveals the best dividend-paying stocks for the coming year.",
+                category: "Analysis",
+                content: "Sample content",
+                published: true,
+                created_at: new Date().toISOString(),
+                read_time: "6 min read"
+            }
+        ];
+    }
+    
+    // ============================================
     // HOMEPAGE CONTENT LOADER
     // ============================================
     
     async function loadHomePage() {
+        console.log('🏠 Loading homepage...');
+        
         if (typeof stocks === 'undefined') {
-            console.log('Stock database not loaded yet');
+            console.log('⚠️ Stock database not loaded yet');
             return;
         }
         
         // Top 6 stocks by AI score
-        const topStocks = [...stocks.filter(s => s.paysDividend)]
+        const dividendStocks = stocks.filter(s => s.paysDividend);
+        const topStocks = [...dividendStocks]
             .sort((a, b) => AI.health(b) - AI.health(a)).slice(0, 6);
         
         const grid = document.getElementById('topStocksGrid');
-        if (grid) {
+        if (grid && topStocks.length > 0) {
             grid.innerHTML = topStocks.map(s => {
                 const h = AI.health(s);
                 const su = AI.sustain(s);
@@ -1112,29 +1191,34 @@
             }).join('');
         }
         
-        // Blog posts using window.mySupabase
+        // Load blog posts
+        console.log('📝 Fetching blog posts for homepage...');
         const allPosts = await getBlogPosts();
         const blogPosts = allPosts.filter(p => p.published).slice(0, 4);
         const blogContainer = document.getElementById('blogCards');
+        
         if (blogContainer) {
-            if (blogPosts.length > 0) {
+            if (blogPosts && blogPosts.length > 0) {
+                console.log(`✅ Displaying ${blogPosts.length} blog posts`);
                 blogContainer.innerHTML = blogPosts.map(post => `
                 <a href="blog.html?slug=${post.slug}" class="blog-card">
-                    <span class="badge badge-green">${post.category||'Guide'}</span>
+                    <span class="badge badge-green">${post.category || 'Guide'}</span>
                     <h3 class="blog-card-title">${post.title}</h3>
-                    <p class="blog-card-excerpt">${post.excerpt || (post.content ? post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...' : 'Read more...')}</p>
+                    <p class="blog-card-excerpt">${post.excerpt || (post.content ? post.content.replace(/<[^>]*>/g,'').substring(0,100)+'...' : 'Click to read more')}</p>
                     <div class="blog-card-meta">
                         <span>📅 ${new Date(post.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
-                        <span>⏱️ ${post.read_time||'5 min read'}</span>
+                        <span>⏱️ ${post.read_time || '5 min read'}</span>
                     </div>
-                </a>`).join('');
+                </a>
+            `).join('');
             } else {
-                blogContainer.innerHTML = '<p class="text-muted text-center py-4">Investment guides coming soon!</p>';
+                console.log('⚠️ No blog posts to display');
+                blogContainer.innerHTML = '<div class="text-center py-4"><p class="text-muted">📝 Blog posts coming soon!</p><p class="text-xs text-muted">Check back for dividend investing guides</p></div>';
             }
         }
         
-        // Stats
-        const payers = stocks.filter(s => s.paysDividend);
+        // Update stats
+        const payers = dividendStocks;
         const avgYield = payers.length > 0 ? (payers.reduce((s,st)=>s+st.divYield,0)/payers.length).toFixed(1) : '0';
         const topYielder = [...payers].sort((a,b)=>b.divYield-a.divYield)[0];
         
@@ -1156,6 +1240,8 @@
         if (snapPayers) snapPayers.textContent = payers.length;
         if (snapYield) snapYield.textContent = avgYield + '%';
         if (snapHighest && topYielder) snapHighest.textContent = topYielder.divYield.toFixed(2)+'%';
+        
+        console.log('✅ Homepage loaded successfully');
     }
     
     function subscribeNewsletter() {
@@ -1166,61 +1252,35 @@
             localStorage.setItem('ds_subscribers', JSON.stringify(subs));
             alert('✅ Subscribed successfully! Welcome aboard.');
             emailInput.value = '';
-        }
-    }
-    
-    async function getBlogPosts() {
-        // Try Supabase first using window.mySupabase
-        if (window.mySupabase) {
-            try {
-                var result = await window.mySupabase
-                    .from('blog_posts')
-                    .select('*')
-                    .eq('published', true)
-                    .order('created_at', { ascending: false });
-                
-                if (result.data && result.data.length > 0) {
-                    console.log('✅ Homepage loaded from Supabase:', result.data.length, 'posts');
-                    return result.data;
-                }
-            } catch(e) {
-                console.log('Supabase query error:', e.message);
-            }
         } else {
-            console.log('⏳ Supabase not ready yet, trying again in 1 second...');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            return getBlogPosts(); // Retry
+            alert('Please enter a valid email address');
         }
-        
-        // Fallback to localStorage
-        try {
-            var posts = localStorage.getItem('dividendstrike_blog_posts');
-            if (posts) {
-                var parsed = JSON.parse(posts);
-                console.log('📦 Homepage loaded from localStorage:', parsed.length, 'posts');
-                return parsed;
-            }
-        } catch(e) {}
-        
-        console.log('ℹ️ No posts found');
-        return [];
     }
     
-    // Initialize
+    // Initialize page when DOM is ready
     document.addEventListener('DOMContentLoaded', async () => {
+        console.log('🚀 Page loaded, initializing...');
         setActiveNav();
         handleScrollButton();
         
-        // Wait a moment for supabase to be ready
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Wait a bit for all scripts to load
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Try to initialize supabase again if not ready
-        if (!window.mySupabase && window.supabase) {
+        // Make sure Supabase is initialized
+        if (!window.supabaseClient) {
+            console.log('🔄 Re-initializing Supabase...');
             initSupabase();
         }
         
+        // Load the homepage content
         await loadHomePage();
-        console.log('🏠 Premium Homepage Loaded Successfully');
+        
+        // Log Supabase status
+        if (window.supabaseClient) {
+            console.log('✅ Supabase client is ready');
+        } else {
+            console.log('⚠️ Supabase client not available, using fallback data');
+        }
     });
 </script>
 </body>
