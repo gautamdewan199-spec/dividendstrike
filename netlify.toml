@@ -3,154 +3,88 @@
 # ============================================
 
 [build]
-  # Your publish directory (where index.html lives)
-  # Change this if your built files are in a different folder
   publish = "."
 
 # ============================================
-# REDIRECTS & RULES (Processed in order)
+# REDIRECTS — Specific rules FIRST, then fallback
 # ============================================
 
-# ---------- STATIC FILES (DO NOT REDIRECT) ----------
-# These must be served as-is, not sent to index.html
-
+# Static files — serve as-is (DO NOT redirect)
 [[redirects]]
   from = "/*.ico"
   to = "/:splat.ico"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.png"
   to = "/:splat.png"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.jpg"
   to = "/:splat.jpg"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.jpeg"
   to = "/:splat.jpeg"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.gif"
   to = "/:splat.gif"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.svg"
   to = "/:splat.svg"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.txt"
   to = "/:splat.txt"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.xml"
   to = "/:splat.xml"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.css"
   to = "/:splat.css"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.js"
   to = "/:splat.js"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.json"
   to = "/:splat.json"
   status = 200
-  force = false
 
 [[redirects]]
   from = "/*.webmanifest"
   to = "/:splat.webmanifest"
   status = 200
-  force = false
 
-# ---------- SITEMAP (SPECIAL HANDLING) ----------
+# Sitemap — serve as-is
 [[redirects]]
   from = "/sitemap.xml"
   to = "/sitemap.xml"
   status = 200
-  force = false
 
-# ---------- ROBOTS.TXT (IF YOU HAVE ONE) ----------
-# [[redirects]]
-#   from = "/robots.txt"
-#   to = "/robots.txt"
-#   status = 200
-#   force = false
+# Robots.txt — serve as-is
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
 
-# ---------- SPA FALLBACK (CATCH ALL OTHER ROUTES) ----------
-# This must be LAST - only applies if no rule above matched
+# SPA fallback — ALL other routes go to index.html
+# This MUST be the last rule
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
-
-# ============================================
-# HEADERS (CACHING & SECURITY)
-# ============================================
-
-# Cache static assets for 1 year
-[[headers]]
-  for = "/*.ico"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.svg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# HTML files should NOT be cached (or cache briefly)
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-
-# XML files (sitemap)
-[[headers]]
-  for = "/*.xml"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
