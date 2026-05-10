@@ -1,0 +1,50 @@
+# ============================================
+# ROBOTS.TXT FOR DIVIDENDSTRIKE.IN
+# ============================================
+
+# Allow all crawlers by default
+User-agent: *
+Allow: /
+
+# ============================================
+# SITEMAP LOCATION
+# ============================================
+Sitemap: https://dividendstrike.in/sitemap.xml
+
+# ============================================
+# DISALLOW (PAGES TO EXCLUDE FROM INDEXING)
+# ============================================
+
+# Admin page - no need to index
+Disallow: /admin.html
+
+# Stock detail template page (only show individual stock pages, not the template itself)
+Disallow: /stock-detail.html
+
+# Any pages with tracking parameters (if you use them)
+Disallow: /*?utm_source=
+Disallow: /*?utm_medium=
+Disallow: /*?utm_campaign=
+Disallow: /*?ref=
+
+# ============================================
+# CRAWL DELAY (BE GENTLE ON YOUR SERVER)
+# ============================================
+# Uncomment if you have server performance concerns
+# Crawl-delay: 5
+
+# ============================================
+# GOOGLE BOT SPECIFIC RULES
+# ============================================
+User-agent: Googlebot
+Allow: /
+Disallow: /admin.html
+Disallow: /stock-detail.html
+
+# ============================================
+# BING BOT SPECIFIC RULES
+# ============================================
+User-agent: Bingbot
+Allow: /
+Disallow: /admin.html
+Disallow: /stock-detail.html
