@@ -1,821 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dividend Strike Hub - Interactive Dividend Calculators for India</title>
-    <meta name="description" content="Free interactive dividend calculators for Indian investors: Tax, Monthly Income, DRIP, FD vs Dividend, 1 Crore Goal, Yield, TDS Refund, Ex-Date Profit.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dividend Calculators India — Free Interactive Tools for Investors | DividendStrike</title>
+    <meta name="description" content="Free interactive dividend calculators for Indian investors. Calculate dividend tax, monthly income, DRIP returns, FD vs dividend comparison, 1 crore goal, TDS refund, and ex-date profit. Real-time calculations with visual results.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2322c55e'/><text y='.75em' x='50%' text-anchor='middle' font-size='60' font-weight='bold' fill='white'>₹</text></svg>">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     
-    <!-- Google Analytics -->
+    <!-- Primary Keywords -->
+    <meta name="keywords" content="dividend calculator india, dividend tax calculator, monthly dividend income calculator, DRIP calculator India, FD vs dividend comparison, dividend yield calculator, TDS refund calculator, dividend capture strategy, 1 crore dividend portfolio">
+    
+    <!-- Longtail Keywords -->
+    <meta name="keywords" content="how to calculate dividend yield with example india, how much to invest for 10000 monthly dividend india, dividend tax calculator with cess and surcharge 2026, FD vs dividend which is better for senior citizens, dividend reinvestment plan calculator with growth, TDS on dividend refund calculator India, ex-date dividend capture profit loss calculator, dividend income required for 1 crore capital india, post-tax dividend return calculator with slab rates, dividend calculator with TDS and income tax">
+    
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dividendstrike.in/calculators.html">
+    
+    <meta property="og:title" content="Free Dividend Calculators India — Tax, Income, DRIP, Comparison">
+    <meta property="og:description" content="Interactive dividend calculators for Indian investors. Real-time tax calculations, monthly income planning, DRIP projections, and more.">
+    <meta property="og:type" content="website">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-F67MPYPHJ3');
-    </script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-F67MPYPHJ3');</script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header & Navigation */
-        .site-header {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0d1c2c 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .header-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #eab308, #fbbf24);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            color: #e0e0e0;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-            padding: 6px 0;
-        }
-
-        .nav-links a:hover {
-            color: #eab308;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 30px 20px;
-            flex: 1;
-        }
-
-        /* Active Calculator Section */
-        .active-calculator {
-            background: white;
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-            overflow: hidden;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .calc-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 20px 25px;
-        }
-
-        .calc-header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .calc-header p {
-            opacity: 0.9;
-            font-size: 0.85rem;
-        }
-
-        .calc-body {
-            padding: 25px;
-        }
-
-        /* Calculator Grid */
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .calc-card {
-            background: white;
-            border-radius: 18px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border: 2px solid transparent;
-        }
-
-        .calc-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-            border-color: #667eea;
-        }
-
-        .calc-card.active {
-            border-color: #11998e;
-            background: #f0fff4;
-        }
-
-        .calc-card .emoji {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .calc-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: #1e3c72;
-        }
-
-        .calc-card p {
-            font-size: 0.75rem;
-            color: #666;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .calc-card .keyword {
-            font-size: 0.65rem;
-            color: #11998e;
-            background: #e8f5e9;
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-        }
-
-        /* Form Styles */
-        .input-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.85rem;
-            color: #333;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: transform 0.1s;
-        }
-
-        button:hover {
-            transform: scale(0.98);
-        }
-
-        .result {
-            background: #f8f9fa;
-            padding: 18px;
-            border-radius: 14px;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            border-left: 4px solid #11998e;
-            line-height: 1.6;
-        }
-
-        .result-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #11998e;
-        }
-
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 700px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-            }
-            .calc-body {
-                padding: 18px;
-            }
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            .nav-links {
-                justify-content: center;
-            }
-        }
-
-        /* Footer */
-        .site-footer {
-            background: #1a2a3a;
-            color: #a0aec0;
-            padding: 40px 0 20px;
-            margin-top: 40px;
-        }
-
-        .footer-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-col h4 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-
-        .footer-col a {
-            color: #a0aec0;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .footer-col a:hover {
-            color: #eab308;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            margin-top: 30px;
-            border-top: 1px solid #2d3a4a;
-            font-size: 0.75rem;
-            color: #7a8a9a;
-        }
-
-        .back-to-top {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back-to-top a {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-
-        hr {
-            margin: 12px 0;
-            border: none;
-            border-top: 1px solid #e0e0e0;
-        }
+        /* ========== RESET & BASE ========== */
+        :root{--bg:#0a0a0f;--card:rgba(15,15,25,0.85);--border:rgba(255,255,255,0.07);--text:#e5e7eb;--text-secondary:#9ca3af;--text-muted:#6b7280}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        a{color:inherit;text-decoration:none}
+        
+        /* ========== NAVIGATION ========== */
+        .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06)}
+        .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:17px}
+        .logo-text{line-height:1}.logo-name{font-size:17px;font-weight:900;color:#e5e7eb}.logo-tagline{font-size:8px;color:#6b7280;display:block;text-transform:uppercase;letter-spacing:1px}
+        .nav-links{display:flex;gap:2px}
+        .nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;color:#9ca3af;transition:all 0.2s}
+        .nav-link:hover{color:white;background:rgba(255,255,255,0.04)}
+        .nav-link.active{background:rgba(34,197,94,0.12);color:#22c55e}
+        .nav-actions{display:flex;align-items:center;gap:14px}
+        .pulse-dot{width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+        .mobile-menu-btn{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;padding:8px 12px;border-radius:8px}
+        .mobile-menu{display:none;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);background:rgba(10,10,15,0.98);grid-template-columns:1fr 1fr;gap:4px}
+        .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;text-decoration:none;color:#9ca3af}
+        .mobile-menu a.active{color:#22c55e;background:rgba(34,197,94,0.1);font-weight:600}
+        @media(max-width:1024px){.nav-links{display:none!important}.mobile-menu-btn{display:block!important}}
+        
+        /* ========== TYPOGRAPHY ========== */
+        .text-green{color:#22c55e}.text-blue{color:#3b82f6}.text-yellow{color:#eab308}.text-purple{color:#a855f7}.text-orange{color:#f59e0b}.text-muted{color:#6b7280}.text-secondary{color:#9ca3af}
+        .text-xs{font-size:12px}.text-sm{font-size:14px}.text-lg{font-size:18px}.text-xl{font-size:20px}.text-2xl{font-size:24px}.text-3xl{font-size:30px}.font-bold{font-weight:700}.font-black{font-weight:900}.text-center{text-align:center}
+        
+        /* ========== BUTTONS ========== */
+        .btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none}
+        .btn-primary{background:#22c55e;color:white}.btn-primary:hover{background:#16a34a;transform:translateY(-1px)}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#9ca3af;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;display:inline-block}.btn-outline:hover{border-color:#22c55e;color:white}
+        
+        /* ========== FOOTER ========== */
+        .footer-main{border-top:1px solid rgba(255,255,255,0.06);padding:24px 0;margin-top:40px;text-align:center;font-size:12px;color:#4b5563}
+        .footer-main a{color:#6b7280;text-decoration:none;margin:0 8px}.footer-main a:hover{color:#22c55e}
+        .scroll-top-btn{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:16px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(34,197,94,0.3);transition:all 0.4s ease;opacity:0;visibility:hidden;color:white;font-size:20px;font-weight:700}
+        .scroll-top-btn.show{opacity:1;visibility:visible}.scroll-top-btn:hover{transform:translateY(-4px)}
+        @media(max-width:500px){.scroll-top-btn{bottom:16px;right:16px;width:40px;height:40px;font-size:16px}}
+        
+        /* ========== HERO ========== */
+        .hero-section{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(59,130,246,0.06),rgba(168,85,247,0.04));border:1px solid rgba(255,255,255,0.06);padding:48px 40px;margin:20px 0 40px;text-align:center}
+        @media(max-width:768px){.hero-section{padding:32px 24px}}
+        
+        /* ========== CALCULATOR GRID ========== */
+        .calculators-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px}
+        @media(max-width:1024px){.calculators-grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:768px){.calculators-grid{grid-template-columns:1fr}}
+        
+        .calc-card{position:relative;overflow:hidden;border-radius:20px;padding:24px;cursor:pointer;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);border:1px solid rgba(255,255,255,0.06);background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(59,130,246,0.03))}
+        .calc-card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);border-color:rgba(34,197,94,0.4)}
+        .calc-card.active{border-color:#22c55e;background:linear-gradient(135deg,rgba(34,197,94,0.12),rgba(59,130,246,0.06))}
+        .calc-icon{font-size:40px;margin-bottom:16px;display:block}
+        .calc-title{font-size:18px;font-weight:800;margin-bottom:8px}
+        .calc-desc{font-size:13px;color:#9ca3af;line-height:1.5;margin-bottom:12px}
+        .calc-tag{display:inline-block;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(34,197,94,0.15);color:#22c55e}
+        
+        /* ========== ACTIVE CALCULATOR PANEL ========== */
+        .calc-panel{border-radius:20px;border:1px solid rgba(255,255,255,0.06);overflow:hidden;margin-bottom:40px;display:none;background:rgba(15,15,25,0.85)}
+        .calc-panel.active{display:block}
+        .calc-header{padding:24px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(34,197,94,0.05)}
+        .calc-body{padding:32px;line-height:1.9;color:#d1d5db;font-size:15px}
+        @media(max-width:768px){.calc-body{padding:20px}}
+        
+        .input-group{margin-bottom:20px}
+        .input-group label{display:block;font-weight:600;margin-bottom:8px;font-size:13px;color:#e5e7eb}
+        .input-group input,.input-group select{width:100%;padding:12px 16px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:white;font-size:14px;font-family:'Inter',sans-serif}
+        .input-group input:focus,.input-group select:focus{outline:none;border-color:#22c55e}
+        
+        .result-box{background:rgba(34,197,94,0.05);border-left:3px solid #22c55e;border-radius:0 12px 12px 0;padding:20px;margin-top:24px}
+        .result-value{font-size:24px;font-weight:800;color:#22c55e}
+        
+        .two-columns{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+        @media(max-width:768px){.two-columns{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
 
-    <!-- Header with Navigation -->
-    <header class="site-header">
-        <div class="header-container">
-            <div class="logo">
-                <a href="https://dividendstrike.in/">💰 DividendStrike</a>
+    <!-- NAVIGATION (Same as Knowledge Hub) -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo"><div class="logo-icon">₹</div><div class="logo-text"><span class="logo-name">Dividend<span class="text-green">Strike</span></span><span class="logo-tagline">NSE Dividend Intelligence</span></div></a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="screener.html" class="nav-link">🔍 Screener</a>
+                <a href="calculators.html" class="nav-link active">🧮 Calculators</a>
+                <a href="blog.html" class="nav-link">📝 Blog</a>
+                <a href="knowledge-hub.html" class="nav-link">📚 Learn</a>
             </div>
-            <nav class="nav-links">
-                <a href="https://dividendstrike.in/">Home</a>
-                <a href="https://dividendstrike.in/blog.html">Blog</a>
-                <a href="https://dividendstrike.in/knowledge-hub.html">Knowledge Hub</a>
-                <a href="https://dividendstrike.in/screener.html">Screener</a>
-                <a href="https://dividendstrike.in/calculators.html" class="active">Calculators</a>
-            </nav>
+            <div class="nav-actions">
+                <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af;"><span class="pulse-dot"></span>Live NSE Data</span>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
         </div>
-    </header>
+        <div id="mobileMenu" class="mobile-menu" style="display:none;">
+            <a href="index.html">🏠 Home</a><a href="screener.html">🔍 Screener</a><a href="calculators.html" class="active">🧮 Calculators</a><a href="blog.html">📝 Blog</a><a href="knowledge-hub.html">📚 Learn</a>
+        </div>
+    </nav>
 
-    <div class="container">
-        <!-- Active Calculator Display (appears when card clicked) -->
-        <div id="activeCalculator" class="active-calculator">
-            <!-- Dynamically loaded calculator will appear here -->
+    <main class="container" style="padding:24px 0;">
+        
+        <!-- HERO -->
+        <div class="hero-section">
+            <span style="display:inline-block;background:rgba(34,197,94,0.15);color:#22c55e;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:16px;">🧮 Interactive Tools</span>
+            <h1 style="font-size:36px;font-weight:900;margin-bottom:12px;">Dividend Calculators</h1>
+            <p style="color:#9ca3af;font-size:15px;max-width:600px;margin:0 auto 20px;">Free interactive calculators to plan your dividend income, understand taxes, and optimize your portfolio.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+                <span style="background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:20px;font-size:11px;color:#9ca3af;">📊 8 Calculators</span>
+                <span style="background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:20px;font-size:11px;color:#9ca3af;">💰 Real-time Results</span>
+                <span style="background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:20px;font-size:11px;color:#9ca3af;">🇮🇳 India Tax Rules</span>
+                <span style="background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:20px;font-size:11px;color:#9ca3af;">🆓 Completely Free</span>
+            </div>
+        </div>
+        
+        <!-- CALCULATORS GRID -->
+        <div class="calculators-grid" id="calculatorsGrid"></div>
+        
+        <!-- ACTIVE CALCULATOR PANEL -->
+        <div class="calc-panel" id="calcPanel">
+            <div class="calc-header">
+                <span style="font-weight:700;" id="calcTitle">Calculator Title</span>
+                <span style="color:#9ca3af;font-size:13px;cursor:pointer;" onclick="closeCalculator()">✕ Close</span>
+            </div>
+            <div class="calc-body" id="calcBody"></div>
         </div>
 
-        <!-- All Calculators Grid -->
-        <div class="calculator-grid" id="calculatorsGrid">
-            <!-- Cards will be populated by JavaScript -->
-        </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h4>📈 Explore</h4>
-                <a href="https://dividendstrike.in/">Home</a>
-                <a href="https://dividendstrike.in/blog.html">Blog</a>
-                <a href="https://dividendstrike.in/knowledge-hub.html">Knowledge Hub</a>
-                <a href="https://dividendstrike.in/screener.html">Stock Screener</a>
-                <a href="https://dividendstrike.in/calculators.html">Calculators</a>
+    <!-- FOOTER (Same as Knowledge Hub) -->
+    <footer class="footer-main">
+        <div class="container">
+            <p>DividendStrike — AI-Powered NSE Analysis</p>
+            <div style="margin-top:6px;">
+                <a href="index.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a>
             </div>
-            <div class="footer-col">
-                <h4>📊 Key Calculators</h4>
-                <a href="#" onclick="selectCalculator('tax'); return false;">Dividend Tax Calculator</a>
-                <a href="#" onclick="selectCalculator('monthly'); return false;">Monthly Dividend Planner</a>
-                <a href="#" onclick="selectCalculator('drip'); return false;">DRIP Calculator</a>
-                <a href="#" onclick="selectCalculator('compare'); return false;">FD vs Dividend</a>
-                <a href="#" onclick="selectCalculator('crore'); return false;">₹1 Crore Goal</a>
-            </div>
-            <div class="footer-col">
-                <h4>📜 Legal</h4>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Disclaimer</a>
-            </div>
-            <div class="footer-col">
-                <h4>🔧 Tools</h4>
-                <a href="https://dividendstrike.in/sitemap.xml">Sitemap</a>
-                <a href="#">Dividend Safety Checker</a>
-                <a href="#">Yield Tracker</a>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2025-2026 DividendStrike.in — Empowering Indian Dividend Investors</p>
-            <p style="margin-top: 8px; font-size: 0.7rem;">📌 Disclaimer: Content for educational purposes only. Not investment advice.</p>
-        </div>
-        <div class="back-to-top">
-            <a onclick="scrollToTop(); return false;">⬆️ Back to Top ⬆️</a>
         </div>
     </footer>
+    
+    <button id="scrollToTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
     <script>
-        // ==============================================
-        // TAX HELPER FUNCTION
-        // ==============================================
-        function calcIncomeTax(income, regime, deductions = 0) {
+        // Mobile menu toggle
+        function toggleMobileMenu(){const m=document.getElementById('mobileMenu');m.style.display=(m.style.display==='none'||m.style.display==='')?'grid':'none';}
+        document.addEventListener('click',e=>{const m=document.getElementById('mobileMenu');const b=document.querySelector('.mobile-menu-btn');if(m&&b&&!m.contains(e.target)&&!b.contains(e.target))m.style.display='none';});
+        
+        // Scroll to top button
+        function handleScroll(){const b=document.getElementById('scrollToTopBtn');if(b)b.classList.toggle('show',window.scrollY>400);}
+        window.addEventListener('scroll',handleScroll,{passive:true});
+        
+        // Tax calculation helper
+        function calcIncomeTax(income, regime, deductions=0){
             let taxable = regime === 'old' ? Math.max(0, income - deductions) : income;
-            if (taxable <= 0) return 0;
-            if (regime === 'new') {
-                if (taxable <= 400000) return 0;
-                if (taxable <= 800000) return (taxable - 400000) * 0.05;
-                if (taxable <= 1200000) return 20000 + (taxable - 800000) * 0.10;
-                if (taxable <= 1600000) return 60000 + (taxable - 1200000) * 0.15;
-                if (taxable <= 2000000) return 120000 + (taxable - 1600000) * 0.20;
-                if (taxable <= 2400000) return 200000 + (taxable - 2000000) * 0.25;
+            if(taxable <= 0) return 0;
+            if(regime === 'new'){
+                if(taxable <= 400000) return 0;
+                if(taxable <= 800000) return (taxable - 400000) * 0.05;
+                if(taxable <= 1200000) return 20000 + (taxable - 800000) * 0.10;
+                if(taxable <= 1600000) return 60000 + (taxable - 1200000) * 0.15;
+                if(taxable <= 2000000) return 120000 + (taxable - 1600000) * 0.20;
+                if(taxable <= 2400000) return 200000 + (taxable - 2000000) * 0.25;
                 return 300000 + (taxable - 2400000) * 0.30;
             } else {
-                if (taxable <= 250000) return 0;
-                if (taxable <= 500000) return (taxable - 250000) * 0.05;
-                if (taxable <= 1000000) return 12500 + (taxable - 500000) * 0.20;
+                if(taxable <= 250000) return 0;
+                if(taxable <= 500000) return (taxable - 250000) * 0.05;
+                if(taxable <= 1000000) return 12500 + (taxable - 500000) * 0.20;
                 return 112500 + (taxable - 1000000) * 0.30;
             }
         }
-
-        // ==============================================
-        // CALCULATOR DEFINITIONS
-        // ==============================================
+        
+        // Calculator definitions
         const calculators = {
-            tax: {
-                id: 'tax',
-                emoji: '💰',
-                title: 'Dividend Tax Calculator',
-                description: 'Know exact tax on dividends | New vs Old Regime | TDS + Cess',
-                keywords: 'dividend tax calculator India',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Total Dividend Received (₹)</label><input type="number" id="tax_dividend" value="50000"></div>
-                            <div class="input-group"><label>TDS Already Deducted (₹)</label><input type="number" id="tax_tds" value="5000"></div>
-                            <div class="input-group"><label>Other Annual Income (₹)</label><input type="number" id="tax_income" value="600000"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Tax Regime</label><select id="tax_regime"><option value="new">New Tax Regime</option><option value="old">Old Tax Regime</option></select></div>
-                            <div class="input-group"><label>Deductions (80C, etc.) - Old Regime only</label><input type="number" id="tax_deductions" value="0"></div>
-                            <button onclick="runCurrentCalculator()">Calculate Tax Liability →</button>
-                        </div>
-                    </div>
-                    <div id="tax_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let dividend = parseFloat(document.getElementById('tax_dividend')?.value) || 0;
-                    let tds = parseFloat(document.getElementById('tax_tds')?.value) || 0;
-                    let otherIncome = parseFloat(document.getElementById('tax_income')?.value) || 0;
-                    let regime = document.getElementById('tax_regime')?.value || 'new';
-                    let deductions = parseFloat(document.getElementById('tax_deductions')?.value) || 0;
-                    
-                    let taxWithDiv = calcIncomeTax(otherIncome + dividend, regime, deductions);
-                    let taxWithoutDiv = calcIncomeTax(otherIncome, regime, deductions);
-                    let additionalTax = Math.max(0, taxWithDiv - taxWithoutDiv);
-                    let cess = additionalTax * 0.04;
-                    let totalTax = additionalTax + cess;
-                    let afterTDS = Math.max(0, totalTax - tds);
-                    let netDividend = dividend - tds - totalTax;
-                    
-                    let resultHtml = `
-                        <strong>📊 Results:</strong><br>
-                        Additional Tax: ₹${additionalTax.toLocaleString('en-IN')}<br>
-                        + Cess (4%): ₹${cess.toLocaleString('en-IN')}<br>
-                        <strong>Total Tax Payable: ₹${totalTax.toLocaleString('en-IN')}</strong><br>
-                        TDS Already Paid: ₹${tds.toLocaleString('en-IN')}<br>
-                        <span style="color:#dc3545;">Balance to Pay: ₹${afterTDS.toLocaleString('en-IN')}</span>
-                        <hr>
-                        🧾 <strong>Net Dividend in hand: ₹${netDividend.toLocaleString('en-IN')}</strong>
-                    `;
-                    const resultDiv = document.getElementById('tax_result');
-                    if (resultDiv) resultDiv.innerHTML = resultHtml;
-                    
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'Tax Calculator'});
-                }
-            },
-            monthly: {
-                id: 'monthly',
-                emoji: '📅',
-                title: 'Monthly Dividend Income Planner',
-                description: 'How much capital you need for ₹X monthly passive income',
-                keywords: 'how much to invest for monthly dividend India',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Desired Monthly Dividend (₹)</label><input type="number" id="monthly_target" value="10000"></div>
-                            <div class="input-group"><label>Expected Dividend Yield (%)</label><input type="number" id="monthly_yield" value="4" step="0.5"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Your Tax Slab (%)</label><select id="monthly_slab"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30" selected>30%</option></select></div>
-                            <button onclick="runCurrentCalculator()">Calculate Required Capital →</button>
-                        </div>
-                    </div>
-                    <div id="monthly_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let target = parseFloat(document.getElementById('monthly_target')?.value) || 0;
-                    let yieldPct = parseFloat(document.getElementById('monthly_yield')?.value) || 0;
-                    let slab = parseFloat(document.getElementById('monthly_slab')?.value) || 0;
-                    let taxRate = slab / 100;
-                    let cess = taxRate * 0.04;
-                    let totalTaxRate = taxRate + cess;
-                    let annualPreTax = target * 12;
-                    let annualNeeded = annualPreTax / (1 - totalTaxRate);
-                    let capital = (annualNeeded / yieldPct) * 100;
-                    
-                    document.getElementById('monthly_result').innerHTML = `
-                        <strong>💰 Required Capital: <span class="result-value">₹${capital.toLocaleString('en-IN')}</span></strong><br>
-                        Annual Pre-Tax Dividend Needed: ₹${annualNeeded.toLocaleString('en-IN')}<br>
-                        Tax Payable Annually: ₹${(annualNeeded * totalTaxRate).toLocaleString('en-IN')}
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'Monthly Planner'});
-                }
-            },
-            drip: {
-                id: 'drip',
-                emoji: '🔄',
-                title: 'DRIP Calculator',
-                description: 'See the power of reinvesting dividends over time',
-                keywords: 'dividend reinvestment plan calculator India',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Initial Investment (₹)</label><input type="number" id="drip_initial" value="100000"></div>
-                            <div class="input-group"><label>Annual Dividend Yield (%)</label><input type="number" id="drip_yield" value="4" step="0.5"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Annual Stock Price Growth (%)</label><input type="number" id="drip_growth" value="8" step="1"></div>
-                            <div class="input-group"><label>Investment Period (Years)</label><input type="number" id="drip_years" value="10"></div>
-                            <button onclick="runCurrentCalculator()">Project Growth →</button>
-                        </div>
-                    </div>
-                    <div id="drip_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let initial = parseFloat(document.getElementById('drip_initial')?.value) || 0;
-                    let yieldPct = parseFloat(document.getElementById('drip_yield')?.value) || 0;
-                    let growthPct = parseFloat(document.getElementById('drip_growth')?.value) || 0;
-                    let years = parseInt(document.getElementById('drip_years')?.value) || 0;
-                    
-                    let value = initial;
-                    for(let i = 0; i < years; i++) {
-                        let dividend = value * (yieldPct / 100);
-                        value = value + dividend + (value * (growthPct / 100));
-                    }
-                    let withoutDRIP = initial * Math.pow(1 + growthPct/100, years);
-                    
-                    document.getElementById('drip_result').innerHTML = `
-                        <strong>📈 Future Value after ${years} years: <span class="result-value">₹${value.toLocaleString('en-IN')}</span></strong><br>
-                        Without DRIP (only growth): ₹${withoutDRIP.toLocaleString('en-IN')}<br>
-                        <strong>Extra gain from DRIP: ₹${(value - withoutDRIP).toLocaleString('en-IN')}</strong>
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'DRIP'});
-                }
-            },
-            compare: {
-                id: 'compare',
-                emoji: '⚖️',
-                title: 'FD vs Dividend Comparator',
-                description: 'Post-tax returns comparison | Which is better?',
-                keywords: 'fd vs dividend which is better India',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Investment Amount (₹)</label><input type="number" id="compare_amount" value="500000"></div>
-                            <div class="input-group"><label>FD Interest Rate (%)</label><input type="number" id="compare_fd_rate" value="7.5" step="0.25"></div>
-                            <div class="input-group"><label>Dividend Yield (%)</label><input type="number" id="compare_div_yield" value="4.5" step="0.25"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Your Tax Slab (%)</label><select id="compare_slab"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30" selected>30%</option></select></div>
-                            <button onclick="runCurrentCalculator()">Compare Returns →</button>
-                        </div>
-                    </div>
-                    <div id="compare_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let amount = parseFloat(document.getElementById('compare_amount')?.value) || 0;
-                    let fdRate = parseFloat(document.getElementById('compare_fd_rate')?.value) || 0;
-                    let divYield = parseFloat(document.getElementById('compare_div_yield')?.value) || 0;
-                    let slab = parseFloat(document.getElementById('compare_slab')?.value) || 0;
-                    let taxRate = slab / 100;
-                    let cess = taxRate * 0.04;
-                    let totalTaxRate = taxRate + cess;
-                    
-                    let fdReturn = amount * (fdRate / 100);
-                    let fdAfterTax = fdReturn * (1 - totalTaxRate);
-                    let dividendReturn = amount * (divYield / 100);
-                    let dividendAfterTax = dividendReturn * (1 - totalTaxRate);
-                    let better = fdAfterTax > dividendAfterTax ? "🏦 FD is better" : "📈 Dividend Stocks are better";
-                    
-                    document.getElementById('compare_result').innerHTML = `
-                        FD Return: ₹${fdReturn.toLocaleString('en-IN')} → After Tax: <strong>₹${fdAfterTax.toLocaleString('en-IN')}</strong><br>
-                        Dividend Return: ₹${dividendReturn.toLocaleString('en-IN')} → After Tax: <strong>₹${dividendAfterTax.toLocaleString('en-IN')}</strong><hr>
-                        🎯 <strong>${better}</strong>
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'FD vs Dividend'});
-                }
-            },
-            crore: {
-                id: 'crore',
-                emoji: '🏆',
-                title: '₹1 Crore Dividend Goal',
-                description: 'Build a portfolio generating ₹1Cr annual dividend',
-                keywords: '1 crore dividend portfolio calculator',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Target Annual Dividend (₹)</label><input type="number" id="crore_target" value="10000000"></div>
-                            <div class="input-group"><label>Expected Portfolio Yield (%)</label><input type="number" id="crore_yield" value="5" step="0.5"></div>
-                            <div class="input-group"><label>Monthly SIP Amount (₹)</label><input type="number" id="crore_sip" value="25000"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Expected CAGR on Capital (%)</label><input type="number" id="crore_cagr" value="12" step="1"></div>
-                            <button onclick="runCurrentCalculator()">Calculate Time to Goal →</button>
-                        </div>
-                    </div>
-                    <div id="crore_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let target = parseFloat(document.getElementById('crore_target')?.value) || 10000000;
-                    let yieldPct = parseFloat(document.getElementById('crore_yield')?.value) || 5;
-                    let sip = parseFloat(document.getElementById('crore_sip')?.value) || 0;
-                    let cagr = parseFloat(document.getElementById('crore_cagr')?.value) || 12;
-                    
-                    let capitalNeeded = (target / yieldPct) * 100;
-                    let months = 0;
-                    let value = 0;
-                    let monthlyRate = cagr / 12 / 100;
-                    while(value < capitalNeeded && months < 600) {
-                        value = (value + sip) * (1 + monthlyRate);
-                        months++;
-                    }
-                    let years = months / 12;
-                    
-                    document.getElementById('crore_result').innerHTML = `
-                        <strong>🎯 Capital needed: <span class="result-value">₹${capitalNeeded.toLocaleString('en-IN')}</span></strong><br>
-                        With SIP of ₹${sip.toLocaleString('en-IN')}/month at ${cagr}% CAGR:<br>
-                        <strong>⏱️ Time required: ${years.toFixed(1)} years (${months} months)</strong>
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': '1 Crore Goal'});
-                }
-            },
-            yield: {
-                id: 'yield',
-                emoji: '📈',
-                title: 'Dividend Yield Calculator',
-                description: 'Current yield & yield on cost for any stock',
-                keywords: 'dividend yield calculator India stock',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Annual Dividend Per Share (₹)</label><input type="number" id="yield_dps" value="15"></div>
-                            <div class="input-group"><label>Current Stock Price (₹)</label><input type="number" id="yield_price" value="450"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Your Purchase Price (₹) - Optional</label><input type="number" id="yield_cost" value="300"></div>
-                            <button onclick="runCurrentCalculator()">Calculate Yield →</button>
-                        </div>
-                    </div>
-                    <div id="yield_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let dps = parseFloat(document.getElementById('yield_dps')?.value) || 0;
-                    let price = parseFloat(document.getElementById('yield_price')?.value) || 0;
-                    let cost = parseFloat(document.getElementById('yield_cost')?.value) || 0;
-                    
-                    let currentYield = (dps / price) * 100;
-                    let yieldOnCost = cost > 0 ? (dps / cost) * 100 : null;
-                    
-                    document.getElementById('yield_result').innerHTML = `
-                        Current Yield: <span class="result-value">${currentYield.toFixed(2)}%</span><br>
-                        ${yieldOnCost ? `Yield on Cost: <strong>${yieldOnCost.toFixed(2)}%</strong><br>` : ''}
-                        Annual Dividend per share: ₹${dps}
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'Yield'});
-                }
-            },
-            tds: {
-                id: 'tds',
-                emoji: '💸',
-                title: 'TDS Recovery Calculator',
-                description: 'Claim excess TDS deducted on dividends',
-                keywords: 'dividend TDS refund calculator India',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Total Dividend Received (₹)</label><input type="number" id="tds_dividend" value="100000"></div>
-                            <div class="input-group"><label>TDS Deducted by Companies (₹)</label><input type="number" id="tds_deducted" value="10000"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Your Actual Tax Slab (%)</label><select id="tds_slab"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30" selected>30%</option></select></div>
-                            <button onclick="runCurrentCalculator()">Calculate Refund →</button>
-                        </div>
-                    </div>
-                    <div id="tds_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let dividend = parseFloat(document.getElementById('tds_dividend')?.value) || 0;
-                    let tdsPaid = parseFloat(document.getElementById('tds_deducted')?.value) || 0;
-                    let slab = parseFloat(document.getElementById('tds_slab')?.value) || 0;
-                    
-                    let actualTax = dividend * (slab / 100);
-                    let cess = actualTax * 0.04;
-                    let totalActualTax = actualTax + cess;
-                    let refund = Math.max(0, tdsPaid - totalActualTax);
-                    let extraPay = Math.max(0, totalActualTax - tdsPaid);
-                    
-                    document.getElementById('tds_result').innerHTML = `
-                        TDS Deducted: ₹${tdsPaid.toLocaleString('en-IN')}<br>
-                        Your Actual Tax Liability: ₹${totalActualTax.toLocaleString('en-IN')}<hr>
-                        ${refund > 0 ? `✅ <strong style="color:#11998e;">REFUND of ₹${refund.toLocaleString('en-IN')} available</strong>` : ''}
-                        ${extraPay > 0 ? `⚠️ <strong style="color:#dc3545;">Need to pay ₹${extraPay.toLocaleString('en-IN')} more</strong>` : ''}
-                        ${refund === 0 && extraPay === 0 ? '✅ No TDS mismatch' : ''}
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'TDS Recovery'});
-                }
-            },
-            exdate: {
-                id: 'exdate',
-                emoji: '🎯',
-                title: 'Ex-Date Profit Simulator',
-                description: 'Profit/loss from dividend capture strategy',
-                keywords: 'dividend capture strategy calculator India',
-                html: `
-                    <div class="two-columns">
-                        <div>
-                            <div class="input-group"><label>Shares Bought</label><input type="number" id="ex_shares" value="1000"></div>
-                            <div class="input-group"><label>Buy Price Before Ex-Date (₹)</label><input type="number" id="ex_buy" value="500"></div>
-                            <div class="input-group"><label>Dividend Per Share (₹)</label><input type="number" id="ex_dividend" value="10"></div>
-                        </div>
-                        <div>
-                            <div class="input-group"><label>Sell Price After Ex-Date (₹)</label><input type="number" id="ex_sell" value="495"></div>
-                            <button onclick="runCurrentCalculator()">Calculate P&L →</button>
-                        </div>
-                    </div>
-                    <div id="ex_result" class="result">Click calculate to see results</div>
-                `,
-                run: () => {
-                    let shares = parseFloat(document.getElementById('ex_shares')?.value) || 0;
-                    let buyPrice = parseFloat(document.getElementById('ex_buy')?.value) || 0;
-                    let dividend = parseFloat(document.getElementById('ex_dividend')?.value) || 0;
-                    let sellPrice = parseFloat(document.getElementById('ex_sell')?.value) || 0;
-                    
-                    let buyValue = shares * buyPrice;
-                    let sellValue = shares * sellPrice;
-                    let dividendReceived = shares * dividend;
-                    let pnl = (sellValue + dividendReceived) - buyValue;
-                    let pnlPercent = (pnl / buyValue) * 100;
-                    
-                    document.getElementById('ex_result').innerHTML = `
-                        Capital Invested: ₹${buyValue.toLocaleString('en-IN')}<br>
-                        Dividend Received: ₹${dividendReceived.toLocaleString('en-IN')}<br>
-                        Sale Proceeds: ₹${sellValue.toLocaleString('en-IN')}<hr>
-                        <strong>Net P&L: <span style="color:${pnl>=0?'#11998e':'#dc3545'}">${pnl>=0?'+':''}₹${pnl.toLocaleString('en-IN')} (${pnlPercent.toFixed(2)}%)</span></strong>
-                    `;
-                    if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'Ex-Date'});
-                }
-            }
+            tax: { id:'tax', icon:'💰', title:'Dividend Tax Calculator', desc:'Calculate tax on dividend income with new/old regime, TDS, and cess', tag:'Tax Planning',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Total Dividend Received (₹)</label><input type="number" id="tax_dividend" value="50000"></div><div class="input-group"><label>TDS Already Deducted (₹)</label><input type="number" id="tax_tds" value="5000"></div><div class="input-group"><label>Other Annual Income (₹)</label><input type="number" id="tax_income" value="600000"></div></div><div><div class="input-group"><label>Tax Regime</label><select id="tax_regime"><option value="new">New Tax Regime</option><option value="old">Old Tax Regime</option></select></div><div class="input-group"><label>Deductions (80C, etc.) - Old Regime only</label><input type="number" id="tax_deductions" value="0"></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate Tax →</button></div></div><div id="tax_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let d=parseFloat(document.getElementById('tax_dividend')?.value)||0; let tds=parseFloat(document.getElementById('tax_tds')?.value)||0; let oi=parseFloat(document.getElementById('tax_income')?.value)||0; let regime=document.getElementById('tax_regime')?.value||'new'; let ded=parseFloat(document.getElementById('tax_deductions')?.value)||0; let taxWith=calcIncomeTax(oi+d,regime,ded); let taxWithout=calcIncomeTax(oi,regime,ded); let addTax=Math.max(0,taxWith-taxWithout); let cess=addTax*0.04; let totalTax=addTax+cess; let afterTDS=Math.max(0,totalTax-tds); let netDiv=d-tds-totalTax; document.getElementById('tax_result').innerHTML='<strong>📊 Results:</strong><br>Additional Tax: ₹'+addTax.toLocaleString('en-IN')+'<br>+ Cess (4%): ₹'+cess.toLocaleString('en-IN')+'<br><strong>Total Tax Payable: ₹'+totalTax.toLocaleString('en-IN')+'</strong><br>TDS Already Paid: ₹'+tds.toLocaleString('en-IN')+'<br><span style="color:#f97316;">Balance to Pay: ₹'+afterTDS.toLocaleString('en-IN')+'</span><hr><strong>💰 Net Dividend in hand: ₹'+netDiv.toLocaleString('en-IN')+'</strong>'; if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'Tax'}); } },
+            monthly: { id:'monthly', icon:'📅', title:'Monthly Income Planner', desc:'How much capital needed for your desired monthly dividend', tag:'Goal Planning',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Desired Monthly Dividend (₹)</label><input type="number" id="monthly_target" value="10000"></div><div class="input-group"><label>Expected Dividend Yield (%)</label><input type="number" id="monthly_yield" value="4" step="0.5"></div></div><div><div class="input-group"><label>Your Tax Slab (%)</label><select id="monthly_slab"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30" selected>30%</option></select></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate Capital →</button></div></div><div id="monthly_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let target=parseFloat(document.getElementById('monthly_target')?.value)||0; let yieldPct=parseFloat(document.getElementById('monthly_yield')?.value)||0; let slab=parseFloat(document.getElementById('monthly_slab')?.value)||0; let taxRate=slab/100; let cess=taxRate*0.04; let totalTaxRate=taxRate+cess; let annualPreTax=target*12; let annualNeeded=annualPreTax/(1-totalTaxRate); let capital=(annualNeeded/yieldPct)*100; document.getElementById('monthly_result').innerHTML='<strong>💰 Required Capital: <span style="font-size:24px;font-weight:800;color:#22c55e;">₹'+capital.toLocaleString('en-IN')+'</span></strong><br>Annual Pre-Tax Dividend Needed: ₹'+annualNeeded.toLocaleString('en-IN')+'<br>Tax Payable Annually: ₹'+(annualNeeded*totalTaxRate).toLocaleString('en-IN'); if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'Monthly'}); } },
+            drip: { id:'drip', icon:'🔄', title:'DRIP Calculator', desc:'See the power of reinvesting dividends over time', tag:'Compounding',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Initial Investment (₹)</label><input type="number" id="drip_initial" value="100000"></div><div class="input-group"><label>Annual Dividend Yield (%)</label><input type="number" id="drip_yield" value="4" step="0.5"></div></div><div><div class="input-group"><label>Annual Stock Price Growth (%)</label><input type="number" id="drip_growth" value="8" step="1"></div><div class="input-group"><label>Investment Period (Years)</label><input type="number" id="drip_years" value="10"></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate Growth →</button></div></div><div id="drip_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let init=parseFloat(document.getElementById('drip_initial')?.value)||0; let yieldPct=parseFloat(document.getElementById('drip_yield')?.value)||0; let growthPct=parseFloat(document.getElementById('drip_growth')?.value)||0; let years=parseInt(document.getElementById('drip_years')?.value)||0; let value=init; for(let i=0;i<years;i++){ let div=value*(yieldPct/100); value=value+div+(value*(growthPct/100)); } let withoutDRIP=init*Math.pow(1+growthPct/100,years); document.getElementById('drip_result').innerHTML='<strong>📈 Future Value after '+years+' years: <span style="font-size:24px;font-weight:800;color:#22c55e;">₹'+value.toLocaleString('en-IN')+'</span></strong><br>Without DRIP (only growth): ₹'+withoutDRIP.toLocaleString('en-IN')+'<br><strong>✨ Extra gain from DRIP: ₹'+(value-withoutDRIP).toLocaleString('en-IN')+'</strong>'; if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'DRIP'}); } },
+            compare: { id:'compare', icon:'⚖️', title:'FD vs Dividend', desc:'Compare post-tax returns between FD and dividend stocks', tag:'Comparison',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Investment Amount (₹)</label><input type="number" id="compare_amount" value="500000"></div><div class="input-group"><label>FD Interest Rate (%)</label><input type="number" id="compare_fd_rate" value="7.5" step="0.25"></div><div class="input-group"><label>Dividend Yield (%)</label><input type="number" id="compare_div_yield" value="4.5" step="0.25"></div></div><div><div class="input-group"><label>Your Tax Slab (%)</label><select id="compare_slab"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30" selected>30%</option></select></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Compare →</button></div></div><div id="compare_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let amt=parseFloat(document.getElementById('compare_amount')?.value)||0; let fdRate=parseFloat(document.getElementById('compare_fd_rate')?.value)||0; let divYield=parseFloat(document.getElementById('compare_div_yield')?.value)||0; let slab=parseFloat(document.getElementById('compare_slab')?.value)||0; let taxRate=slab/100; let cess=taxRate*0.04; let totalTax=taxRate+cess; let fdReturn=amt*(fdRate/100); let fdAfter=fdReturn*(1-totalTax); let divReturn=amt*(divYield/100); let divAfter=divReturn*(1-totalTax); let better=fdAfter>divAfter?'🏦 FD is better for your tax bracket':'📈 Dividend stocks are better for your tax bracket'; document.getElementById('compare_result').innerHTML='FD Return: ₹'+fdReturn.toLocaleString('en-IN')+' → After Tax: <strong>₹'+fdAfter.toLocaleString('en-IN')+'</strong><br>Dividend Return: ₹'+divReturn.toLocaleString('en-IN')+' → After Tax: <strong>₹'+divAfter.toLocaleString('en-IN')+'</strong><hr><strong>🎯 '+better+'</strong>'; if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'Compare'}); } },
+            crore: { id:'crore', icon:'🏆', title:'₹1 Crore Goal', desc:'Time needed to build ₹1 Cr dividend portfolio with SIP', tag:'Long-term Planning',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Target Annual Dividend (₹)</label><input type="number" id="crore_target" value="10000000"></div><div class="input-group"><label>Expected Portfolio Yield (%)</label><input type="number" id="crore_yield" value="5" step="0.5"></div><div class="input-group"><label>Monthly SIP Amount (₹)</label><input type="number" id="crore_sip" value="25000"></div></div><div><div class="input-group"><label>Expected CAGR on Capital (%)</label><input type="number" id="crore_cagr" value="12" step="1"></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate Time →</button></div></div><div id="crore_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let target=parseFloat(document.getElementById('crore_target')?.value)||10000000; let yieldPct=parseFloat(document.getElementById('crore_yield')?.value)||5; let sip=parseFloat(document.getElementById('crore_sip')?.value)||0; let cagr=parseFloat(document.getElementById('crore_cagr')?.value)||12; let capitalNeeded=(target/yieldPct)*100; let months=0; let value=0; let monthlyRate=cagr/12/100; while(value<capitalNeeded && months<600){ value=(value+sip)*(1+monthlyRate); months++; } let years=months/12; document.getElementById('crore_result').innerHTML='<strong>🎯 Capital needed: <span style="font-size:24px;font-weight:800;color:#22c55e;">₹'+capitalNeeded.toLocaleString('en-IN')+'</span></strong><br>With SIP of ₹'+sip.toLocaleString('en-IN')+'/month at '+cagr+'% CAGR:<br><strong>⏱️ Time required: '+years.toFixed(1)+' years ('+months+' months)</strong>'; if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'Crore Goal'}); } },
+            yieldCalc: { id:'yieldCalc', icon:'📈', title:'Dividend Yield', desc:'Calculate current yield and yield on cost', tag:'Valuation',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Annual Dividend Per Share (₹)</label><input type="number" id="yield_dps" value="15"></div><div class="input-group"><label>Current Stock Price (₹)</label><input type="number" id="yield_price" value="450"></div></div><div><div class="input-group"><label>Your Purchase Price (₹) - Optional</label><input type="number" id="yield_cost" value="300"></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate Yield →</button></div></div><div id="yield_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let dps=parseFloat(document.getElementById('yield_dps')?.value)||0; let price=parseFloat(document.getElementById('yield_price')?.value)||0; let cost=parseFloat(document.getElementById('yield_cost')?.value)||0; let currYield=(dps/price)*100; let yieldOnCost=cost>0?(dps/cost)*100:null; document.getElementById('yield_result').innerHTML='Current Yield: <span style="font-size:28px;font-weight:800;color:#22c55e;">'+currYield.toFixed(2)+'%</span><br>'+(yieldOnCost?'Yield on Cost: <strong>'+yieldOnCost.toFixed(2)+'%</strong><br>':'')+'Annual Dividend per share: ₹'+dps; if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'Yield'}); } },
+            tds: { id:'tds', icon:'💸', title:'TDS Recovery', desc:'Claim excess TDS deducted on dividends', tag:'Tax Refund',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Total Dividend Received (₹)</label><input type="number" id="tds_dividend" value="100000"></div><div class="input-group"><label>TDS Deducted by Companies (₹)</label><input type="number" id="tds_deducted" value="10000"></div></div><div><div class="input-group"><label>Your Actual Tax Slab (%)</label><select id="tds_slab"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30" selected>30%</option></select></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate Refund →</button></div></div><div id="tds_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let div=parseFloat(document.getElementById('tds_dividend')?.value)||0; let tdsPaid=parseFloat(document.getElementById('tds_deducted')?.value)||0; let slab=parseFloat(document.getElementById('tds_slab')?.value)||0; let actualTax=div*(slab/100); let cess=actualTax*0.04; let totalActualTax=actualTax+cess; let refund=Math.max(0,tdsPaid-totalActualTax); let extraPay=Math.max(0,totalActualTax-tdsPaid); document.getElementById('tds_result').innerHTML='TDS Deducted: ₹'+tdsPaid.toLocaleString('en-IN')+'<br>Your Actual Tax Liability: ₹'+totalActualTax.toLocaleString('en-IN')+'<hr>'+ (refund>0?'✅ <strong style="color:#22c55e;">REFUND of ₹'+refund.toLocaleString('en-IN')+' available from IT department</strong>':'')+(extraPay>0?'⚠️ <strong style="color:#f97316;">Need to pay ₹'+extraPay.toLocaleString('en-IN')+' more while filing ITR</strong>':'')+(refund===0&&extraPay===0?'✅ No TDS mismatch. Correct amount deducted.':''); if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'TDS'}); } },
+            exdate: { id:'exdate', icon:'🎯', title:'Ex-Date Simulator', desc:'Profit/loss from dividend capture strategy', tag:'Trading Strategy',
+                html: `<div class="two-columns"><div><div class="input-group"><label>Shares Bought</label><input type="number" id="ex_shares" value="1000"></div><div class="input-group"><label>Buy Price Before Ex-Date (₹)</label><input type="number" id="ex_buy" value="500"></div><div class="input-group"><label>Dividend Per Share (₹)</label><input type="number" id="ex_dividend" value="10"></div></div><div><div class="input-group"><label>Sell Price After Ex-Date (₹)</label><input type="number" id="ex_sell" value="495"></div><button onclick="runCurrentCalc()" class="btn btn-primary" style="width:100%">Calculate P&L →</button></div></div><div id="ex_result" class="result-box">Click calculate to see results</div>`,
+                run: () => { let shares=parseFloat(document.getElementById('ex_shares')?.value)||0; let buyPrice=parseFloat(document.getElementById('ex_buy')?.value)||0; let dividend=parseFloat(document.getElementById('ex_dividend')?.value)||0; let sellPrice=parseFloat(document.getElementById('ex_sell')?.value)||0; let buyVal=shares*buyPrice; let sellVal=shares*sellPrice; let divRec=shares*dividend; let pnl=(sellVal+divRec)-buyVal; let pnlPct=(pnl/buyVal)*100; document.getElementById('ex_result').innerHTML='Capital Invested: ₹'+buyVal.toLocaleString('en-IN')+'<br>Dividend Received: ₹'+divRec.toLocaleString('en-IN')+'<br>Sale Proceeds: ₹'+sellVal.toLocaleString('en-IN')+'<hr><strong>Net P&L: <span style="font-size:20px;font-weight:800;color:'+(pnl>=0?'#22c55e':'#f97316')+'">'+(pnl>=0?'+':'')+'₹'+pnl.toLocaleString('en-IN')+' ('+pnlPct.toFixed(2)+'%)</span></strong>'; if(typeof gtag!=='undefined') gtag('event','calculate',{'event_category':'calculator','event_label':'Ex-Date'}); } }
         };
-
-        let currentCalculatorId = 'tax';
-
-        function renderCalculatorsGrid() {
+        
+        let currentCalcId = 'tax';
+        
+        function renderCalculatorsGrid(){
             const grid = document.getElementById('calculatorsGrid');
             grid.innerHTML = '';
-            for (const [key, calc] of Object.entries(calculators)) {
+            for(const [key, calc] of Object.entries(calculators)){
                 const card = document.createElement('div');
-                card.className = 'calc-card' + (currentCalculatorId === key ? ' active' : '');
-                card.innerHTML = `
-                    <div class="emoji">${calc.emoji}</div>
-                    <h3>${calc.title}</h3>
-                    <p>${calc.description}</p>
-                    <span class="keyword">🔍 ${calc.keywords}</span>
-                `;
+                card.className = 'calc-card' + (currentCalcId === key ? ' active' : '');
+                card.innerHTML = `<div class="calc-icon">${calc.icon}</div><h3 class="calc-title">${calc.title}</h3><p class="calc-desc">${calc.desc}</p><span class="calc-tag">🔍 ${calc.tag}</span>`;
                 card.onclick = () => selectCalculator(key);
                 grid.appendChild(card);
             }
         }
-
-        function selectCalculator(calcId) {
-            currentCalculatorId = calcId;
+        
+        function selectCalculator(calcId){
+            currentCalcId = calcId;
             renderCalculatorsGrid();
             renderActiveCalculator();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
             if(typeof gtag !== 'undefined') gtag('event', 'select_calculator', {'event_category': 'engagement', 'event_label': calcId});
         }
-
-        function renderActiveCalculator() {
-            const calc = calculators[currentCalculatorId];
-            const container = document.getElementById('activeCalculator');
-            container.innerHTML = `
-                <div class="calc-header">
-                    <h2>${calc.emoji} ${calc.title}</h2>
-                    <p>${calc.description} • <strong>🔍 ${calc.keywords}</strong></p>
-                </div>
-                <div class="calc-body">
-                    ${calc.html}
-                </div>
-            `;
-            setTimeout(() => {
-                if (calc.run) calc.run();
-            }, 10);
+        
+        function renderActiveCalculator(){
+            const calc = calculators[currentCalcId];
+            const container = document.getElementById('calcPanel');
+            document.getElementById('calcTitle').textContent = `${calc.icon} ${calc.title}`;
+            document.getElementById('calcBody').innerHTML = calc.html;
+            container.classList.add('active');
+            setTimeout(() => { if(calc.run) calc.run(); }, 50);
         }
-
-        function runCurrentCalculator() {
-            const calc = calculators[currentCalculatorId];
-            if (calc && calc.run) {
-                calc.run();
-            }
+        
+        function runCurrentCalc(){
+            const calc = calculators[currentCalcId];
+            if(calc && calc.run) calc.run();
         }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        function closeCalculator(){
+            document.getElementById('calcPanel').classList.remove('active');
         }
-
+        
         // Initialize
         renderCalculatorsGrid();
         renderActiveCalculator();
