@@ -26,12 +26,67 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f0f2f5;
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Header & Navigation */
+        .site-header {
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1c2c 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #eab308, #fbbf24);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 6px 0;
+        }
+
+        .nav-links a:hover {
+            color: #eab308;
+        }
+
+        /* Container */
         .container {
             max-width: 1300px;
             margin: 0 auto;
+            padding: 30px 20px;
+            flex: 1;
         }
 
         /* Active Calculator Section */
@@ -74,6 +129,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
+            margin-bottom: 40px;
         }
 
         .calc-card {
@@ -197,12 +253,63 @@
             .calc-body {
                 padding: 18px;
             }
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+        }
+
+        /* Footer */
+        .site-footer {
+            background: #1a2a3a;
+            color: #a0aec0;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .footer-col a {
+            color: #a0aec0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: #eab308;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #2d3a4a;
+            font-size: 0.75rem;
+            color: #7a8a9a;
         }
 
         .back-to-top {
             text-align: center;
-            margin-top: 30px;
-            padding: 15px;
+            margin-top: 20px;
         }
 
         .back-to-top a {
@@ -220,6 +327,23 @@
     </style>
 </head>
 <body>
+
+    <!-- Header with Navigation -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="https://dividendstrike.in/">💰 DividendStrike</a>
+            </div>
+            <nav class="nav-links">
+                <a href="https://dividendstrike.in/">Home</a>
+                <a href="https://dividendstrike.in/blog.html">Blog</a>
+                <a href="https://dividendstrike.in/knowledge-hub.html">Knowledge Hub</a>
+                <a href="https://dividendstrike.in/screener.html">Screener</a>
+                <a href="https://dividendstrike.in/calculators.html" class="active">Calculators</a>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
         <!-- Active Calculator Display (appears when card clicked) -->
         <div id="activeCalculator" class="active-calculator">
@@ -230,11 +354,48 @@
         <div class="calculator-grid" id="calculatorsGrid">
             <!-- Cards will be populated by JavaScript -->
         </div>
-
-        <div class="back-to-top">
-            <a onclick="scrollToTop(); return false;">↑ Back to Top ↑</a>
-        </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>📈 Explore</h4>
+                <a href="https://dividendstrike.in/">Home</a>
+                <a href="https://dividendstrike.in/blog.html">Blog</a>
+                <a href="https://dividendstrike.in/knowledge-hub.html">Knowledge Hub</a>
+                <a href="https://dividendstrike.in/screener.html">Stock Screener</a>
+                <a href="https://dividendstrike.in/calculators.html">Calculators</a>
+            </div>
+            <div class="footer-col">
+                <h4>📊 Key Calculators</h4>
+                <a href="#" onclick="selectCalculator('tax'); return false;">Dividend Tax Calculator</a>
+                <a href="#" onclick="selectCalculator('monthly'); return false;">Monthly Dividend Planner</a>
+                <a href="#" onclick="selectCalculator('drip'); return false;">DRIP Calculator</a>
+                <a href="#" onclick="selectCalculator('compare'); return false;">FD vs Dividend</a>
+                <a href="#" onclick="selectCalculator('crore'); return false;">₹1 Crore Goal</a>
+            </div>
+            <div class="footer-col">
+                <h4>📜 Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Disclaimer</a>
+            </div>
+            <div class="footer-col">
+                <h4>🔧 Tools</h4>
+                <a href="https://dividendstrike.in/sitemap.xml">Sitemap</a>
+                <a href="#">Dividend Safety Checker</a>
+                <a href="#">Yield Tracker</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025-2026 DividendStrike.in — Empowering Indian Dividend Investors</p>
+            <p style="margin-top: 8px; font-size: 0.7rem;">📌 Disclaimer: Content for educational purposes only. Not investment advice.</p>
+        </div>
+        <div class="back-to-top">
+            <a onclick="scrollToTop(); return false;">⬆️ Back to Top ⬆️</a>
+        </div>
+    </footer>
 
     <script>
         // ==============================================
@@ -312,7 +473,6 @@
                     const resultDiv = document.getElementById('tax_result');
                     if (resultDiv) resultDiv.innerHTML = resultHtml;
                     
-                    // Track event in GA
                     if(typeof gtag !== 'undefined') gtag('event', 'calculate', {'event_category': 'calculator', 'event_label': 'Tax Calculator'});
                 }
             },
@@ -625,7 +785,6 @@
             renderActiveCalculator();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Track calculator selection in GA
             if(typeof gtag !== 'undefined') gtag('event', 'select_calculator', {'event_category': 'engagement', 'event_label': calcId});
         }
 
@@ -641,7 +800,6 @@
                     ${calc.html}
                 </div>
             `;
-            // Auto-run the calculator to show initial results
             setTimeout(() => {
                 if (calc.run) calc.run();
             }, 10);
