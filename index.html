@@ -19,6 +19,8 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
         .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        
+        /* NAVBAR */
         .navbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(10,10,15,0.95);border-bottom:1px solid var(--border);padding:12px 0}
         .nav-inner{display:flex;align-items:center;justify-content:space-between}
         .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -35,6 +37,8 @@
         .mobile-menu a{display:block;padding:12px 14px;border-radius:10px;font-size:13px;text-decoration:none;color:#9ca3af}
         .mobile-menu a:hover{background:rgba(255,255,255,0.04);color:white}
         .mobile-menu a.active{color:var(--green);background:rgba(34,197,94,0.1);font-weight:600}
+        
+        /* HERO */
         .hero{padding:60px 0 40px;text-align:center;position:relative;overflow:hidden}
         .hero::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:rgba(34,197,94,0.04);border-radius:50%;filter:blur(80px);pointer-events:none}
         .hero::after{content:'';position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;background:rgba(59,130,246,0.03);border-radius:50%;filter:blur(80px);pointer-events:none}
@@ -50,6 +54,8 @@
         .btn-primary:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(34,197,94,0.25)}
         .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#9ca3af}
         .btn-outline:hover{border-color:var(--green);color:white}
+        
+        /* STATS ROW */
         .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:0 0 48px}
         .stat-card{background:rgba(15,15,25,0.85);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
         .stat-number{font-size:32px;font-weight:900;color:#f3f4f6;margin-bottom:4px}
@@ -58,7 +64,7 @@
         .stat-number.gold{color:var(--gold)}
         .stat-label{font-size:12px;color:#6b7280}
 
-        /* ===== CONTENT SHOWCASE ===== */
+        /* WHAT WE COVER */
         .content-showcase{margin-bottom:48px}
         .showcase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
         .showcase-card{background:rgba(15,15,25,0.85);border:1px solid var(--border);border-radius:16px;padding:28px 24px;transition:all 0.3s ease}
@@ -82,6 +88,7 @@
         .showcase-invit .showcase-link{color:var(--gold)}
         .showcase-link:hover{text-decoration:underline}
 
+        /* BLOG GRID */
         .section-header{margin-bottom:24px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px}
         .section-title{font-size:24px;font-weight:800;color:#f3f4f6}
         .section-subtitle{font-size:14px;color:#6b7280;margin-top:4px}
@@ -97,19 +104,16 @@
         .blog-card-title{font-size:17px;font-weight:700;color:#f3f4f6;margin-bottom:8px;line-height:1.4;flex-grow:1}
         .blog-card-excerpt{font-size:13px;color:#9ca3af;line-height:1.6;margin-bottom:16px}
         .blog-card-meta{font-size:11px;color:#6b7280;display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border)}
-        .categories-section{margin-bottom:48px}
-        .categories-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-        .category-card{background:rgba(15,15,25,0.85);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-decoration:none;display:block;transition:all 0.3s ease;text-align:center}
-        .category-card:hover{border-color:rgba(34,197,94,0.3);transform:translateY(-2px)}
-        .category-icon{font-size:36px;margin-bottom:12px;display:block}
-        .category-name{font-size:16px;font-weight:700;color:#f3f4f6;margin-bottom:6px}
-        .category-desc{font-size:12px;color:#6b7280;line-height:1.5}
+        
+        /* NEWSLETTER */
         .newsletter{background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(16,185,129,0.04));border:1px solid rgba(34,197,94,0.12);border-radius:20px;padding:48px;margin:48px 0;text-align:center}
         .newsletter-title{font-size:24px;font-weight:800;margin-bottom:12px}
         .newsletter-desc{font-size:15px;color:#9ca3af;max-width:500px;margin:0 auto 24px;line-height:1.6}
         .newsletter-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
         .newsletter-input{flex:1;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 18px;color:white;font-size:14px;outline:none;font-family:inherit}
         .newsletter-input:focus{border-color:var(--green)}
+        
+        /* FOOTER */
         .footer{border-top:1px solid var(--border);padding:48px 0 24px;margin-top:20px}
         .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px}
         .footer-col h4{font-size:14px;font-weight:700;margin-bottom:14px;color:#f3f4f6}
@@ -119,12 +123,17 @@
         .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:#4b5563}
         .footer-bottom a{color:#6b7280;text-decoration:none;margin:0 8px}
         .footer-bottom a:hover{color:var(--green)}
+        
+        /* SCROLL TO TOP */
         .scroll-btn{position:fixed;bottom:30px;right:30px;width:48px;height:48px;background:linear-gradient(135deg,var(--green),var(--green-dark));border:none;border-radius:14px;cursor:pointer;z-index:999;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(34,197,94,0.3);transition:all 0.3s ease;opacity:0;visibility:hidden;color:white;font-size:20px;font-weight:700}
         .scroll-btn.show{opacity:1;visibility:visible}
         .scroll-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(34,197,94,0.5)}
+        
         .loading-placeholder{text-align:center;padding:40px;color:#6b7280}
-        @media(max-width:1024px){.nav-links{display:none}.mobile-menu-btn{display:block}.categories-grid{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr;gap:24px}.showcase-grid{grid-template-columns:1fr}}
-        @media(max-width:768px){.hero-title{font-size:32px}.hero-subtitle{font-size:15px}.blog-grid{grid-template-columns:1fr}.categories-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}.showcase-grid{grid-template-columns:1fr}.newsletter{padding:32px 20px}.newsletter-form{flex-direction:column}.footer-grid{grid-template-columns:1fr}.scroll-btn{bottom:16px;right:16px;width:42px;height:42px;font-size:18px}}
+        
+        /* RESPONSIVE */
+        @media(max-width:1024px){.nav-links{display:none}.mobile-menu-btn{display:block}.footer-grid{grid-template-columns:1fr 1fr;gap:24px}.showcase-grid{grid-template-columns:1fr}}
+        @media(max-width:768px){.hero-title{font-size:32px}.hero-subtitle{font-size:15px}.blog-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}.showcase-grid{grid-template-columns:1fr}.newsletter{padding:32px 20px}.newsletter-form{flex-direction:column}.footer-grid{grid-template-columns:1fr}.scroll-btn{bottom:16px;right:16px;width:42px;height:42px;font-size:18px}}
         @media(max-width:480px){.hero-title{font-size:26px}.hero{padding:32px 0 24px}.stats-row{grid-template-columns:1fr 1fr;gap:10px}.stat-number{font-size:24px}}
     </style>
 </head>
@@ -222,16 +231,6 @@
             <a href="blog.html" class="view-all-link">View All Articles →</a>
         </div>
         <div class="blog-grid" id="blogGrid"><div class="loading-placeholder" style="grid-column:1/-1;">Loading articles...</div></div>
-    </section>
-
-    <section class="container categories-section">
-        <div class="section-header"><div><h2 class="section-title">📂 Explore by Category</h2><p class="section-subtitle">Find exactly what you're looking for</p></div></div>
-        <div class="categories-grid">
-            <a href="blog.html?slug=highest-dividend-paying-stocks-india-2026" class="category-card"><span class="category-icon">📈</span><div class="category-name">Dividend Stocks</div><div class="category-desc">Highest yield lists, PSU dividends, stock analysis</div></a>
-            <a href="blog.html?slug=embassy-office-parks-reit-dividend-guide-2026" class="category-card"><span class="category-icon">🏢</span><div class="category-name">REITs</div><div class="category-desc">Embassy, Mindspace, Brookfield guides</div></a>
-            <a href="blog.html?slug=powergrid-invit-guide-2026" class="category-card"><span class="category-icon">⚡</span><div class="category-name">InvITs</div><div class="category-desc">PowerGrid, IndiGrid, IRB analysis</div></a>
-            <a href="knowledge-hub.html" class="category-card"><span class="category-icon">📚</span><div class="category-name">Learn & Tools</div><div class="category-desc">DRIP calculator, tax guides, stock screener</div></a>
-        </div>
     </section>
 
     <section class="container">
