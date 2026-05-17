@@ -794,115 +794,146 @@
     <!-- SCROLL TO TOP -->
     <button class="scroll-btn" id="scrollBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-    <script>
+        <script>
         // ============================================
-        // TWELVE DATA API — LIVE MARKET TICKER
+        // TWELVE DATA API — LIVE MARKET TICKER (FIXED)
         // ============================================
         var TWELVEDATA_KEY = 'b604df4a952e4bdea2011be87693cad7';
         
         var TICKER_STOCKS = [
-            { symbol: 'COALINDIA.NS', name: 'Coal India' },
-            { symbol: 'ITC.NS', name: 'ITC Ltd' },
-            { symbol: 'NTPC.NS', name: 'NTPC' },
-            { symbol: 'POWERGRID.NS', name: 'Power Grid' },
-            { symbol: 'ONGC.NS', name: 'ONGC' },
-            { symbol: 'VEDL.NS', name: 'Vedanta' }
+            { symbol: 'COALINDIA', name: 'Coal India' },
+            { symbol: 'ITC', name: 'ITC Ltd' },
+            { symbol: 'NTPC', name: 'NTPC' },
+            { symbol: 'POWERGRID', name: 'Power Grid' },
+            { symbol: 'ONGC', name: 'ONGC' },
+            { symbol: 'VEDL', name: 'Vedanta' }
         ];
         
         function formatPrice(p) {
-            if (!p) return '—';
-            return parseFloat(p).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+            if (!p || p === 'null' || isNaN(p)) return '—';
+            var num = parseFloat(p);
+            return num.toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
         }
         
         function formatChange(c) {
-            if (!c && c !== 0) return '<span style="color:#6b7280;">—</span>';
+            if (!c || c === 'null' || isNaN(c)) return '<span style="color:#6b7280;">—</span>';
             var n = parseFloat(c);
             var color = n >= 0 ? '#22c55e' : '#ef4444';
             var sign = n >= 0 ? '+' : '';
-            return '<span style="color:' + color + ';">' + sign + n.toFixed(2) + '%</span>';
+            return '<span style="color:' + color + ';font-weight:600;">' + sign + n.toFixed(2) + '%</span>';
         }
         
         async function fetchMarketData() {
-            var indicesRow = document.getElementById('tickerIndices');
-            var stocksRow = document.getElementById('tickerStocks');
+            console.log('📡 Fetching market data from Twelve Data...');
             
-            // Fetch Nifty 50
-            try {
-                var r = await fetch('https://api.twelvedata.com/quote?symbol=NSEI&apikey=' + TWELVEDATA_KEY);
-                var d = await r.json();
-                var items = indicesRow.querySelectorAll('.ticker-index-item');
-                if (items[0]) {
-                    items[0].querySelector('.ticker-index-price').textContent = formatPrice(d.close);
-                    items[0].querySelector('.ticker-index-change').innerHTML = formatChange(d.percent_change);
-                }
-            } catch(e) { console.log('Nifty fetch error'); }
+            // Fetch indices
+            var indices = ['NSEI', 'BSESN', 'INDIAVIX'];
+            var indexNames = ['NIFTY 50', 'SENSEX', 'INDIA VIX'];
             
-            // Fetch Sensex
-            try {
-                var r2 = await fetch('https://api.twelvedata.com/quote?symbol=BSESN&apikey=' + TWELVEDATA_KEY);
-                var d2 = await r2.json();
-                var items2 = indicesRow.querySelectorAll('.ticker-index-item');
-                if (items2[1]) {
-                    items2[1].querySelector('.ticker-index-price').textContent = formatPrice(d2.close);
-                    items2[1].querySelector('.ticker-index-change').innerHTML = formatChange(d2.percent_change);
-                }
-            } catch(e) { console.log('Sensex fetch error'); }
-            
-            // Fetch India VIX
-            try {
-                var r3 = await fetch('https://api.twelvedata.com/quote?symbol=INDIAVIX&apikey=' + TWELVEDATA_KEY);
-                var d3 = await r3.json();
-                var items3 = indicesRow.querySelectorAll('.ticker-index-item');
-                if (items3[2]) {
-                    items3[2].querySelector('.ticker-index-price').textContent = d3.close ? parseFloat(d3.close).toFixed(2) : '—';
-                }
-            } catch(e) { console.log('VIX fetch error'); }
-            
-            // Fetch stocks
-            var stockItems = stocksRow.querySelectorAll('.ticker-stock-mini');
-            for (var j = 0; j < TICKER_STOCKS.length; j++) {
+            for (var i = 0; i < indices.length; i++) {
                 try {
-                    var sr = await fetch('https://api.twelvedata.com/quote?symbol=' + TICKER_STOCKS[j].symbol + '&apikey=' + TWELVEDATA_KEY);
-                    var sd = await sr.json();
-                    if (stockItems[j]) {
-                        stockItems[j].querySelector('.ticker-stock-price').textContent = '₹' + formatPrice(sd.close);
-                        if (sd.percent_change) {
-                            var c = parseFloat(sd.percent_change);
-                            stockItems[j].querySelector('.ticker-stock-price').style.color = c >= 0 ? '#22c55e' : '#ef4444';
+                    var url = 'https://api.twelvedata.com/quote?symbol=' + indices[i] + '&apikey=' + TWELVEDATA_KEY;
+                    console.log('Fetching:', indexNames[i], url);
+                    
+                    var response = await fetch(url);
+                    var data = await response.json();
+                    console.log(indexNames[i] + ' response:', data);
+                    
+                    if (data && data.close) {
+                        var items = document.querySelectorAll('#tickerIndices .ticker-index-item');
+                        if (items[i]) {
+                            var priceEl = items[i].querySelector('.ticker-index-price');
+                            var changeEl = items[i].querySelector('.ticker-index-change');
+                            if (priceEl) priceEl.textContent = formatPrice(data.close);
+                            if (changeEl) changeEl.innerHTML = formatChange(data.percent_change);
+                            console.log('✅ ' + indexNames[i] + ' updated: ' + data.close);
                         }
+                    } else {
+                        console.log('⚠️ ' + indexNames[i] + ' no data');
                     }
-                    // Fetch dividend yield
-                    try {
-                        var dr = await fetch('https://api.twelvedata.com/statistics?symbol=' + TICKER_STOCKS[j].symbol + '&apikey=' + TWELVEDATA_KEY);
-                        var dd = await dr.json();
-                        if (stockItems[j] && dd && dd.statistics && dd.statistics.dividend_yield) {
-                            stockItems[j].querySelector('.ticker-stock-yield').textContent = 'Yield: ' + parseFloat(dd.statistics.dividend_yield).toFixed(2) + '%';
-                        }
-                    } catch(e) {}
-                } catch(e) { console.log('Stock fetch error: ' + TICKER_STOCKS[j].name); }
+                } catch(e) {
+                    console.error('❌ ' + indexNames[i] + ' error:', e.message);
+                }
             }
             
-            document.getElementById('tickerUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
+            // Fetch stocks
+            for (var j = 0; j < TICKER_STOCKS.length; j++) {
+                try {
+                    var stock = TICKER_STOCKS[j];
+                    var stockUrl = 'https://api.twelvedata.com/quote?symbol=' + stock.symbol + '&exchange=NSE&apikey=' + TWELVEDATA_KEY;
+                    console.log('Fetching:', stock.name, stockUrl);
+                    
+                    var sResp = await fetch(stockUrl);
+                    var sData = await sResp.json();
+                    console.log(stock.name + ' response:', sData);
+                    
+                    var stockItems = document.querySelectorAll('#tickerStocks .ticker-stock-mini');
+                    if (stockItems[j] && sData && sData.close) {
+                        var pEl = stockItems[j].querySelector('.ticker-stock-price');
+                        var yEl = stockItems[j].querySelector('.ticker-stock-yield');
+                        
+                        if (pEl) {
+                            pEl.textContent = '₹' + formatPrice(sData.close);
+                            if (sData.percent_change) {
+                                var c = parseFloat(sData.percent_change);
+                                pEl.style.color = c >= 0 ? '#22c55e' : '#ef4444';
+                            }
+                        }
+                        console.log('✅ ' + stock.name + ' updated: ' + sData.close);
+                    }
+                    
+                    // Fetch dividend yield separately
+                    try {
+                        var divUrl = 'https://api.twelvedata.com/statistics?symbol=' + stock.symbol + '&exchange=NSE&apikey=' + TWELVEDATA_KEY;
+                        var dResp = await fetch(divUrl);
+                        var dData = await dResp.json();
+                        
+                        if (stockItems[j] && dData && dData.statistics && dData.statistics.dividend_yield) {
+                            var yEl2 = stockItems[j].querySelector('.ticker-stock-yield');
+                            if (yEl2) {
+                                yEl2.textContent = 'Yield: ' + parseFloat(dData.statistics.dividend_yield).toFixed(2) + '%';
+                            }
+                        }
+                    } catch(e) {
+                        console.log('Dividend yield fetch skipped for ' + stock.name);
+                    }
+                    
+                } catch(e) {
+                    console.error('❌ ' + TICKER_STOCKS[j].name + ' error:', e.message);
+                }
+            }
             
-            // Cache
+            // Update timestamp
+            var now = new Date();
+            var timeStr = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+            document.getElementById('tickerUpdated').textContent = 'Updated: ' + timeStr;
+            
+            // Cache the HTML
             try {
-                localStorage.setItem('ds_market_cache', JSON.stringify({
-                    indicesHTML: indicesRow.innerHTML,
-                    stocksHTML: stocksRow.innerHTML,
-                    time: new Date().toISOString()
-                }));
+                var cache = {
+                    indicesHTML: document.getElementById('tickerIndices').innerHTML,
+                    stocksHTML: document.getElementById('tickerStocks').innerHTML,
+                    time: now.toISOString()
+                };
+                localStorage.setItem('ds_market_cache', JSON.stringify(cache));
+                console.log('💾 Market data cached');
             } catch(e) {}
+            
+            console.log('✅ Market data fetch complete');
         }
         
-        // Load cache first
+        // Load cache first (instant display)
         (function() {
             try {
                 var cache = localStorage.getItem('ds_market_cache');
                 if (cache) {
                     var c = JSON.parse(cache);
-                    document.getElementById('tickerIndices').innerHTML = c.indicesHTML;
-                    document.getElementById('tickerStocks').innerHTML = c.stocksHTML;
+                    var indicesDiv = document.getElementById('tickerIndices');
+                    var stocksDiv = document.getElementById('tickerStocks');
+                    if (indicesDiv) indicesDiv.innerHTML = c.indicesHTML;
+                    if (stocksDiv) stocksDiv.innerHTML = c.stocksHTML;
                     document.getElementById('tickerUpdated').textContent = 'Cached: ' + new Date(c.time).toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
+                    console.log('📦 Loaded market data from cache');
                 }
             } catch(e) {}
         })();
@@ -923,7 +954,6 @@
                 var posts = await resp.json();
                 
                 if (posts && posts.length > 0) {
-                    // Update stat
                     document.getElementById('statPosts').textContent = posts.length;
                     
                     grid.innerHTML = posts.map(function(p) {
@@ -942,8 +972,6 @@
                             '<div class="blog-card-meta"><span>📅 ' + date + '</span><span>⏱️ ' + (p.read_time || '8 min read') + '</span></div>' +
                         '</a>';
                     }).join('');
-                } else {
-                    grid.innerHTML = '<div class="loading-placeholder" style="grid-column:1/-1;">No articles found. <a href="blog.html" style="color:#22c55e;">Visit the blog →</a></div>';
                 }
             } catch(e) {
                 console.error('Blog fetch error:', e);
@@ -991,6 +1019,7 @@
         // INITIALIZE
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DividendStrike homepage loaded');
             fetchMarketData();
             loadBlogPosts();
             setInterval(fetchMarketData, 60 * 60 * 1000);
