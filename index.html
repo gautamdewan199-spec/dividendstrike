@@ -236,10 +236,10 @@
     <section class="container">
         <div class="newsletter">
             <h2 class="newsletter-title">📬 Get Weekly Dividend Updates</h2>
-            <p class="newsletter-desc">Join Indian investors who receive our latest dividend stock analysis, upcoming ex-dates, and passive income strategies.</p>
-            <form class="newsletter-form" onsubmit="event.preventDefault();subscribeNewsletter(this);">
-                <input type="email" placeholder="your@email.com" class="newsletter-input" required>
-                <button type="submit" class="btn btn-primary">Subscribe Free</button>
+            <p class="newsletter-desc">Join Indian investors who receive our latest dividend stock analysis, upcoming ex-dates, and passive income strategies — every Saturday morning.</p>
+            <form class="newsletter-form" action="newsletter.html" method="get">
+                <input type="email" name="email" placeholder="your@email.com" class="newsletter-input" required>
+                <button type="submit" class="btn btn-primary">Subscribe Free →</button>
             </form>
         </div>
     </section>
@@ -249,7 +249,7 @@
             <div class="footer-grid">
                 <div class="footer-col"><h4>DividendStrike</h4><p>Passive income investing guides for Indian investors. Analysis of dividend stocks, REITs, InvITs, tax strategies, and monthly income planning. All content updated for 2026.</p></div>
                 <div class="footer-col"><h4>Tools</h4><a href="screener.html">AI Stock Screener</a><a href="calculators.html">DRIP Calculator</a><a href="knowledge-hub.html">Knowledge Hub</a></div>
-                <div class="footer-col"><h4>Content</h4><a href="blog.html">Blog</a><a href="blog.html?slug=highest-dividend-paying-stocks-india-2026">Highest Dividend Stocks</a><a href="blog.html?slug=upcoming-dividend-stocks-india-2026">Upcoming Dividends</a></div>
+                <div class="footer-col"><h4>Content</h4><a href="blog.html">Blog</a><a href="blog.html?slug=highest-dividend-paying-stocks-india-2026">Highest Dividend Stocks</a><a href="blog.html?slug=upcoming-dividend-stocks-india-2026">Upcoming Dividends</a><a href="newsletter.html">Weekly Newsletter</a></div>
                 <div class="footer-col"><h4>Legal</h4><a href="disclaimer.html">Disclaimer</a><a href="privacy-policy.html">Privacy Policy</a></div>
             </div>
             <div class="footer-bottom"><p>© 2026 DividendStrike. All rights reserved. <a href="disclaimer.html">Disclaimer</a> | <a href="privacy-policy.html">Privacy Policy</a></p><p style="margin-top:4px;">Educational content only. Not financial advice.</p></div>
@@ -294,16 +294,6 @@
         var b = document.querySelector('.mobile-menu-btn');
         if (m && b && !m.contains(e.target) && !b.contains(e.target)) m.style.display = 'none';
     });
-
-    function subscribeNewsletter(form) {
-        var email = form.querySelector('.newsletter-input');
-        if (email && email.value) {
-            var subs = JSON.parse(localStorage.getItem('ds_subscribers') || '[]');
-            subs.push({ email: email.value, date: new Date().toISOString() });
-            localStorage.setItem('ds_subscribers', JSON.stringify(subs));
-            form.innerHTML = '<p style="color:#22c55e;font-weight:600;font-size:16px;">✅ Subscribed! Welcome aboard.</p>';
-        }
-    }
 
     window.addEventListener('scroll', function() {
         var btn = document.getElementById('scrollBtn');
