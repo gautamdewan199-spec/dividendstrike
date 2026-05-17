@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dividend Investing Blog — Expert Guides & Analysis | DividendStrike</title>
-    <meta name="description" content="Expert dividend investing blog for Indian investors. Stock analysis, DRIP strategies, tax guides, and passive income tips.">
+    <meta name="description" content="Passive income investing for Indian investors. Dividend stocks, REITs, InvITs, tax strategies, and portfolio-building guides. Updated for 2026.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2322c55e'/><text y='.75em' x='50%' text-anchor='middle' font-size='60' font-weight='bold' fill='white'>₹</text></svg>">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F67MPYPHJ3"></script>
@@ -51,7 +51,49 @@ table {
         .blog-content table{width:100%;border-collapse:collapse;margin:20px 0}
         .blog-content th{background:rgba(34,197,94,0.1);color:#22c55e;padding:14px 18px;text-align:left;border-bottom:2px solid rgba(34,197,94,0.3);font-weight:700;font-size:13px}
         .blog-content td{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d1d5db;font-size:14px}
-        @media(max-width:768px){.nav-links{display:none}}
+        
+        /* Scroll to Top Button */
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(34,197,94,0.12);
+            border: 1px solid rgba(34,197,94,0.25);
+            color: #22c55e;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+        }
+        #scrollTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #scrollTopBtn:hover {
+            background: rgba(34,197,94,0.25);
+            border-color: rgba(34,197,94,0.5);
+            transform: translateY(-2px);
+        }
+        
+        @media(max-width:768px){
+            .nav-links{display:none}
+            #scrollTopBtn {
+                bottom: 20px;
+                right: 20px;
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+                border-radius: 12px;
+            }
+        }
         /* ============================================ */
 /* MOBILE FIX - Prevent Content Overflow         */
 /* ============================================ */
@@ -206,15 +248,6 @@ table {
         box-sizing: border-box;
     }
     
-    /* Scroll button */
-    .scroll-top-btn {
-        bottom: 16px;
-        right: 16px;
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-    
     /* Disclaimer box */
     [style*="border-radius: 16px"] {
         padding: 16px !important;
@@ -247,6 +280,9 @@ table {
 
     <main id="blogContainer" class="container" style="padding:24px 0;"></main>
 
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" onclick="scrollToTop()" title="Back to top">↑</button>
+
     <footer class="footer">
         <p>DividendStrike — AI-Powered NSE Analysis</p>
         <div style="margin-top:6px;"><a href="index.html">Home</a> <a href="screener.html">Screener</a> <a href="calculators.html">Calculators</a> <a href="blog.html">Blog</a> <a href="knowledge-hub.html">Learn</a></div>
@@ -261,11 +297,23 @@ table {
     var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lem15a3VwenFqZnVrbHh2eHppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTQ3MjgsImV4cCI6MjA5MzM5MDcyOH0.XM82bC4_DKRZ3s6N-zKlqCVxZkM95fcfHL2ddxj28SE';
     var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Scroll to top button
+    // ============================================
+    // SCROLL TO TOP BUTTON
+    // ============================================
     window.addEventListener('scroll', function() {
-        var b = document.getElementById('scrollTopBtn');
-        if (b) b.classList.toggle('show', window.scrollY > 400);
+        var btn = document.getElementById('scrollTopBtn');
+        if (btn) {
+            if (window.scrollY > 400) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        }
     });
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // ============================================
     // GET POSTS - Supabase first, localStorage backup
@@ -372,6 +420,17 @@ table {
     function showSingle(post, allPosts) {
         var container = document.getElementById('blogContainer');
         var related = allPosts.filter(function(p) { return p.slug !== post.slug; }).slice(0, 3);
+        
+        // Set dynamic title tag
+        document.title = (post.title_tag || post.title) + ' | DividendStrike';
+        
+        // Set dynamic meta description
+        var metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && post.meta_description) {
+            metaDesc.setAttribute('content', post.meta_description);
+        } else if (metaDesc && post.excerpt) {
+            metaDesc.setAttribute('content', post.excerpt);
+        }
         
         var html = '<div style="max-width:800px;margin:0 auto;">';
         html += '<a href="blog.html" style="color:#9ca3af;text-decoration:none;font-size:14px;">← Back to Blog</a>';
